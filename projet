@@ -1,0 +1,20 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/runtime/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/bin/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/os/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386/native_threads:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386/server:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386"
+export XAPPLRESDIR="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/X11/app-defaults"
+
+DIR=${0%/*}
+cd $DIR
+
+case $1 in
+	"-doc" ) #permet de générer la doc
+		 javadoc -d $DIR/documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:Panorama.jar:$DIR *.java;;
+	
+	"-compile" ) javac -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:Panorama.jar *.java;; 
+
+	"" ) java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:Panorama.jar:$PWD Test;;
+
+	*) echo -e "-compile : permet de compiler le projet\n-doc : permet de générer la documentation\nAucun argument pour executer";; 
+esac 
+
+exit
