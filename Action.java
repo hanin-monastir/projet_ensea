@@ -5,7 +5,7 @@ import java.util.Collections;
 /**
  * <b>Action est la classe qui permet l'annulation des actions.</b>
  * <p>
- * Elle permet d'enregister l'historique des actions
+ * Elle permet d'enregister l'historique des actions sur la map
  * </p>
  * 
  * @author benoit Franquet Corentin Floch
