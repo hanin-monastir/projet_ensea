@@ -33,6 +33,11 @@ public class KmlWriter{
 	*		la liste de breakpoints
 	*	@param file
 	*		le fichier où sera enregistré les données
+	*	@param lat
+	*		le tableeau de latitude des 4 coins du champs
+	*	@param lon
+	*		le tableau de longitude des 4 coins du champs
+	*
 	*/
 	KmlWriter(ArrayList<double[]> f, String file,double[] lat,double[] lon){
 		try { 
