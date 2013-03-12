@@ -7,6 +7,10 @@ DIR=${0%/*}
 cd $DIR
 
 case $1 in
+	"push" ) git push https://github.com/benoitfragit/projet_ensea master ;;
+	"commit" ) git commit -a;;
+	"status" ) git status;;
+
 	"-doc" ) #permet de générer la doc
 		 javadoc -d $DIR/documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:Panorama.jar:$DIR *.java;;
 	
