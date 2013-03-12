@@ -1105,7 +1105,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 					}
 				}
 				System.out.println(p2+" "+p1);
-				//on enregistre la ligne
+				//on enregistre 
 				if(p1 != -1 && p2 != -1){
 					l = "Ligne " + p1+" "+p2+" l";
 					bw.write(l,0,l.length()-1);
