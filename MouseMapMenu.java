@@ -58,10 +58,11 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 			JMenuItem jmenuitem5 = new JMenuItem("Zoom Out");
 			jmenuitem5.addActionListener(this);          		
 			add(jmenuitem5);
-
+/*
 	               	JMenuItem jmenuitem6 = new JMenuItem("Enregistrer la zone");
 			jmenuitem6.addActionListener(this);
            		add(jmenuitem6);
+*/
 	}
 
         /**
@@ -120,12 +121,13 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 			carte.scale -= 1;
 			carte.setScale(carte.endX, carte.endY);	
 		}
-		
+		/*
 		if(e.getActionCommand().equals("Enregistrer la zone"))
 		{
 			//carte.CropMap();
 			carte.startDraw();
 		}
+		*/
 	}		
 }
 

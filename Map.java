@@ -474,9 +474,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                 startY = e.getY(); 
                         
                 System.out.println("appui en ("+startX+";"+startY+")");  
-                if(!drawArea){
+               
                 	if(e.getButton() == BUTTON1){
                 		enableDrag = true;
+                		drawArea = false;
                 		//récupération de la position de l'image
                 		offsetX_old = offsetX;
                 		offsetY_old = offsetY;
@@ -487,37 +488,32 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 					p.poffset_old.setX(p.poffset.getX());
 					p.poffset_old.setY(p.poffset.getY());
 				}
+				repaint();
                 	}
-                
-                	else{
-                		//arret du drag si appui sur un autre bouton
-                		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                		enableDrag = false;               	
-                	}  
-                } 
-                 else{
-       			System.out.println("Sélection de zone activée.");
-       			if(e.getButton() == BUTTON1){
+                	//si on appui sur le bouton droit on dessine la zone
+                	else if(e.getButton() == BUTTON3){
+       				System.out.println("Sélection de zone activée.");
+       				enableDrag = false;
+       				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
        				//en début de pression le rectangle n'est pas dessiné
        				areaDrawn = false; 
        				drawArea = true;
        				repaint();
        			}
-       			
-       			else{
-       				//appui sur autre bouton : on efface tout
+                
+                	else{
+                		//arret du drag si appui sur un autre bouton
                 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                		enableDrag = false;
                 		drawArea = false;     
-                		repaint();          	
-               	 	}   
-       		}
+                		repaint();                     	
+                	}  		
         }
 
         /**
         * Détecter si un bouton de souris est relaché.
         * 
         * @param e
-        *           un évènement clavier.
         * 
         */        
 	public void mouseReleased(MouseEvent e){
@@ -527,23 +523,23 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                         
                 System.out.println("relache en ("+endX+";"+endY+")");
                 
-                if(e.getButton() == BUTTON1 && !drawArea ){
+                if(e.getButton() == BUTTON1 && drawArea == false){
                 	
                 	setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
               		System.out.println("Position de l'image : ("+offsetX+";"+offsetY+")"); 
                		enableDrag = false;
                	}
                	
-               	if(drawArea && areaDrawn ){
+               	if(drawArea == true && areaDrawn == true ){
                 	setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         		
                 	cropMenu.show(this, e.getX(), e.getY());
             		cropMenu.setVisible(true);	
             		repaint();	
-            		//drawArea = false;	ne pas le mettre ici 
+            		//drawArea = false;	//ne pas le mettre ici 
                 }
                 
-                if(!areaDrawn && drawArea ){
+                if(drawArea == true && areaDrawn == false){
                 //il n'y a pas eu de mouseDragged
                 	drawArea = false;
                 	repaint();
