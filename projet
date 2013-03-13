@@ -7,6 +7,7 @@ DIR=${0%/*}
 cd $DIR
 
 case $1 in
+	"pull" ) git pull https://github.com/benoitfragit/projet_ensea master ;;
 	"add" ) git add $2;;
 	"rm" ) git rm $2;;
 	"push" ) git push https://github.com/benoitfragit/projet_ensea master ;;
