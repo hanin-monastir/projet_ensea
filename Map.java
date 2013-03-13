@@ -12,6 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.*;
 import javax.imageio.ImageIO;
+import java.awt.image.*;
 import java.net.*;
 
 import java.util.*;
@@ -133,7 +134,13 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	//string à parser
 	String lat,lon;
 
-
+	//booleen pour savoir si on est dans le mode de capture
+	boolean drawArea, areaDrawn;
+	
+	//Menu pour enregistrer la zone 
+	CropMenu cropMenu;
+	Point originCrop;
+	
         /**
          * Constructeur Map.
          * <p>
@@ -144,7 +151,9 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
          *            Le panneau Recherche de la classe Fenetre
          * 
          */
-        Map(Recherche r){		
+        Map(Recherche r){
+        	drawArea = false;
+        	areaDrawn = false;		
 		//matlab
 		Latitude = null;
 		Longitude = null;
@@ -189,7 +198,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                 
                 //ajout du menu propre au composant
                 popupmenu = new MouseMapMenu(this);
-               
+                cropMenu = new CropMenu(this);
+                originCrop = new Point();
         }
 
 	/**
@@ -203,6 +213,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         * @see Map
         */
 	Map(Recherche r,String s){
+		drawArea = false;
+		areaDrawn = false;
 		//matlab
 		Latitude = null;
 		Longitude = null;
@@ -250,6 +262,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                 
                 //ajout du menu propre au composant
                 popupmenu = new MouseMapMenu(this);
+                cropMenu = new CropMenu(this);
+                originCrop = new Point();
         }
 
 
@@ -288,8 +302,35 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			g2D.drawString(coord,p.poffset.getX()+35,p.poffset.getY());
 			coord = "";	
 		}
-
-
+		
+		//les deux tests sont nécessaires
+		if(drawArea == true && areaDrawn == true){
+			
+			//gérer les cas négatifs
+			if(x-startX >= 0 && y - startY >= 0){
+				
+				originCrop.setX(startX);
+				originCrop.setY(startY);
+			}
+			else if(x-startX <= 0 && y - startY >= 0){
+			
+				originCrop.setX(x);
+				originCrop.setY(startY);
+			}
+			
+			else if(x-startX >= 0 && y - startY <= 0){
+				
+				originCrop.setX(startX);
+				originCrop.setY(y);
+			}
+			
+			else{
+				originCrop.setX(x);
+				originCrop.setY(y);
+			}
+			
+			g2D.drawRect(originCrop.getX(), originCrop.getY(), Math.abs(x-startX), Math.abs(y-startY));
+		}
 
 	    	g2D.dispose();   
         }
@@ -308,107 +349,104 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         //propre à Map et indépendant du popupmenu
         public void mouseClicked(MouseEvent e){
         	//la fonction est appelée lors d'un clic (appui + relache) (molette incluse)
-		
-		if(e.getClickCount() == 1 && e.getButton() == BUTTON1){
-			System.out.println("sélection");
-			
-			for(Pin p : listPin){
-		
-				if(e.getX() >= p.poffset.getX() && e.getX() <= p.pin.getWidth() + p.poffset.getX()
-				&& e.getY() >= p.poffset.getY() && e.getY() <= p.pin.getHeight() + p.poffset.getY()){
-				//si on a cliqué sur une pin	
-					if(listPoint.isEmpty() == false){
-					//si la liste de points n'est pas vide
-						if(listPoint.get(0).getX() == p.poffset.getX() + p.pin.getWidth()/2
-						&& listPoint.get(0).getY() == p.poffset.getX() + p.pin.getHeight()){
-						
-							//on retire le point s'il y est déjà
-							listPoint.remove(0);
-						}
-						
-						else{	//sinon on l'ajoute : c'est le 2e
-							listPoint.add(p.poffset);
-							listPoint.get(1).setX(p.poffset.getX());
-							listPoint.get(1).setY(p.poffset.getY());
-							
-							//regarder ici s'il n'y a pas une ligne à supprimer
-							// c'est à dire si la ligne était déjà tracée
-							removeLine = false;
-							History.add(new Action(listPin,listLine));
-							for(StraightLine s : listLine){
-								
-								if(s.matchWith(listPoint.get(0), listPoint.get(1))){
-
-									listLine.remove(listLine.indexOf(s));
-									removeLine = true;
-									break;
-								}
-							}
-							//dans le cas contraire :
-							if(removeLine == false){
-
-								History.add(new Action(listPin,listLine));
-								listLine.add(new StraightLine(listPoint.get(0), listPoint.get(1)));
-							}
-							
-							//on supprime les points :
-							listPoint.remove(1);
-							listPoint.remove(0);
-							
-							repaint();
-						}
-					}
-					
-					else{	//la liste est vide on ajoute le premier point
-						listPoint.add(p.poffset);
-						listPoint.get(0).setX(p.poffset.getX());
-						listPoint.get(0).setY(p.poffset.getY());
-					}
-				}
-			}
-		
-		}
-		
-		if(e.getClickCount() == 2 && e.getButton() == BUTTON1){
-			
-			System.out.println("double clique gauche");
-			
-			//Si on est dans l'image :
-			if(e.getX() >= offsetX && e.getX() <= image.getWidth() + offsetX
-			&& e.getY() >= offsetY && e.getY() <= image.getHeight() + offsetY)
-			{
-	
-				History.add(new Action(listPin,listLine));
-				pinMap(e.getX(), e.getY());
-				//on marque ou non la carte avec des épingles
-			}
-		}
-		
-		else if(e.getButton() == BUTTON3){
-                	
-                	//l'instance de popupmenu est crée dans le constructeur
-			popupmenu.show(this, e.getX(), e.getY());
-            		popupmenu.setVisible(true);			
-		}
+		if(!drawArea){
+			if(e.getClickCount() == 1 && e.getButton() == BUTTON1){
+				System.out.println("sélection");
 				
-		else{
-			//Pour obtenir la position réelle du curseur en enlevant l'effet du zoom et de l'offset
-			int px =(int)((e.getX()-offsetX)/scale);
-			int py =(int)((e.getY()-offsetY)/scale);
-
- 			//attention ligne puis colonne, j'espère que c'est ça
-			if ( Latitude != null ){				
-				if (px >= 0  && py >= 0 && px < initWidth && py < initHeight){
-					//on accède aux bons champs
-					double Lt = Latitude[py][px];
-					double Ln = Longitude[py][px];
-					//on envoit les coordonnées dans le panneau de recherche						
-			 		search.setCoord(Lt,Ln);	
+				for(Pin p : listPin){
+					if(e.getX() >= p.poffset.getX() && e.getX() <= p.pin.getWidth() + p.poffset.getX() & e.getY() >= p.poffset.getY() && e.getY() <= p.pin.getHeight() + p.poffset.getY()){
+					//si on a cliqué sur une pin	
+						if(listPoint.isEmpty() == false){
+						//si la liste de points n'est pas vide
+							if(listPoint.get(0).getX() == p.poffset.getX() + p.pin.getWidth()/2 && listPoint.get(0).getY() == p.poffset.getX() + p.pin.getHeight()){
+								//on retire le point s'il y est déjà
+								listPoint.remove(0);
+							}
+							
+							else{	//sinon on l'ajoute : c'est le 2e
+								listPoint.add(p.poffset);
+								listPoint.get(1).setX(p.poffset.getX());
+								listPoint.get(1).setY(p.poffset.getY());
+								
+								//regarder ici s'il n'y a pas une ligne à supprimer
+								// c'est à dire si la ligne était déjà tracée
+								removeLine = false;
+								History.add(new Action(listPin,listLine));
+								for(StraightLine s : listLine){
+									
+									if(s.matchWith(listPoint.get(0), listPoint.get(1))){
+	
+										listLine.remove(listLine.indexOf(s));
+										removeLine = true;
+										break;
+									}
+								}
+								//dans le cas contraire :
+								if(removeLine == false){
+	
+									History.add(new Action(listPin,listLine));
+									listLine.add(new StraightLine(listPoint.get(0), listPoint.get(1)));
+								}
+								
+								//on supprime les points :
+								listPoint.remove(1);
+								listPoint.remove(0);
+								
+								repaint();
+							}
+						}
+						
+						else{	//la liste est vide on ajoute le premier point
+							listPoint.add(p.poffset);
+							listPoint.get(0).setX(p.poffset.getX());
+							listPoint.get(0).setY(p.poffset.getY());
+						}
+					}
+				}
+			
+			}
+			
+			if(e.getClickCount() == 2 && e.getButton() == BUTTON1){
+				
+				System.out.println("double clique gauche");
+				
+				//Si on est dans l'image :
+				if(e.getX() >= offsetX && e.getX() <= image.getWidth() + offsetX
+				&& e.getY() >= offsetY && e.getY() <= image.getHeight() + offsetY)
+				{
+		
+					History.add(new Action(listPin,listLine));
+					pinMap(e.getX(), e.getY());
+					//on marque ou non la carte avec des épingles
 				}
 			}
-			else
-			{
-				search.setCoord(py,px);
+			
+			else if(e.getButton() == BUTTON3){
+                		
+                		//l'instance de popupmenu est crée dans le constructeur
+				popupmenu.show(this, e.getX(), e.getY());
+            			popupmenu.setVisible(true);			
+			}
+					
+			else{
+				//Pour obtenir la position réelle du curseur en enlevant l'effet du zoom et de l'offset
+				int px =(int)((e.getX()-offsetX)/scale);
+				int py =(int)((e.getY()-offsetY)/scale);
+	
+ 				//attention ligne puis colonne, j'espère que c'est ça
+				if ( Latitude != null ){				
+					if (px >= 0  && py >= 0 && px < initWidth && py < initHeight){
+						//on accède aux bons champs
+						double Lt = Latitude[py][px];
+						double Ln = Longitude[py][px];
+						//on envoit les coordonnées dans le panneau de recherche						
+				 		search.setCoord(Lt,Ln);	
+					}
+				}
+				else
+				{
+					search.setCoord(py,px);
+				}
 			}
 		}		
         }
@@ -436,26 +474,43 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                 startY = e.getY(); 
                         
                 System.out.println("appui en ("+startX+";"+startY+")");  
-                
-                if(e.getButton() == BUTTON1){
-                	enableDrag = true;
-                	//récupération de la position de l'image
-                	offsetX_old = offsetX;
-                	offsetY_old = offsetY;
+                if(!drawArea){
+                	if(e.getButton() == BUTTON1){
+                		enableDrag = true;
+                		//récupération de la position de l'image
+                		offsetX_old = offsetX;
+                		offsetY_old = offsetY;
                 	
-                	//récupération de la position des pin
-			for(Pin p : listPin){
+                		//récupération de la position des pin
+				for(Pin p : listPin){
               		
-				p.poffset_old.setX(p.poffset.getX());
-				p.poffset_old.setY(p.poffset.getY());
-			}
-                }
+					p.poffset_old.setX(p.poffset.getX());
+					p.poffset_old.setY(p.poffset.getY());
+				}
+                	}
                 
-                else{
-                	//arret du drag si appui sur un autre bouton
-                	setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                	enableDrag = false;               	
-                }   
+                	else{
+                		//arret du drag si appui sur un autre bouton
+                		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                		enableDrag = false;               	
+                	}  
+                } 
+                 else{
+       			System.out.println("Sélection de zone activée.");
+       			if(e.getButton() == BUTTON1){
+       				//en début de pression le rectangle n'est pas dessiné
+       				areaDrawn = false; 
+       				drawArea = true;
+       				repaint();
+       			}
+       			
+       			else{
+       				//appui sur autre bouton : on efface tout
+                		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                		drawArea = false;     
+                		repaint();          	
+               	 	}   
+       		}
         }
 
         /**
@@ -472,12 +527,28 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                         
                 System.out.println("relache en ("+endX+";"+endY+")");
                 
-                if(e.getButton() == BUTTON1){
+                if(e.getButton() == BUTTON1 && !drawArea ){
                 	
                 	setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
               		System.out.println("Position de l'image : ("+offsetX+";"+offsetY+")"); 
                		enableDrag = false;
-               	}           	
+               	}
+               	
+               	if(drawArea && areaDrawn ){
+                	setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        		
+                	cropMenu.show(this, e.getX(), e.getY());
+            		cropMenu.setVisible(true);	
+            		repaint();	
+            		//drawArea = false;	ne pas le mettre ici 
+                }
+                
+                if(!areaDrawn && drawArea ){
+                //il n'y a pas eu de mouseDragged
+                	drawArea = false;
+                	repaint();
+                }
+               	           	
 	}
 
         		//////////////////////////////////////////////////////
@@ -515,6 +586,14 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 				p.poffset.setX(p.poffset_old.getX() + dx);
 				p.poffset.setY(p.poffset_old.getY() + dy);
 			}
+		}
+		
+		if(drawArea){
+			setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+			x = e.getX();
+			y = e.getY();
+			areaDrawn = true;
+			repaint();
 		}
         }
 
@@ -984,78 +1063,50 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		} 
 	}
 
+	public void startDraw(){
+		drawArea = true;
+	}
+
         /**
         * Permet de découper une zone de l'image encadrant au mieux les pins
         * 
         */
-	public void CropMap(){
-		int NbPin = 0;
-		if (!listPin.isEmpty()){
-			NbPin = listPin.size();
-		}
-
-		//minimum de 3 points pour déterminer une région
-		if (NbPin > 2){
-			JFileChooser chooser = new JFileChooser();
-    			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & PNG Images", "jpg", "png");
-    			chooser.setFileFilter(filter);
+        public void cropMap(){
+        	int w = this.getWidth();
+   		int h = this.getHeight();
+   		BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+   		Graphics2D g = bi.createGraphics();
+   		paint(g);
+   		
+		CropImageFilter cif = new CropImageFilter(originCrop.getX(), originCrop.getY(), Math.abs(x-startX), Math.abs(y-startY));
+		
+		Image im1 = createImage(new FilteredImageSource(bi.getSource(), cif));
+		
+		BufferedImage bufImage = new BufferedImage(im1.getWidth(null), im1.getHeight(null), BufferedImage.TYPE_INT_RGB);
+		bufImage.getGraphics().drawImage(im1, 0, 0, null);
+		JFileChooser chooser = new JFileChooser();
+    		FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG Images", "jpg");
+    		chooser.setFileFilter(filter);
    			
-   			int returnVal = chooser.showOpenDialog(this.getParent());
-    			
-    			if(returnVal == JFileChooser.APPROVE_OPTION)
-    			{						
-				//tableau de coordonnées
-				int[] xp = new int[NbPin];
-				int[] yp = new int[NbPin];
-				//bord de l'image coupée
-				int minX = listPin.get(0).poffset.getX();
-				int minY = listPin.get(0).poffset.getX();
-				int maxX = 0, maxY = 0;
-			
-			
-				for(int i=0;i<NbPin;i++){
-				/*des croisements sont pour l'instant possible
-				il faut ré-ordonner suivant les x et faire la même chose suivant y
-				*/
-					Pin p = listPin.get(i);
-					xp[i] = p.poffset.getX()+32;
-					yp[i] = p.poffset.getY()+32;
-					//mise à jours des min/max
-					if (xp[i] > maxX){
-						maxX = xp[i];
-					}
-					else if (xp[i] < minX){
-						minX = xp[i];
-					}
-					else if (yp[i] > maxY){
-						maxY = yp[i];
-					}
-					else if (yp[i] < minY){
-						minY = yp[i];
-					}
-				}
-			
-
-				//création du masque de coupe
-				Polygon clip = new Polygon(xp, yp, NbPin);
-				BufferedImage out = new BufferedImage(maxX - minX, maxY - minY, image.getType());
-    				Graphics g = out.getGraphics();
-   		 		g.setClip( clip );
-				paint(g);
-				//on enregistre
-	   			try{
-					String fichier = chooser.getSelectedFile().getAbsolutePath();
-         				System.out.println(fichier);
-					FileOutputStream fos = new FileOutputStream(fichier);
-					ImageIO.write(out,"png",fos);
-				}
-					catch(IOException e){
-					e.printStackTrace();
-				}
+   		int returnVal = chooser.showOpenDialog(this.getParent());
+    		
+    		if(returnVal == JFileChooser.APPROVE_OPTION)
+    		{
+			//on enregistre
+	   	 	try{
+				String fichier = chooser.getSelectedFile().getAbsolutePath();
+				System.out.println(fichier);
+        			FileOutputStream fos = new FileOutputStream(fichier);
+				ImageIO.write(bufImage,"jpg",fos);
 			}
-		}		
-	}
-
+			catch(IOException e){
+				e.printStackTrace();
+			}
+		}
+		
+		drawArea = false;
+		repaint();
+        }
         /**
         * Permet d'enregister l'état de la Map 
         * 

@@ -123,7 +123,8 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 		
 		if(e.getActionCommand().equals("Enregistrer la zone"))
 		{
-			carte.CropMap();
+			//carte.CropMap();
+			carte.startDraw();
 		}
 	}		
 }
