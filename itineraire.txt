@@ -1,6 +1,6 @@
-Zoom 18
+Zoom 11
 Espace 28
-Taille 621
+Taille 378
 Point1 Lat 45.8535567 Lon 6.615413
 Point2 Lat 45.853556 Lon 6.617413
 Point3 Lat 45.8545567 Lon 6.617413

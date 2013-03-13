@@ -45,7 +45,7 @@ import java.lang.*;
  */
 public class Map extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener{
         /**
-         * Paramète qui permet d'acceder à la position de souris
+         * Paramètre qui permet d'acceder à la position de souris
          * 
          */
 	
