@@ -512,7 +512,7 @@ public class Itineraire{
 		return map;
 	}
 	/**
-	*	Montrer les message d'erreur
+	*	Montrer les messages d'erreur
 	*/
 	public void ShowError(String erreur){
 		JOptionPane Erreur = new JOptionPane();
