@@ -295,7 +295,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		}
 		g2D.setColor(Color.black);
 		String coord = "";	
-		g2D.setStroke(new BasicStroke(30));	
+		//g2D.setStroke(new BasicStroke(30));	
 		for(Pin p : listPin){
 			p.draw(g2D);
 			coord += p.getLatitude() + " N " + p.getLongitude() + " E";			
