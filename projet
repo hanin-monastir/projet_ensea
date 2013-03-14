@@ -11,6 +11,7 @@ case $1 in
 	"add" ) git add $2;;
 	"rm" ) git rm $2;;
 	"push" ) git push https://github.com/benoitfragit/projet_ensea master ;;
+	"testing" ) git push https://github.com/benoitfragit/projet_ensea testing ;;
 	"commit" ) git commit -a;;
 	"status" ) git status;;
 
