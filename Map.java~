@@ -681,11 +681,15 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		
         	AffineTransform tx = new AffineTransform();
         	tx.scale(scale, scale);
-       		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-       		BufferedImage biNew = new BufferedImage((int)(initWidth*scale), (int) (initHeight*scale), imageInit.getType());
-    		op.filter(imageInit, biNew);
-		image = biNew;
-    	
+		try{
+        		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        		BufferedImage biNew = new BufferedImage((int)(initWidth*scale), (int) (initHeight*scale), imageInit.getType());
+
+       			op.filter(imageInit, biNew);
+			image = biNew;
+        	} catch(java.awt.image.ImagingOpException ex){
+			ex.printStackTrace();
+		}         	
 
 		//image est une nouvelle instance indépendante de imageInit
 		

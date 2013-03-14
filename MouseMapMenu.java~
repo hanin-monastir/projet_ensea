@@ -118,10 +118,9 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 		
 		if(e.getActionCommand().equals("Zoom Out"))
 		{	
-			if(carte.scale >= 2){
-				carte.scale -= 1;
-				carte.setScale(carte.endX, carte.endY);	
-			}
+			
+			carte.scale -= 1;
+			carte.setScale(carte.endX, carte.endY);	
 		}
 		/*
 		if(e.getActionCommand().equals("Enregistrer la zone"))

@@ -196,22 +196,6 @@ public class Fenetre extends JFrame implements ActionListener{
 			Configuration conf = new Configuration();
 		}
 		else if(e.getActionCommand().equals("Tracer itinéraire")){
-			/*System.out.println("Google va retourner une image");
-			double[] latt = new double[4];
-			double[] lont = new double[4];
-
-				latt[0] = 45.8535567;
-				lont[0] = 6.615413;
-
-				latt[1] = 45.8535567; 
-				lont[1] = 6.617413;
-
-				latt[2] = 45.8545567; 
-				lont[2] = 6.617413;
-
-				latt[3] = 45.8545567; 
-				lont[3] = 6.615413;
-			*/
 			Itineraire itn = new Itineraire();
 			if(itn.getImage() !=  null){
 				panorama.loadImage(itn.getImage());
@@ -325,30 +309,40 @@ public class Fenetre extends JFrame implements ActionListener{
 							System.out.println("Début");
 							mypano = new Panorama();							
 							mypano.Panorama(folderphoto[0],extension[0],foldergps[0]);
+							progressebarre.setVisible(false);
 							coord = mypano.GetMatrix(2);
 							ltarray = (MWNumericArray) coord[0];
 							lnarray = (MWNumericArray) coord[1];
-							System.out.println("ligne " + ltarray.getDimensions()[0] + " Colonne " + lnarray.getDimensions()[1]);				
-							int i = 0;
-							int j = 0;
 							int ligne = ltarray.getDimensions()[0];
 							int colonne = ltarray.getDimensions()[1];
 							LATITUDE = new double[ligne][colonne];
 							LONGITUDE = new double[ligne][colonne];
-							for (i=2;i<ligne;i++){
-								for (j=1;j<colonne;j++){
-									int[] idx = new int[]{i,j};
-									LATITUDE[i][j] = (double) ltarray.get(idx);
-									LONGITUDE[i][j] = (double) lnarray.get(idx); 
-								}
+				
+							/*
+								Test des threads
+								on crée un thread pour la latitude
+								et pour la longitude
+							*/
+							
+							convertTab clat = new convertTab((MWNumericArray)ltarray,ligne,colonne);
+							convertTab clon = new convertTab((MWNumericArray)lnarray,ligne,colonne);
+							
+							Thread tlat = new Thread(clat);
+							Thread tlon = new Thread(clon);
+							
+							tlat.start();
+							tlon.start();
+							while(tlat.isAlive() || tlon.isAlive()){
 							}
+							LATITUDE = clat.getTableau();
+							LONGITUDE = clon.getTableau();
+				
 						} catch(MWException ei){
 							ei.printStackTrace();
 						} finally{
 							mypano.dispose();
 						}
 				
-						progressebarre.setVisible(false);
 						panel_search = new Recherche();
 						panel_search.setVisible(true);
 						recherche = null;
