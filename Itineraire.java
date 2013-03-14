@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.* ;
 import java.lang.* ;
 
-public class Itineraire{
+public class Itineraire extends Thread{
 	/**
 	*	 Un tableau à 2 éléments de latitude qui sera utilisé pour calculer les caps et distance
 	*/	
@@ -99,7 +99,14 @@ public class Itineraire{
 	*	Le dossier d'enregistement
 	*/
 	private String folder;
-	
+	/**
+	* 	Savoir si le chargement a eu ieu
+	*/
+	private boolean chargement ;
+	/**
+	*	La map  ou afficher l'image
+	*/
+	private Map carte;
         /**
          * Constructeur Itineraire
          * <p>
@@ -112,17 +119,19 @@ public class Itineraire{
          * </p>
          * 
          */
-	Itineraire(){
+	Itineraire(Map m){
 		//4 points seront nécéssaires
 		String sens = "positif";
 		vue = "satellite";
-
+		carte = m;
 		latitude = new double[2];
 		longitude = new double[2];
 		lat = new double[4];
 		lon = new double[4];
-		boolean chargement = loadConfig();
-
+		chargement = loadConfig();
+	}
+	
+	public void run(){
 		if(chargement){ 
 			latitude[0] = lat[0];
 			longitude[0] = lon[0];
@@ -293,6 +302,10 @@ public class Itineraire{
 	 		map = ImageIO.read(new URL(url));
 	 		//sauvegarde des données
 	 		toString();
+	 		//écriture de l'image
+	 		if(map != null){
+	 			carte.loadImage(map);
+	 		}
 		} catch(Exception e){
 			e.printStackTrace();
 		}

@@ -196,10 +196,8 @@ public class Fenetre extends JFrame implements ActionListener{
 			Configuration conf = new Configuration();
 		}
 		else if(e.getActionCommand().equals("Tracer itinéraire")){
-			Itineraire itn = new Itineraire();
-			if(itn.getImage() !=  null){
-				panorama.loadImage(itn.getImage());
-			}
+			Itineraire itn = new Itineraire(panorama);
+			itn.start();
 		}
 		else if(e.getActionCommand().equals("Annuler tout")){
 			panorama.cancelAll();
