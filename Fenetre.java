@@ -200,7 +200,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("Afficher l'aide")){
 			try{
-			File fhelp = new File("Help.html");
+			File fhelp = new File("Help/Help.html");
 			Desktop.getDesktop().browse(fhelp.toURI());
 			} catch(Exception exp){
 				exp.printStackTrace();
