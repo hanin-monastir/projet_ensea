@@ -107,6 +107,7 @@ public class Itineraire extends Thread{
 	*	La map  ou afficher l'image
 	*/
 	private Map carte;
+
         /**
          * Constructeur Itineraire
          * <p>
@@ -121,7 +122,7 @@ public class Itineraire extends Thread{
          */
 	Itineraire(Map m){
 		//4 points seront nécéssaires
-		String sens = "positif";
+		sens = "positif";
 		vue = "satellite";
 		carte = m;
 		latitude = new double[2];

@@ -1020,6 +1020,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
     		if(returnVal == JFileChooser.APPROVE_OPTION){
 			String map = chooser.getSelectedFile().getAbsolutePath()+"/map.jpg";
 			String pin = chooser.getSelectedFile().getAbsolutePath()+"/positions.txt";
+			String gps = chooser.getSelectedFile().getAbsolutePath()+"/gps.mat";
    	 		try{
 				FileOutputStream fos = new FileOutputStream(map);
 				//on enregistre bien le buffered image pour ne pas prendre en compte les effets de zooom
@@ -1030,6 +1031,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			if(listPin.size() != 0){
 				toString(pin);
 			}
+			//on déplace le fichier gps
+			deplacer(new File("gps.mat"),new File(gps));
 		} 
 	}
 
@@ -1197,8 +1200,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 				resultat = ligne.split(" ");//on récupère les différents champs
 				//convertir les strings en entier/double		
 				switch(resultat[0]){				
-					case "Pixel" :	xp = Integer.parseInt(resultat[1]);
-							yp = Integer.parseInt(resultat[2]);
+					case "Pixel" :	xp = Integer.parseInt(resultat[1])+32;
+							yp = Integer.parseInt(resultat[2])+16;
 							latp = Double.parseDouble(resultat[4]);
 							lonp = Double.parseDouble(resultat[5]);
 							Pin p = pinSetCoord(xp,yp);
@@ -1263,7 +1266,21 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		listLine.clear();
 		repaint();
 	}
-
+	
+	/**
+	*	Fonction pour déplacer un fichier
+	*	@param source
+	* 		Le fichier qui va etre déplacer
+	*	@param destination
+	*		Le Fichier ou sera déplacer le fichier
+	*/
+	public void deplacer(File source,File destination) {
+        	if( !destination.exists() ) {
+        	        // On supprime si le fichier existe déjà
+        	        boolean suppr = destination.delete();
+        	}
+        	boolean result = source.renameTo(destination);
+	}
 }
 
 

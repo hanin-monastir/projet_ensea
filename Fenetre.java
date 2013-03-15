@@ -254,14 +254,52 @@ public class Fenetre extends JFrame implements ActionListener{
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
 				String Photo = chooser1.getSelectedFile().getAbsolutePath() + "/map.jpg";
 				String pin = chooser1.getSelectedFile().getAbsolutePath() + "/positions.txt";
+				String gps = chooser1.getSelectedFile().getAbsolutePath() + "/gps.mat";
+				MWArray ltarray = null;
+				MWArray lnarray = null;
+				Object[] coord = null;
+				Panorama pano = null;
 				try{
 					File fphoto = new File (Photo);
 					File fpin = new File(pin);
-				
+					File fgps = new File(gps);
+					File outgps = new File("gps.mat");
+					
 					if (fphoto.exists() && fpin.exists()){
 						//les deux dossiers nécéssaires existent tout est ok
 						panorama.loadImage(Photo);
 						panorama.readWork(pin);
+					}
+					if (fgps.exists()){
+						//Maintenant on charge le fichier gps
+						panorama.deplacer(fgps,outgps);
+						try{
+							pano = new Panorama();
+							coord = pano.GetMatrix(2);
+							ltarray = (MWNumericArray) coord[0];
+							lnarray = (MWNumericArray) coord[1];
+							int ligne = ltarray.getDimensions()[0];
+							int colonne = ltarray.getDimensions()[1];
+							LATITUDE = new double[ligne][colonne];
+							LONGITUDE = new double[ligne][colonne];
+							convertTab clat = new convertTab((MWNumericArray)ltarray,ligne,colonne);
+							convertTab clon = new convertTab((MWNumericArray)lnarray,ligne,colonne);
+							
+							Thread tlat = new Thread(clat);
+							Thread tlon = new Thread(clon);
+							
+							tlat.start();
+							tlon.start();
+							while(tlat.isAlive() || tlon.isAlive()){
+							}
+							LATITUDE = clat.getTableau();
+							LONGITUDE = clon.getTableau();
+							panorama.RecordCoord(LATITUDE,LONGITUDE,ltarray,lnarray);
+						} catch(MWException pi){
+							pi.printStackTrace();
+						} finally{
+							pano.dispose();
+						}
 					}
 				} catch(Exception ek){
 					ek.printStackTrace();
