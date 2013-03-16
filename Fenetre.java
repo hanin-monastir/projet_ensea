@@ -146,18 +146,11 @@ public class Fenetre extends JFrame implements ActionListener{
 		JMenuItem configitineraire = new JMenuItem("Configurer itinéraire");
 		configitineraire.addActionListener(this);
 		menu3.add(configitineraire);
-
-		//////////////////// AIDE  /////////////////////////////////////////
-		JMenu menu4 = new JMenu("Aide");
-		JMenuItem help = new JMenuItem("Afficher l'aide");
-		help.addActionListener(this);
-		menu4.add(help);
 		
 		//////////////////// Ajout /////////////////////////////////////////
 		m.add(menu1);
 		m.add(menu2);
 		m.add(menu3);
-		m.add(menu4);
 		setJMenuBar(m);
 			
 		contentPane = getContentPane();
@@ -197,14 +190,6 @@ public class Fenetre extends JFrame implements ActionListener{
 		{
 			System.out.println("Vous avez appuyé sur Quitter");
 			System.exit(0);
-		}
-		else if(e.getActionCommand().equals("Afficher l'aide")){
-			try{
-			File fhelp = new File("Help/Help.html");
-			Desktop.getDesktop().browse(fhelp.toURI());
-			} catch(Exception exp){
-				exp.printStackTrace();
-			}
 		}
 		else if(e.getActionCommand().equals("Configurer itinéraire")){
 			Configuration conf = new Configuration();
