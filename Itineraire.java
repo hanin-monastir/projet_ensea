@@ -1,7 +1,6 @@
 import java.io.*;
 import javax.imageio.ImageIO;
 import java.net.*;
-
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;

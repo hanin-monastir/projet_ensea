@@ -70,7 +70,6 @@ public class Fenetre extends JFrame implements ActionListener{
 	 *
          */
 	JButton recherche;
-        
         /**
          * Constructeur Fenetre.
          * <p>
@@ -146,7 +145,8 @@ public class Fenetre extends JFrame implements ActionListener{
 		JMenuItem configitineraire = new JMenuItem("Configurer itinéraire");
 		configitineraire.addActionListener(this);
 		menu3.add(configitineraire);
-		
+
+				
 		//////////////////// Ajout /////////////////////////////////////////
 		m.add(menu1);
 		m.add(menu2);
@@ -171,6 +171,8 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		panel_search.setVisible(true);				
 		
+		panorama.setMode("Visualisation"); 
+
 		setVisible(true);
 	}
 	
@@ -192,17 +194,22 @@ public class Fenetre extends JFrame implements ActionListener{
 			System.exit(0);
 		}
 		else if(e.getActionCommand().equals("Configurer itinéraire")){
-			Configuration conf = new Configuration();
+			Configuration conf = new Configuration();			
 		}
 		else if(e.getActionCommand().equals("Tracer itinéraire")){
+			panorama.setMode("Visualisation");
 			Itineraire itn = new Itineraire(panorama);
 			itn.start();
 		}
 		else if(e.getActionCommand().equals("Annuler tout")){
-			panorama.cancelAll();
+			if(panorama.getMode() == "Panorama"){
+				panorama.cancelAll();
+			}
 		}
 		else if(e.getActionCommand().equals("Annuler")){
-			panorama.cancelOne();
+			if(panorama.getMode() == "Panorama"){
+				panorama.cancelOne();
+			}
 		}
 		else if(e.getActionCommand().equals("Sauvegarder l'image")){
 			//panel_search.toString("positions.txt");
@@ -211,13 +218,15 @@ public class Fenetre extends JFrame implements ActionListener{
 		}
 		
 		else if(e.getActionCommand().equals("Sauvegarder les positions")){
-			panorama.savePin();
+			if(panorama.getMode() == "Panorama"){
+				panorama.savePin();
+			}
 		}
 		
 		else if(e.getActionCommand().equals("Ouvrir"))
 		{
 			System.out.println("Ouvrir");
-			
+			panorama.setMode("Visualisation");	
 			JFileChooser chooser = new JFileChooser();
     			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
     			chooser.setFileFilter(filter);
@@ -293,7 +302,9 @@ public class Fenetre extends JFrame implements ActionListener{
 							}
 							LATITUDE = clat.getTableau();
 							LONGITUDE = clon.getTableau();
+						
 							panorama.RecordCoord(LATITUDE,LONGITUDE,ltarray,lnarray);
+							panorama.setMode("Panorama");
 						} catch(MWException pi){
 							pi.printStackTrace();
 						} finally{
@@ -312,7 +323,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			Object[] coord = null;
 			MWArray ltarray = null;
 			MWArray lnarray = null;
-
+		
 			//Création d'un nouveau panorama avec les paramètres par défaut
 			JFileChooser chooser1 = new JFileChooser(); 
 			chooser1.setCurrentDirectory(new java.io.File("."));
@@ -385,7 +396,7 @@ public class Fenetre extends JFrame implements ActionListener{
 						recherche.addActionListener(this);			
 						panorama =  new Map(panel_search,mosaique);
 						panorama.RecordCoord(LATITUDE,LONGITUDE,ltarray,lnarray);
-			
+						panorama.setMode("Panorama");
 						contentPane.removeAll(); 
 						contentPane.add(panorama,"Center");
 						contentPane.add(panel_search,"West");				

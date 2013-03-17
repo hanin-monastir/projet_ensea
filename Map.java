@@ -139,8 +139,17 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	
 	//Menu pour enregistrer la zone 
 	CropMenu cropMenu;
+	/**
+	* Origine de la zone de drag&drop
+	*/
 	Point originCrop;
 	
+	/**
+	* Le mode actuel de l'application
+	*		
+        */
+	String mode;
+                
         /**
          * Constructeur Map.
          * <p>
@@ -152,6 +161,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
          * 
          */
         Map(Recherche r){
+        	mode = "Visualisation";
         	drawArea = false;
         	areaDrawn = false;		
 		//matlab
@@ -185,7 +195,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		//on initialise les copies par appel au copie constructeur
 		History = new ArrayList<Action>();
 		////////////////////////////
-                loadImage();
+                loadImage();   	
 		
 		initWidth = image.getWidth();
 		initHeight = image.getHeight();
@@ -213,6 +223,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         * @see Map
         */
 	Map(Recherche r,String s){
+		mode = "Visualisation";
 		drawArea = false;
 		areaDrawn = false;
 		//matlab
@@ -349,6 +360,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         //propre à Map et indépendant du popupmenu
         public void mouseClicked(MouseEvent e){
         	//la fonction est appelée lors d'un clic (appui + relache) (molette incluse)
+		if(mode == "Panorama"){
 		if(!drawArea){
 			if(e.getClickCount() == 1 && e.getButton() == BUTTON1){
 				System.out.println("sélection");
@@ -448,6 +460,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 					search.setCoord(py,px);
 				}
 			}
+		}
 		}		
         }
         /////////////////////////// FIN DE LA ZONE MATLAB ///////////////////////        
@@ -1280,6 +1293,22 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         	        boolean suppr = destination.delete();
         	}
         	boolean result = source.renameTo(destination);
+	}
+	/**
+	*	Fonction pour régler le mode
+	*	@param m
+	*		Le mode de l'application 
+	*/
+	public void setMode(String m){
+		mode = m;
+	}
+	/**
+	*	On obtient le mode actuel de l'application
+	*	@return le mode
+	*
+	*/
+	public String getMode(){
+		return mode;
 	}
 }
 
