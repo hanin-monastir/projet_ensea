@@ -361,106 +361,104 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         public void mouseClicked(MouseEvent e){
         	//la fonction est appelée lors d'un clic (appui + relache) (molette incluse)
 		if(mode == "Panorama"){
-		if(!drawArea){
-			if(e.getClickCount() == 1 && e.getButton() == BUTTON1){
-				System.out.println("sélection");
+			if(!drawArea){
+				if(e.getClickCount() == 1 && e.getButton() == BUTTON1){
+					System.out.println("sélection");
 				
-				for(Pin p : listPin){
-					if(e.getX() >= p.poffset.getX() && e.getX() <= p.pin.getWidth() + p.poffset.getX() & e.getY() >= p.poffset.getY() && e.getY() <= p.pin.getHeight() + p.poffset.getY()){
-					//si on a cliqué sur une pin	
-						if(listPoint.isEmpty() == false){
-						//si la liste de points n'est pas vide
-							if(listPoint.get(0).getX() == p.poffset.getX() + p.pin.getWidth()/2 && listPoint.get(0).getY() == p.poffset.getX() + p.pin.getHeight()){
-								//on retire le point s'il y est déjà
-								listPoint.remove(0);
-							}
+					for(Pin p : listPin){
+						if(e.getX() >= p.poffset.getX() && e.getX() <= p.pin.getWidth() + p.poffset.getX() & e.getY() >= p.poffset.getY() && e.getY() <= p.pin.getHeight() + p.poffset.getY()){
+						//si on a cliqué sur une pin	
+							if(listPoint.isEmpty() == false){
+							//si la liste de points n'est pas vide
+								if(listPoint.get(0).getX() == p.poffset.getX() + p.pin.getWidth()/2 && listPoint.get(0).getY() == p.poffset.getX() + p.pin.getHeight()){
+									//on retire le point s'il y est déjà
+									listPoint.remove(0);
+								}
 							
-							else{	//sinon on l'ajoute : c'est le 2e
-								listPoint.add(p.poffset);
-								listPoint.get(1).setX(p.poffset.getX());
-								listPoint.get(1).setY(p.poffset.getY());
-								
-								//regarder ici s'il n'y a pas une ligne à supprimer
-								// c'est à dire si la ligne était déjà tracée
-								removeLine = false;
-								History.add(new Action(listPin,listLine));
-								for(StraightLine s : listLine){
+								else{	//sinon on l'ajoute : c'est le 2e
+									listPoint.add(p.poffset);
+									listPoint.get(1).setX(p.poffset.getX());
+									listPoint.get(1).setY(p.poffset.getY());
 									
-									if(s.matchWith(listPoint.get(0), listPoint.get(1))){
-	
-										listLine.remove(listLine.indexOf(s));
-										removeLine = true;
-										break;
-									}
-								}
-								//dans le cas contraire :
-								if(removeLine == false){
-	
+									//regarder ici s'il n'y a pas une ligne à supprimer
+									// c'est à dire si la ligne était déjà tracée
+									removeLine = false;
 									History.add(new Action(listPin,listLine));
-									listLine.add(new StraightLine(listPoint.get(0), listPoint.get(1)));
+									for(StraightLine s : listLine){
+									
+										if(s.matchWith(listPoint.get(0), listPoint.get(1))){
+	
+											listLine.remove(listLine.indexOf(s));
+											removeLine = true;
+											break;
+										}
+									}
+									//dans le cas contraire :
+									if(removeLine == false){
+	
+										History.add(new Action(listPin,listLine));
+										listLine.add(new StraightLine(listPoint.get(0), listPoint.get(1)));
+									}
+								
+									//on supprime les points :
+									listPoint.remove(1);
+									listPoint.remove(0);
+									
+									repaint();
 								}
-								
-								//on supprime les points :
-								listPoint.remove(1);
-								listPoint.remove(0);
-								
-								repaint();
+							}
+						
+							else{	//la liste est vide on ajoute le premier point
+								listPoint.add(p.poffset);
+								listPoint.get(0).setX(p.poffset.getX());
+								listPoint.get(0).setY(p.poffset.getY());
 							}
 						}
-						
-						else{	//la liste est vide on ajoute le premier point
-							listPoint.add(p.poffset);
-							listPoint.get(0).setX(p.poffset.getX());
-							listPoint.get(0).setY(p.poffset.getY());
+					}		
+				}
+			
+				if(e.getClickCount() == 2 && e.getButton() == BUTTON1){
+				
+					System.out.println("double clique gauche");
+				
+					//Si on est dans l'image :
+					if(e.getX() >= offsetX && e.getX() <= image.getWidth() + offsetX && e.getY() >= offsetY && e.getY() <= image.getHeight() + offsetY)
+					{
+			
+						History.add(new Action(listPin,listLine));
+						pinMap(e.getX(), e.getY());
+						//on marque ou non la carte avec des épingles
+					}
+				}
+									
+				else{
+					//Pour obtenir la position réelle du curseur en enlevant l'effet du zoom et de l'offset
+					int px =(int)((e.getX()-offsetX)/scale);
+					int py =(int)((e.getY()-offsetY)/scale);
+	
+ 					//attention ligne puis colonne, j'espère que c'est ça
+					if ( Latitude != null ){				
+						if (px >= 0  && py >= 0 && px < initWidth && py < initHeight){
+							//on accède aux bons champs
+							double Lt = Latitude[py][px];
+							double Ln = Longitude[py][px];
+							//on envoit les coordonnées dans le panneau de recherche						
+					 		search.setCoord(Lt,Ln);	
 						}
 					}
-				}
-			
-			}
-			
-			if(e.getClickCount() == 2 && e.getButton() == BUTTON1){
-				
-				System.out.println("double clique gauche");
-				
-				//Si on est dans l'image :
-				if(e.getX() >= offsetX && e.getX() <= image.getWidth() + offsetX
-				&& e.getY() >= offsetY && e.getY() <= image.getHeight() + offsetY)
-				{
-		
-					History.add(new Action(listPin,listLine));
-					pinMap(e.getX(), e.getY());
-					//on marque ou non la carte avec des épingles
-				}
-			}
-			
-			else if(e.getButton() == BUTTON3){
-                		
-                		//l'instance de popupmenu est crée dans le constructeur
-				popupmenu.show(this, e.getX(), e.getY());
-            			popupmenu.setVisible(true);			
-			}
-					
-			else{
-				//Pour obtenir la position réelle du curseur en enlevant l'effet du zoom et de l'offset
-				int px =(int)((e.getX()-offsetX)/scale);
-				int py =(int)((e.getY()-offsetY)/scale);
-	
- 				//attention ligne puis colonne, j'espère que c'est ça
-				if ( Latitude != null ){				
-					if (px >= 0  && py >= 0 && px < initWidth && py < initHeight){
-						//on accède aux bons champs
-						double Lt = Latitude[py][px];
-						double Ln = Longitude[py][px];
-						//on envoit les coordonnées dans le panneau de recherche						
-				 		search.setCoord(Lt,Ln);	
+					else
+					{
+						search.setCoord(py,px);
 					}
-				}
-				else
-				{
-					search.setCoord(py,px);
 				}
 			}
 		}
+		
+		if(e.getButton() == BUTTON3){
+                		
+                	//l'instance de popupmenu est crée dans le constructeur
+			popupmenu.show(this, e.getX(), e.getY());
+            		popupmenu.setVisible(true);			
 		}		
         }
         /////////////////////////// FIN DE LA ZONE MATLAB ///////////////////////        

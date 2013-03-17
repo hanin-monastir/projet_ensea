@@ -81,7 +81,9 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 		{	
 			//System.out.println(getX());	
 			System.out.println("Appui sur Ajouter/Supprimer Marqueur");
-			carte.pinMap(carte.endX, carte.endY);
+			if(carte.getMode() == "Panorama" ){
+				carte.pinMap(carte.endX, carte.endY);
+			}
 		}
 		
 		if(e.getActionCommand().equals("Centrer ici"))
