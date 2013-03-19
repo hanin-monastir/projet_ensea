@@ -295,7 +295,9 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
  
                 g2D.drawImage(image, offsetX, offsetY, this);
          	//test
+         	
          	g2D.setColor(Color.red);
+		g2D.setStroke(new BasicStroke(2));
 		
 		for(StraightLine s : listLine){
 			g2D.drawLine(s.p1.getX() + 16, s.p1.getY() + 32, s.p2.getX() + 16, s.p2.getY() + 32);
@@ -303,7 +305,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		}
 		g2D.setColor(Color.black);
 		String coord = "";	
-		//g2D.setStroke(new BasicStroke(30));	
+			
 		for(Pin p : listPin){
 			p.draw(g2D);
 			coord += p.getLatitude() + " N " + p.getLongitude() + " E";			
@@ -337,6 +339,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 				originCrop.setY(y);
 			}
 			
+			g2D.setStroke(new BasicStroke(1));
 			g2D.drawRect(originCrop.getX(), originCrop.getY(), Math.abs(x-startX), Math.abs(y-startY));
 		}
 
