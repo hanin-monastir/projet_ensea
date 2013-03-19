@@ -107,9 +107,8 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 		
 		if(e.getActionCommand().equals("Taille originale"))
 		{	
-			carte.initLocation(); //fonction invalide avec la présence de marqueurs (reprise de l'image initiale)
-			//placer les pins en originalOffsetX et originalOffsetY
-			//dans initLocation
+			carte.initLocation();
+			//modifie également la liste des pin
 		}
 		
 		if(e.getActionCommand().equals("Zoom In"))
@@ -125,13 +124,6 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 				carte.setScale(carte.endX, carte.endY);	
 			}
 		}
-		/*
-		if(e.getActionCommand().equals("Enregistrer la zone"))
-		{
-			//carte.CropMap();
-			carte.startDraw();
-		}
-		*/
 	}		
 }
 

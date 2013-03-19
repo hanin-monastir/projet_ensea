@@ -275,6 +275,8 @@ public class Fenetre extends JFrame implements ActionListener{
 					
 					if (fphoto.exists() && fpin.exists()){
 						//les deux dossiers nécéssaires existent tout est ok
+						panorama.offsetX = 0;
+						panorama.offsetY = 0;
 						panorama.loadImage(Photo);
 						panorama.readWork(pin);
 					}

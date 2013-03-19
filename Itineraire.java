@@ -8,6 +8,13 @@ import java.awt.image.BufferedImage;
 import java.util.* ;
 import java.lang.* ;
 
+/**
+ * <b>Itinéraire est la classe qui permet de calculer les différents points de passage de l'avion.</b>
+ * @see Configuration
+ * 
+ * @author benoit Franquet Corentin Floch
+ * @version 1.0
+ */
 public class Itineraire extends Thread{
 	/**
 	*	 Un tableau à 2 éléments de latitude qui sera utilisé pour calculer les caps et distance
@@ -131,6 +138,13 @@ public class Itineraire extends Thread{
 		chargement = loadConfig();
 	}
 	
+	/**
+	*	Redefinition de la fonction run de la clsse thread
+	*	Cette fonction permet de calculer les breakpoints, ainsi que d'obtenir la map par Google
+	*	tout ceci en arrière plan afin de ne pas paralyser l'interface graphique.
+	*
+	*	@see Fenetre
+	*/
 	public void run(){
 		if(chargement){ 
 			latitude[0] = lat[0];
@@ -389,8 +403,8 @@ public class Itineraire extends Thread{
 	}
 	/**
 	*	Tentative pour obtenir des markeurs formant un arc de cercle en bout de chemin
-	* @param sens
-	* Le sens de parcours de l'avion
+	* 	@param sens
+	* 		Le sens de parcours de l'avion
 	*/
 	public void getArcPoint(String sens){
 		//on travail sur les deux jeux de points
@@ -456,6 +470,7 @@ public class Itineraire extends Thread{
 	}
 	/**
 	*	Charger la configuration si elle existe
+	*	@return Un booléen montrant l'état du chargement
 	*/
 	public boolean loadConfig(){
 		boolean chargement=false;
@@ -513,6 +528,7 @@ public class Itineraire extends Thread{
 
 	/**
 	*	Permet de retourner la liste de breakpoints
+	*	@return La liste de breakpoints finale comportant les breakpoints situés en ligne droite
 	*/
 	public ArrayList<double[]> getListBreakPoint(){
 		return finale;
@@ -520,12 +536,15 @@ public class Itineraire extends Thread{
 
 	/**
 	*	Permet de retourner l'image Google Map
+	*	@return l'image de Google Map
 	*/		
 	public BufferedImage getImage(){
 		return map;
 	}
 	/**
 	*	Montrer les messages d'erreur
+	*	@param erreur
+	*		Le message d'erreur à afficher si il n'y a pas eu chargement
 	*/
 	public void ShowError(String erreur){
 		JOptionPane Erreur = new JOptionPane();
@@ -533,6 +552,7 @@ public class Itineraire extends Thread{
 	}
 	/**
 	*	Sauvegarder les données
+	*	@return une chaine montrant l'état du composant
 	*/
 	public String toString(){
 		//enregistement automatique des données dans le dossier spécifié

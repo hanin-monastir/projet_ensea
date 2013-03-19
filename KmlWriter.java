@@ -38,6 +38,7 @@ public class KmlWriter{
 	*	@param lon
 	*		le tableau de longitude des 4 coins du champs
 	*
+	*	@see Itineraire
 	*/
 	KmlWriter(ArrayList<double[]> f, String file,double[] lat,double[] lon){
 		try { 

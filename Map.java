@@ -197,9 +197,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		////////////////////////////
                 loadImage();   	
 		
-		initWidth = image.getWidth();
-		initHeight = image.getHeight();
-		
 		System.out.println("Width = "+initWidth+" Height = "+initHeight);
                
                 Graphics2D g2 = image.createGraphics();
@@ -263,8 +260,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		//imageInit = new BufferedImage();		
 		
 		imageInit = image;
-		initWidth = image.getWidth();
-		initHeight = image.getHeight();
+		
+		
 		
 		System.out.println("Width = "+initWidth+" Height = "+initHeight);
                 Graphics2D g2 = image.createGraphics();
@@ -361,7 +358,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         public void mouseClicked(MouseEvent e){
         	//la fonction est appelée lors d'un clic (appui + relache) (molette incluse)
 		if(mode == "Panorama"){
-			if(!drawArea){
+			if(drawArea == false){
 				if(e.getClickCount() == 1 && e.getButton() == BUTTON1){
 					System.out.println("sélection");
 				
@@ -458,7 +455,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                 		
                 	//l'instance de popupmenu est crée dans le constructeur
 			popupmenu.show(this, e.getX(), e.getY());
-            		popupmenu.setVisible(true);			
+            		popupmenu.setVisible(true);		
 		}		
         }
         /////////////////////////// FIN DE LA ZONE MATLAB ///////////////////////        
@@ -660,21 +657,25 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		//la fonction est appelée lorsque la molette est tournée
 		//vers le haut : e.getWheelRotation = -1
 		//vers le bas : e.getWheelRotation = +1
+		//Si on est dans l'image :
+		if(e.getX() >= offsetX && e.getX() <= image.getWidth() + offsetX && e.getY() >= offsetY && e.getY() <= image.getHeight() + offsetY)
+		{
 		
-		if(e.getWheelRotation() == -1 && scale < 10){
-			scale = scale + 0.1;
-		}
-		else if(e.getWheelRotation() == 1){
-			scale = scale - 0.1;
-			
-			if(scale < 0.1){
-				scale = 0.1;
+			if(e.getWheelRotation() == -1 && scale < 10){
+				scale = scale + 0.1;
 			}
-		}
+			else if(e.getWheelRotation() == 1){
+				scale = scale - 0.1;
+				
+				if(scale < 0.1){
+					scale = 0.1;
+				}
+			}
 		
-		System.out.println("Echelle : "+scale);
-		System.out.println("Zone à zoomer : ("+e.getX()+";"+e.getY()+")");
-		setScale(e.getX(), e.getY());
+			System.out.println("Echelle : "+scale);
+			System.out.println("Zone à zoomer : ("+e.getX()+";"+e.getY()+")");
+			setScale(e.getX(), e.getY());
+		}	
 	}
 	
         /**
@@ -713,8 +714,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			p.poffset.setX(p.poffset.getX() - (int)((a-p.poffset.getX())*factor - a + p.poffset.getX()));
 			p.poffset.setY(p.poffset.getY() - (int)((b-p.poffset.getY())*factor - b + p.poffset.getY()));
 		}
-     		
-     		
+     				
 		repaint();
     	}
     	
@@ -724,11 +724,16 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
          */
     	public void initLocation(){
     		
+    		image = imageInit;
+    		//mettre à jour les pins
+    		for(Pin p : listPin){
+			p.poffset.setX((int)((p.poffset.getX()-offsetX)/scale));
+			p.poffset.setY((int)((p.poffset.getY()-offsetY)/scale));		
+		}
+    		
     		offsetX = 0;
     		offsetY = 0;
     		
-    		image = imageInit;
-    		//mettre à jour les pins
     		repaint();
     	}
 
@@ -745,6 +750,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
             		File photo = new File(fileName);
         		image =ImageIO.read(photo);
         		imageInit = image;
+        		
+        		initWidth = image.getWidth();
+			initHeight = image.getHeight();
+			scale = 1;
         		//imageInit référence la meme instance que l'image chargée 
         	}	  
         	catch(MalformedURLException mue)  
@@ -773,6 +782,9 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			File photo = new File(fileName);
         		image =ImageIO.read(photo);
         		imageInit = image;
+        		initWidth = image.getWidth();
+			initHeight = image.getHeight();
+			scale = 1;
         		//imageInit référence la meme instance que l'image chargée 
         	}	  
         	catch(MalformedURLException mue)  
@@ -795,9 +807,13 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	public void loadImage(BufferedImage b){
 		image = b;
 		imageInit = image;
+		initWidth = image.getWidth();
+		initHeight = image.getHeight();
+		
 		scale = 1;
 		offsetX = 0;
 		offsetY = 0;
+		
 		repaint();
 	}
 	/**

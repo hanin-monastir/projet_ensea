@@ -24,7 +24,6 @@ import java.lang.*;
  * </p>
  * 
  * @see Itineraire
- * 
  * @author benoit Franquet Corentin Floch
  * @version 1.0
  */
@@ -64,11 +63,11 @@ public class Configuration extends JFrame implements ActionListener{
 	private String Dossier;
 	
         /**
-         * Constructeur Configuration.
-         * <p>
-         * A la construction d'un objet Configuration, on charge les paramètres précédement enregistrés
-         * </p>
-         * 
+         * 	Constructeur Configuration.
+         * 	<p>
+         * 	A la construction d'un objet Configuration, on charge les paramètres précédement enregistrés
+         * 	</p>
+         * 	@see Fenetre
          */
 	Configuration(){
 		super("Configuration de l'itinéraire");
@@ -293,10 +292,10 @@ public class Configuration extends JFrame implements ActionListener{
 	}
 
         /**
-        * Capte les clics sur le bouton sauvegarde
+        * 	Capte les clics sur le bouton sauvegarde
 	*
-        * @param e
-        *           Un évenement clic sur le bouton sauvegarde
+        *	@param e
+        *	           Un évenement clic sur le bouton sauvegarde
         * 
         */
 	public void actionPerformed(ActionEvent e){
@@ -313,7 +312,7 @@ public class Configuration extends JFrame implements ActionListener{
 	}
 	
         /**
-        * Permet de charger les paramètres précédement enregistrés
+        * 	Permet de charger les paramètres précédement enregistrés
         * 
         */
 	public void readParameters(){
@@ -365,11 +364,11 @@ public class Configuration extends JFrame implements ActionListener{
 	}
 	
         /**
-        * Permet d'écrire les paramètres de chaque champs dans un fichier texte
+        * 	Permet d'écrire les paramètres de chaque champs dans un fichier texte
         * 
-        * param s
-        *	la chaine de caractère.
-        *
+        * 	@param s
+        *		la chaine de caractère.
+        *	@return Une chaine montrant l'état du composant
         */
 	public String toString(String s){
 		try{		
