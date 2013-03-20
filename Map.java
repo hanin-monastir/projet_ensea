@@ -1267,18 +1267,20 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	public void cancelOne(){
 		//annule le dernier ajout/suppression de pin ou ligne
 		//on peut revenir autant de fois que l'on veut en arrière très facilement
-		if(History.get(History.size()-1).getListPin().size() != listPin.size()){
-			//ceci permet de restaurer le pin et les lignes qui lui étaient attachées
-			listPin = new ArrayList<Pin>(History.get(History.size()-1).getListPin());
-			listLine = new ArrayList<StraightLine>(History.get(History.size()-1).getListLine());
+		if(History.size() != 0){
+			if(History.get(History.size()-1).getListPin().size() != listPin.size()){
+				//ceci permet de restaurer le pin et les lignes qui lui étaient attachées
+				listPin = new ArrayList<Pin>(History.get(History.size()-1).getListPin());
+				listLine = new ArrayList<StraightLine>(History.get(History.size()-1).getListLine());
+			}
+			else if(History.get(History.size()-1).getListLine().size() != listLine.size()){
+				listPin = new ArrayList<Pin>(History.get(History.size()-1).getListPin());
+				listLine = new ArrayList<StraightLine>(History.get(History.size()-1).getListLine());	
+			}
+			//L'action a été supprimée on l'enlève de l'historique
+			History.remove(History.size()-1);
+			repaint();
 		}
-		else if(History.get(History.size()-1).getListLine().size() != listLine.size()){
-			listPin = new ArrayList<Pin>(History.get(History.size()-1).getListPin());
-			listLine = new ArrayList<StraightLine>(History.get(History.size()-1).getListLine());	
-		}
-		//L'action a été supprimée on l'enlève de l'historique
-		History.remove(History.size()-1);
-		repaint();
 	}	
 
         /**
@@ -1294,6 +1296,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		offsetY = 0;
 		listPin.clear();
 		listLine.clear();
+		History.clear();
 		repaint();
 	}
 	
