@@ -303,7 +303,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			g2D.drawLine(s.p1.getX() + 16, s.p1.getY() + 32, s.p2.getX() + 16, s.p2.getY() + 32);
 			
 		}
-		g2D.setColor(Color.black);
+		g2D.setColor(Color.white);
 		String coord = "";	
 			
 		for(Pin p : listPin){
@@ -313,6 +313,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			coord = "";	
 		}
 		
+		g2D.setColor(Color.black);
 		//les deux tests sont nécessaires
 		if(drawArea == true && areaDrawn == true){
 			
