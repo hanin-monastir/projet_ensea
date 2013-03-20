@@ -56,7 +56,7 @@ public class Configuration extends JFrame implements ActionListener{
 	private JSlider TZoom;
 	private JSlider TSpace;
 	private JSlider TSize;
-	
+	private JSlider TAngle;	
 	/**
 	*	le dossier contenant les breakpoints lors de l'enregistrement
 	*/	
@@ -74,7 +74,7 @@ public class Configuration extends JFrame implements ActionListener{
 		setResizable(false);
 		setLocation(200,30);
 		setIconImage(new ImageIcon(this.getClass().getResource("map_icone.png")).getImage());
-		setSize(400,500);
+		setSize(400,550);
 				
 		
 		//création des composants
@@ -96,6 +96,7 @@ public class Configuration extends JFrame implements ActionListener{
 		JLabel Point4 = new JLabel("Point 4");
 		JLabel Taille = new JLabel("Taille de l'image");
 		JLabel Espace = new JLabel("Espace inter-breakpoint");
+		JLabel Arc = new JLabel("Angle pour le demi tours");
 		/*
 			Les différents champs de texte
 		*/
@@ -110,10 +111,11 @@ public class Configuration extends JFrame implements ActionListener{
 		Adresse = new JTextField();
 
 		/*Les différents paramètres de tailles */
-		TZoom = new JSlider(JSlider.HORIZONTAL,1,19,1);
+		TZoom = new JSlider(JSlider.HORIZONTAL,1,18,1);
 		TSize = new JSlider(JSlider.HORIZONTAL,200,640,400);
 		TSpace = new JSlider(JSlider.HORIZONTAL,10,100,10);
-	
+		TAngle = new JSlider(JSlider.HORIZONTAL,10,50,10);
+
 			//affichage des labels	sur les sliders
 		TZoom.setMajorTickSpacing(5);
 		TZoom.setMinorTickSpacing(1);
@@ -129,6 +131,11 @@ public class Configuration extends JFrame implements ActionListener{
 		TSpace.setMinorTickSpacing(10);
 		TSpace.setPaintTicks(true);
 		TSpace.setPaintLabels(true);
+
+		TAngle.setMajorTickSpacing(5);
+		TAngle.setMinorTickSpacing(1);
+		TAngle.setPaintTicks(true);
+		TAngle.setPaintLabels(true);
 		/*
 			Lecture des paramètres précédement enregistrés
 		*/
@@ -259,31 +266,37 @@ public class Configuration extends JFrame implements ActionListener{
 		contraintes.gridx = 0;
     		contraintes.gridy = 6;
 		add(TSpace,contraintes);
+		//Angle
+		contraintes.gridx = 0;
+		contraintes.gridy = 7;
+		add(Arc,contraintes);
+		contraintes.gridy = 8;
+		add(TAngle,contraintes);
 		//Label intermédiare
 		contraintes.gridx = 0;
-    		contraintes.gridy = 7;		
+    		contraintes.gridy = 9;		
 
 		JLabel Litm = new JLabel("Limites de la zone à survoler");
 		Litm.setHorizontalAlignment(SwingConstants.CENTER);
 		add(Litm,contraintes);
 		//panel de points
 		contraintes.gridx = 0;
-		contraintes.gridy = 8;
+		contraintes.gridy = 10;
 		add(Ppoint,contraintes);
 		//Label intermédiaire
 		contraintes.gridx = 0;
-    		contraintes.gridy = 9;		
+    		contraintes.gridy = 11;		
 
 		JLabel Litd = new JLabel("Dossier d'enregistrement");
 		Litd.setHorizontalAlignment(SwingConstants.CENTER);
 		add(Litd,contraintes);
 		//panel du dossier
 		contraintes.gridx = 0;
-		contraintes.gridy = 10;
+		contraintes.gridy = 12;
 		add(Psave,contraintes);
 		//bouton d'enregistrement
 		contraintes.gridx = 0;
-		contraintes.gridy = 11;
+		contraintes.gridy = 13;
 		add(Sauvegarde,contraintes);
 		/*
 			on affiche la fenêtre
@@ -325,6 +338,7 @@ public class Configuration extends JFrame implements ActionListener{
 				String[] resultat = null;
 	
 				while ((ligne = bufferlu.readLine()) != null) {	
+					System.out.println("lg " + ligne.length());
 					resultat = ligne.split(" ");
 					switch(resultat[0]){				
 						case "Zoom" : 
@@ -353,7 +367,9 @@ public class Configuration extends JFrame implements ActionListener{
 								TP4lon.setText(resultat[4]);
 								break;
 						case "Dossier" : Adresse.setText(resultat[1]);
-								break;
+								 break;
+						case "Angle" : TAngle.setValue(Integer.parseInt(resultat[1]));
+							       break;
 						default : break;
 					}
 				}
@@ -393,6 +409,12 @@ public class Configuration extends JFrame implements ActionListener{
 			bw.write(ligne,0,ligne.length());
 			bw.newLine();
 			bw.flush();
+			
+			//Angle inter-breakpoint pendans le demi-tours
+			ligne = "Angle " + TAngle.getValue();
+			bw.write(ligne,0,ligne.length());
+			bw.newLine();
+			bw.flush();
 		
 			//Sauvegarde des points
 			ligne = "Point1 " + "Lat " + TP1lat.getText() + " Lon " + TP1lon.getText();
@@ -420,6 +442,7 @@ public class Configuration extends JFrame implements ActionListener{
 			bw.write(ligne,0,ligne.length());
 			bw.newLine();
 			bw.flush();
+			
 			bw.close();
 		} catch(Exception e){
 			e.printStackTrace();

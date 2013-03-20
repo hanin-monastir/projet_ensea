@@ -86,6 +86,10 @@ public class Itineraire extends Thread{
 	*/
 	private double espace;	
 	/**
+	*	Espace inter-breakpont angulaire lors des demi-tours
+	*/
+	int angle;
+	/**
 	*	nombre de breakpoint nécéssaire, calculé dans le constructeur
 	*/
 	private int nbkp;
@@ -313,13 +317,22 @@ public class Itineraire extends Thread{
 		url +=  "&maptype=" + vue + "&sensor=true";
 			
 		try {
-			//on récupère l'image envoyé par google
-	 		map = ImageIO.read(new URL(url));
-	 		//sauvegarde des données
-	 		toString();
-	 		//écriture de l'image
-	 		if(map != null){
-	 			carte.loadImage(map);
+			//on doit d'abord vérifier la taille de l'url pour éviter les problème
+			int tailleUrl = url.length();
+			if(tailleUrl <= 2048 ){
+				//on récupère l'image envoyé par google
+	 			map = ImageIO.read(new URL(url));
+	 			//sauvegarde des données
+	 			toString();
+	 			//écriture de l'image
+	 			if(map != null){
+	 				carte.loadImage(map);
+	 			}
+	 		}
+	 		else
+	 		{
+	 			String error = "Google ne peut pas retourner d'image, réduisez le nombre de breakpoints ou diminuez la taille de la zone survolée";
+	 			ShowError(error);
 	 		}
 		} catch(Exception e){
 			e.printStackTrace();
@@ -449,7 +462,7 @@ public class Itineraire extends Thread{
 			//on trouve des points sur le cercle
 			double[]  n = null;
 			if(sens == "positif"){
-				for (int i = -20; i > -180; i -= 20){
+				for (int i = - angle; i > -180; i -= angle){
 					n = new double[2];
 					n[0] = clat + (espace/(2*111000) * Math.cos(i * Math.PI / 180));
 					n[1] = clon + (espace/(2*76000) * Math.sin(i * Math.PI / 180));
@@ -458,7 +471,7 @@ public class Itineraire extends Thread{
 			}
 			else
 			{
-				for (int i = -160; i < 0 ; i += 20){
+				for (int i = -180 + angle; i < 0 ; i += angle){
 					n = new double[2];
 					n[0] = clat + (espace/(2*111000) * Math.cos(i * Math.PI / 180));
 					n[1] = clon - (espace/(2*76000) * Math.sin(i * Math.PI / 180));
@@ -512,6 +525,10 @@ public class Itineraire extends Thread{
 								lon[3] = Double.parseDouble(resultat[4]);
 								break;
 						case "Dossier" : folder =  resultat[1];
+								break;
+						
+						case "Angle" : angle = Integer.parseInt(resultat[1]);
+								break;								
 						default : break;
 					}
 				}
@@ -577,8 +594,9 @@ public class Itineraire extends Thread{
 				
 				//image
 				FileOutputStream fos = new FileOutputStream(carte);
-				ImageIO.write(map,"png",fos);
-				
+				if(map != null){
+					ImageIO.write(map,"png",fos);
+				}
 				//on enregistre en KML
 				KmlWriter kmlw = new KmlWriter(finale,folder + "/map.kml",lat,lon);
 			} catch(Exception e){

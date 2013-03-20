@@ -1,8 +1,9 @@
-Zoom 18
-Espace 40
-Taille 500
-Point1 Lat 45.8535567 Lon 6.615413
-Point2 Lat 45.853556 Lon 6.617413
-Point3 Lat 45.8545567 Lon 6.617413
-Point4 Lat 45.8545567 Lon 6.615413
+Zoom 17
+Espace 23
+Taille 628
+Angle 40
+Point1 Lat 49.039781 Lon 2.070279
+Point2 Lat 49.039781 Lon 2.073605
+Point3 Lat 49.038543 Lon 2.073605
+Point4 Lat 49.038543 Lon 2.070279
 Dossier /home/benoit/projet_ensea
