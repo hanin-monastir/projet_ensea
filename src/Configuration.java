@@ -73,7 +73,7 @@ public class Configuration extends JFrame implements ActionListener{
 		super("Configuration de l'itinéraire");
 		setResizable(false);
 		setLocation(200,30);
-		setIconImage(new ImageIcon(this.getClass().getResource("map_icone.png")).getImage());
+		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
 		setSize(400,500);
 				
 		
@@ -286,7 +286,7 @@ public class Configuration extends JFrame implements ActionListener{
 		if(e.getActionCommand().equals("Sauvegarder"))
 		{
 			System.out.println("Vous avez appuyé sur sauvegarder");
-			toString("Ressources/Conf/Itineraire.conf");
+			toString("resources/Conf/Itineraire.conf");
 			setVisible(false);			
 		}
 		else if(e.getActionCommand().equals("Choisir")){
@@ -300,7 +300,7 @@ public class Configuration extends JFrame implements ActionListener{
         */
 	public void readParameters(){
 		try{		
-			File monFichier = new File("Ressources/Conf/Itineraire.conf");
+			File monFichier = new File("resources/Conf/Itineraire.conf");
 			if (monFichier.exists()){			
 				FileReader fichierlu = new FileReader(monFichier);
 				BufferedReader bufferlu = new BufferedReader(fichierlu);

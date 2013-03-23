@@ -25,6 +25,8 @@ DIR=${0%/*}
 cd $DIR
 
 case $1 in
+	#Git management
+	
 	"pull" ) git pull https://github.com/benoitfragit/projet_ensea master ;;
 	"add" ) git add $2;;
 	"rm" ) git rm $2;;
@@ -33,6 +35,7 @@ case $1 in
 	"commit" ) git commit -a;;
 	"status" ) git status;;
 
+	#Commande compilation execution
 	"-doc" ) #permet de générer la doc
 		 javadoc -d $DIR/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar $DIR/src/*.java;;
 	
@@ -40,6 +43,7 @@ case $1 in
 
 	"" ) java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR/resources:$DIR:$DIR/classes Test;;
 	
+	#Un peu d'aide
 	"-help" | "-h" ) help;;
 
 	*) help;; 
