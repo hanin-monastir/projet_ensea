@@ -250,7 +250,6 @@ public class Itineraire extends Thread{
 		{
 			ShowError("Configurer l'itinéraire avant de le construire");	
 		}
-		getTotalDistance();
 	}
 
 	/**
@@ -295,6 +294,7 @@ public class Itineraire extends Thread{
 	 			if(map != null){
 	 				carte.loadImage(map);
 	 			}
+	 			getTotalDistance();
 	 		}
 	 		else
 	 		{
@@ -585,7 +585,7 @@ public class Itineraire extends Thread{
 	*/
 	public String toString(){
 		//enregistement automatique des données dans le dossier spécifié
-		if(folder != ""){
+		if(folder != "" && folder != null){
 			//enregistrement des breakpoints et de l'image
 			String listeBkp = folder + "/breakpoints.txt";
 			String carte =  folder + "/mapview.png";
