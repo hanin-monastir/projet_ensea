@@ -74,7 +74,7 @@ public class Configuration extends JFrame implements ActionListener{
 		setResizable(false);
 		setLocation(200,30);
 		setIconImage(new ImageIcon(this.getClass().getResource("map_icone.png")).getImage());
-		setSize(400,550);
+		setSize(400,500);
 				
 		
 		//création des composants
@@ -237,66 +237,36 @@ public class Configuration extends JFrame implements ActionListener{
 		contraintes.fill = GridBagConstraints.BOTH;
 		contraintes.insets = new Insets(3, 3, 3, 3);
 		contraintes.weightx = 1;		
+		contraintes.gridx = 0;		
 		
-		//Label intermédiaire
-		contraintes.gridx = 0;
-    		contraintes.gridy = 0;		
-
-		JLabel Lit = new JLabel("Paramètres de construction de l'itinéraire");
-		Lit.setHorizontalAlignment(SwingConstants.CENTER);
-		add(Lit,contraintes);
 		//taille
-		contraintes.gridx = 0;
-    		contraintes.gridy = 1;	
+    		contraintes.gridy = 0;	
 		add(Taille,contraintes);
-		contraintes.gridx = 0;
-    		contraintes.gridy = 2;
+    		contraintes.gridy = 1;
 		add(TSize,contraintes);
 		//zoom
-		contraintes.gridx = 0;
-    		contraintes.gridy = 3;
+    		contraintes.gridy = 2;
 		add(Zoom,contraintes);
-		contraintes.gridx = 0;
-    		contraintes.gridy = 4;
+    		contraintes.gridy = 3;
 		add(TZoom,contraintes);
 		//espacement
-		contraintes.gridx = 0;
-    		contraintes.gridy = 5;
+    		contraintes.gridy = 4;
 		add(Espace,contraintes);
-		contraintes.gridx = 0;
-    		contraintes.gridy = 6;
+		contraintes.gridy = 5;
 		add(TSpace,contraintes);
 		//Angle
-		contraintes.gridx = 0;
-		contraintes.gridy = 7;
+		contraintes.gridy = 6;
 		add(Arc,contraintes);
-		contraintes.gridy = 8;
+		contraintes.gridy = 7;
 		add(TAngle,contraintes);
-		//Label intermédiare
-		contraintes.gridx = 0;
-    		contraintes.gridy = 9;		
-
-		JLabel Litm = new JLabel("Limites de la zone à survoler");
-		Litm.setHorizontalAlignment(SwingConstants.CENTER);
-		add(Litm,contraintes);
 		//panel de points
-		contraintes.gridx = 0;
-		contraintes.gridy = 10;
+		contraintes.gridy = 8;
 		add(Ppoint,contraintes);
-		//Label intermédiaire
-		contraintes.gridx = 0;
-    		contraintes.gridy = 11;		
-
-		JLabel Litd = new JLabel("Dossier d'enregistrement");
-		Litd.setHorizontalAlignment(SwingConstants.CENTER);
-		add(Litd,contraintes);
 		//panel du dossier
-		contraintes.gridx = 0;
-		contraintes.gridy = 12;
+		contraintes.gridy = 9;
 		add(Psave,contraintes);
 		//bouton d'enregistrement
-		contraintes.gridx = 0;
-		contraintes.gridy = 13;
+		contraintes.gridy = 10;
 		add(Sauvegarde,contraintes);
 		/*
 			on affiche la fenêtre

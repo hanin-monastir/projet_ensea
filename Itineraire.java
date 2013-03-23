@@ -117,7 +117,13 @@ public class Itineraire extends Thread{
 	*	La map  ou afficher l'image
 	*/
 	private Map carte;
-
+	
+	/**
+	*	aire de la zone
+	*
+	*/
+	private int aireZone;
+	
         /**
          * Constructeur Itineraire
          * <p>
@@ -141,6 +147,7 @@ public class Itineraire extends Thread{
 		lat = new double[4];
 		lon = new double[4];
 		chargement = loadConfig();
+		correctMistake();
 	}
 	
 	/**
@@ -152,100 +159,53 @@ public class Itineraire extends Thread{
 	*/
 	public void run(){
 		if(chargement){ 
-			latitude[0] = lat[0];
-			longitude[0] = lon[0];
-			latitude[1] = lat[3];
-			longitude[1] = lon[3];
-			
-			//on créé la liste de breakpoint	
-			breakpoint = new ArrayList<double[]>();
-		
 			double[] bkp = new double[2];
-			bkp[0] = latitude[0];
-			bkp[1] = longitude[1];		
-			breakpoint.add(bkp);
-
-			//on calcul la distance entre les deux points
-			calculDistance();
-	
-			//on calcul le nombre de breakpoint nécéssaire en fonction de l'espace choisit
-			nbkp = (int)(distance/espace);
-		
-			//on obtient la liste de breakpoint
-			getBreakPoint();
-
-			//on obtient les points de la première base
-			base1 = new ArrayList<double[]>(breakpoint);		
-			breakpoint.clear();
-		
-			//on fait de meme avec la base2	
-			//construction de la base 2
-			latitude[0] = lat[1];
-			longitude[0] = lon[1];
-			latitude[1] = lat[2];
-			longitude[1] = lon[2];
-		
-			//on créé la liste de breakpoint	
-			breakpoint = new ArrayList<double[]>();
-			bkp = new double[2];
-			bkp[0] = latitude[0];
-			bkp[1] = longitude[1];		
-			breakpoint.add(bkp);
-
-			//on calcul la distance entre les deux points
-			calculDistance();
-	
-			//on calcul le nombre de breakpoint nécéssaire en fonction de l'espace choisit
-			nbkp = (int)(distance/espace);
-		
-			//on calcul la liste de breakpoint pour la deuxième base		
-			getBreakPoint();
-	
-			//on obtient les points de la deuxième base
-			base2 = new ArrayList<double[]>(breakpoint);		
-			breakpoint.clear();
-	
+			double[] p1 = new double[2];
+			double[] p2 = new double[2];
 			finale = new ArrayList<double[]>();
 			chemin = new ArrayList<double[]>();
 			
+			//obtention de la première base
+			p1[0] = lat[0]; p1[1] = lon[0] ;
+			p2[0] = lat[3]; p2[1] = lon[3] ;
+			
+			getBasePoint(p1,p2);
+			base1 = new ArrayList<double[]>(breakpoint);		
+			breakpoint.clear();
+			
+			//utile our le calcul de l'aire
+			aireZone = (int)distance;
+		
+			//on obtient les points de la deuxième base
+			p1[0] = lat[1] ; p1[1] = lon[1] ;
+			p2[0] = lat[2]; p2[1] = lon[2] ;
+			getBasePoint(p1,p2);
+			base2 = new ArrayList<double[]>(breakpoint);		
+			breakpoint.clear();
+				
 			//on a maintenant les deux bases ie les breakpionts de deux cotés opposés
 			//pour chaque couple de breakpoint de la base on applique la méthode
 			if (base1.size() == base2.size() && !base1.isEmpty()){
+				//utile pour obtenir l'aire de la zone survolée
+				int sizeB = 1;
 				//les deux bases ont bien la même taille
 				for (int i = 0;i<base1.size();i++){
-					latitude[0] = base1.get(i)[0];
-					longitude[0] = base1.get(i)[1];
-					latitude[1] = base2.get(i)[0];
-					longitude[1] = base2.get(i)[1];
-			
-					//on créé la liste de breakpoint	
-					breakpoint = new ArrayList<double[]>();
-					bkp = new double[2];
-				
-						
-					//on ajoute le premier
-					bkp[0] = latitude[0];
-					bkp[1] = longitude[0];	
-					
-					breakpoint.add(bkp);
-					//on calcul la distance entre les deux points
-					calculDistance();
-					
-					//on calcul le nombre de breakpoint nécéssaire en fonction de l'espace choisit
-					nbkp = (int)(distance/espace);
-					
-					getBreakPoint();
-				
+					//on obtient les breakpoints entre deux éléments d'une bse
+					getBasePoint(base1.get(i),base2.get(i));
+					 		
 					arc = new ArrayList<double[]>();
 					//on ajoute les pins suivant le sens de parcourt
+
 					if(sens == "positif" ){
 						//on calcul les points de passage de l'arc
 						getArcPoint(sens);
+
 						//on ajoute les points de passage de l'arc au chemin
-						for(int j = arc.size()-1 ; j>=0;j--){
+						for(int j = 0 ; j< arc.size();j++){
 							chemin.add(arc.get(j));
 							finale.add(arc.get(j));
 						}
+
 						//on ajoute le point de la ligne droite
 						chemin.add(breakpoint.get(0));
 						finale.add(breakpoint.get(0));
@@ -261,10 +221,12 @@ public class Itineraire extends Thread{
 					else
 					{	
 						getArcPoint(sens);	
-						for(int j = 0 ; j< arc.size();j++){
+			
+						for(int j = arc.size()-1 ; j>=0 ;j--){
 							chemin.add(arc.get(j));
 							finale.add(arc.get(j));
-						}
+						}				
+						
 						chemin.add(breakpoint.get(breakpoint.size()-1));
 						finale.add(breakpoint.get(breakpoint.size()-1));
 						for(int k = breakpoint.size()-2;k>=1;k--){
@@ -274,9 +236,12 @@ public class Itineraire extends Thread{
 						chemin.add(breakpoint.get(0));
 						sens = "positif";
 					}
+					sizeB = breakpoint.size() - 1;
 					//on libère le breakpoint
 					breakpoint.clear();
 				}
+				//Aire de la zon
+				aireZone *=  distance*sizeB;
 			}	
 			//on construit l'adresse à envoyer à google mais google peut ne pas traiter l'adresse résultante
 			computeUrl();
@@ -285,7 +250,9 @@ public class Itineraire extends Thread{
 		{
 			ShowError("Configurer l'itinéraire avant de le construire");	
 		}
+		getTotalDistance();
 	}
+
 	/**
 	*	Construire l'adresse web pour obtenir via google map la zone
 	*/
@@ -338,6 +305,7 @@ public class Itineraire extends Thread{
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	*	Calcul la distance entre 2 points grâce à leurs coordonnées
 	*/
@@ -361,13 +329,13 @@ public class Itineraire extends Thread{
 		double lat3 = Math.atan2(Math.sin(lat1)+Math.sin(lat2), Math.sqrt((Math.cos(lat1)+Bx)*(Math.cos(lat1)+Bx) + By*By )); 
 		double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
 	}
+
 	/**
 	*	Calcul le cap pour se rendre d'un point a à un point b
 	*/
 	public double getBearing(){
 		double lat1 = Math.PI/180*latitude[0];
 		double lon1 = Math.PI/180*longitude[0];
-
 		double lat2 = Math.PI/180*latitude[1];
 		double lon2 = Math.PI/180*longitude[1];
 
@@ -377,7 +345,39 @@ public class Itineraire extends Thread{
 		double x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
 		double bearing = Math.atan2(y, x);
 		return bearing;
-	}	
+	}
+
+	/**
+	*	Fonction pour obtenir les breakpoints entre deux points
+	*	@param p1
+	*		Le point numero 1
+	*	@param p2
+	*		Le point numero 2
+	*
+	*/	
+	public void getBasePoint(double[] p1,double[] p2){
+		latitude[0] = p1[0];
+		longitude[0] = p1[1];
+		latitude[1] = p2[0];
+		longitude[1] = p2[1];
+			
+		//on créé la liste de breakpoint	
+		breakpoint = new ArrayList<double[]>();
+		
+		double[] bkp = new double[2];
+	
+		bkp[0] = latitude[0];
+		bkp[1] = longitude[0];		
+		breakpoint.add(bkp);
+		//on calcul la distance entre les deux points
+		calculDistance();
+		//on calcul le nombre de breakpoint nécéssaire en fonction de l'espace choisit
+		nbkp = (int)(distance/espace);
+		
+		//on obtient la liste de breakpoint
+		getBreakPoint();
+	}
+
 	/**
 	*	Calcul la position des breakpoints
 	*/
@@ -415,6 +415,7 @@ public class Itineraire extends Thread{
 		bkp[1] = longitude[1]; 	
 		breakpoint.add(bkp);
 	}
+	
 	/**
 	*	Tentative pour obtenir des markeurs formant un arc de cercle en bout de chemin
 	* 	@param sens
@@ -441,8 +442,15 @@ public class Itineraire extends Thread{
 				latitude[1] = bk[0];
 				longitude[1] = bk[1];
 				brng = getBearing();
-			}			
-			
+			}
+			/*
+				Orientation est l'angle (l'azimut) entre la droite formée par 
+				une droite de référence ie le Nord et deux points
+				Son calcul permet de déterminer l'angle à rajouter pour pouvoir tracer des
+				ititnéraires pas uniquement horizontaux
+			*/			
+			int orientation = (int)(180/Math.PI*brng) % 180;
+			System.out.println("Cap "+ orientation);	
 			calculDistance();
 			double d = distance/2;
 			double R = 6371*1000;
@@ -458,30 +466,33 @@ public class Itineraire extends Thread{
 			//on obtient le centre du cercle
 			clat *= 180/Math.PI;
 			clon *= 180/Math.PI;	
-
+			
+					
 			//on trouve des points sur le cercle
 			double[]  n = null;
 			if(sens == "positif"){
-				for (int i = - angle; i > -180; i -= angle){
+				for (int i = orientation - angle ; i > orientation -180 ; i -= angle){
 					n = new double[2];
 					n[0] = clat + (espace/(2*111000) * Math.cos(i * Math.PI / 180));
 					n[1] = clon + (espace/(2*76000) * Math.sin(i * Math.PI / 180));
 					arc.add(n);
-				}				
+				}	
+				Collections.reverse(arc);			
 			}
 			else
 			{
-				for (int i = -180 + angle; i < 0 ; i += angle){
+				for (int i = -orientation -180 + angle ; i < -orientation ; i += angle){
 					n = new double[2];
 					n[0] = clat + (espace/(2*111000) * Math.cos(i * Math.PI / 180));
 					n[1] = clon - (espace/(2*76000) * Math.sin(i * Math.PI / 180));
 					arc.add(n);
 				}
+				Collections.reverse(arc);
 			}
-								
 		}
-
 	}
+	
+
 	/**
 	*	Charger la configuration si elle existe
 	*	@return Un booléen montrant l'état du chargement
@@ -601,10 +612,73 @@ public class Itineraire extends Thread{
 				KmlWriter kmlw = new KmlWriter(finale,folder + "/map.kml",lat,lon);
 			} catch(Exception e){
 				e.printStackTrace();
-			}
+			}	
 		}
 		return "fini";		
 	}
 	
-	
+	/**
+	*	Fonction pour corriger les erreurs de saisie de l'utilisateur
+	*	lors de la rentrée des coordonnnée des 4 points.
+	*
+	*/
+	public void correctMistake(){
+		if(lat[0] > lat[3]){
+			//Les cotés sont inversé, on échange 0/3 et 1/2	
+			System.out.println("point0 et point3");
+			switchTab(0,3);
+			switchTab(1,2);					
+		}	
+		else if(lon[0] > lon[1]){
+			//on échange les points 0/1 2/3
+			System.out.println("point0 et point1");
+			switchTab(0,1);
+			switchTab(2,3);						
+		}		
+	}
+
+	/**
+	*	Permet d'inverser deux élements d'un tableau
+	*	@param i
+	*		L'index du premier élément
+	*	@param j
+	*		L'index du second élément
+	*/	
+	public void switchTab(int i, int j){
+		double tempo = lon[i];
+		lon[i] = lon[j];
+		lon[j] = tempo;		
+		tempo = lat[i];
+		lat[i] = lat[j];
+		lat[j] = tempo;
+	}
+	/**
+	*	Afficher les infos
+	*
+	*/
+	public void ShowInfo(String message){
+		JOptionPane info = new JOptionPane();
+		info.showMessageDialog(null,message, "Information", JOptionPane.INFORMATION_MESSAGE);
+	}
+	/**
+	*	Fonction pour calculer la distance parcourue par l'avion
+	*	
+	*/
+	public void getTotalDistance(){
+		int Dtotale = 0;
+		for(int j = 0;j<finale.size()-1;j++){
+			latitude[0] = finale.get(j)[0];
+			longitude[0] = finale.get(j)[1];
+			
+			latitude[1] = finale.get(j+1)[0];
+			longitude[1] = finale.get(j+1)[1];
+			
+			calculDistance();
+			Dtotale += distance;
+		}
+		int nbligne = finale.size() - chemin.size()+2;
+		float airePhoto = aireZone/nbligne;
+		String info = "Aire de la zone m²: " + aireZone +"\nDistance parcourue(m): "+ Dtotale + "\nNombre de breakpoints total: " + finale.size() + "\nbreakpoints sensibles (arc): " + (chemin.size() - 2) + "\n\nchamps minimum par photo m²: " + airePhoto ;		
+		ShowInfo(info);
+	}		
 }
