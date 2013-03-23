@@ -240,7 +240,7 @@ public class Itineraire extends Thread{
 					//on libère le breakpoint
 					breakpoint.clear();
 				}
-				//Aire de la zon
+				//Aire de la zone
 				aireZone *=  distance*sizeB;
 			}	
 			//on construit l'adresse à envoyer à google mais google peut ne pas traiter l'adresse résultante
@@ -256,7 +256,6 @@ public class Itineraire extends Thread{
 	*	Construire l'adresse web pour obtenir via google map la zone
 	*/
 	public void computeUrl(){
-		//chemin = new ArrayList<double[]>(finale);
 		url = "http://maps.googleapis.com/maps/api/staticmap?path=color:0x0000ff|weight:2|";		
 		
 		//on continue la construction de l'adresse
@@ -310,6 +309,7 @@ public class Itineraire extends Thread{
 	*	Calcul la distance entre 2 points grâce à leurs coordonnées
 	*/
 	public void calculDistance(){
+		//retourne la distance en mètre entre deux points
 		distance = 1000*Math.acos(Math.sin(Math.PI/180*latitude[0])*Math.sin(Math.PI/180*latitude[1])+Math.cos(Math.PI/180*latitude[0])*Math.cos(Math.PI/180*latitude[1])*Math.cos(Math.PI/180*longitude[1]-Math.PI/180*longitude[0]))*6371;
 	}
 
@@ -331,7 +331,7 @@ public class Itineraire extends Thread{
 	}
 
 	/**
-	*	Calcul le cap pour se rendre d'un point a à un point b
+	*	Calcul le cap par rapport au Nord pour se rendre d'un point a à un point b
 	*/
 	public double getBearing(){
 		double lat1 = Math.PI/180*latitude[0];

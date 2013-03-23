@@ -343,16 +343,14 @@ public class Fenetre extends JFrame implements ActionListener{
 				try{
 					File fphoto = new File (Photo);
 					File fgps = new File(Gps);
-				
+					progressebarre.setVisible(true);
 					if (fphoto.exists() && fgps.exists()){
 						//les deux dossiers nécéssaires existent tout est ok
 						folderphoto[0] = Photo;
 						foldergps[0] = Gps;
 						extension[0] = "*.png";
 
-						String mosaique = Photo + "/mosaique.png";
-						progressebarre.setVisible(true);			
-						repaint();
+						String mosaique = Photo + "/mosaique.png";		
 						try{
 							System.out.println("Début");
 							mypano = new Panorama();							

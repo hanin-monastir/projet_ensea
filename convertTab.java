@@ -55,7 +55,7 @@ public class convertTab implements Runnable{
 	/**
 	*	Fonction qui permet de retourner le tableau convertit
 	*	@return Le tableau convertit
-	* 	@sse Fenetre
+	* 	@see Fenetre
 	*/	
 	public double[][] getTableau(){
 		return Tableau;
