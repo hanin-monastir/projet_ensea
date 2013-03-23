@@ -1321,6 +1321,11 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	*		Le mode de l'application 
 	*/
 	public void setMode(String m){
+		String oldmode = mode;
+		if (oldmode == "Panorama" && m == "Visualisation"){
+			Latitude = null;
+			Longitude = null;
+		}
 		mode = m;
 	}
 	/**
