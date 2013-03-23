@@ -86,7 +86,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//choisit l'icone de la fenetre
-		setIconImage(new ImageIcon(this.getClass().getResource("Ressources/Images/map_icone.png")).getImage());
+		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
 		setLocation(0, 0);
 		
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();

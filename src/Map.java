@@ -747,11 +747,12 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
          */
 	 public void loadImage()  
     	 {  
-        	String fileName = "Ressources/Images/ensea.jpg";
+        	String fileName = "resources/Images/ensea.jpg";
   		//modifier le bloc try catch : on ne se sert pas d'URL
        		try  
         	{  
-            		File photo = new File(fileName);
+        		URL defaultImage = Map.class.getResource(fileName);
+            		File photo = new File(defaultImage.toURI());
         		image =ImageIO.read(photo);
         		imageInit = image;
         		
@@ -767,7 +768,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         	catch(IOException ioe)
         	{  
             		System.out.println("read trouble: " + ioe.getMessage());
-        	}  
+        	} 
+        	catch(Exception ae){
+        		ae.printStackTrace();
+        	} 
     	} 
 
 

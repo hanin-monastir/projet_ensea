@@ -34,11 +34,11 @@ case $1 in
 	"status" ) git status;;
 
 	"-doc" ) #permet de générer la doc
-		 javadoc -d $DIR/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/Ressources/Jar/Panorama.jar:$DIR *.java;;
+		 javadoc -d $DIR/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar $DIR/src/*.java;;
 	
-	"-compile" ) javac -d $PWD -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/Ressources/Jar/Panorama.jar $PWD/src/*.java;; 
+	"-compile" ) javac -d $DIR/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR $DIR/src/*.java;; 
 
-	"" ) java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/Ressources/Jar/Panorama.jar:$PWD Test;;
+	"" ) java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR/resources:$DIR:$DIR/classes Test;;
 	
 	"-help" | "-h" ) help;;
 

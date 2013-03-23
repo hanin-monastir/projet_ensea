@@ -7,7 +7,8 @@ import java.awt.image.BufferedImage;
 
 import java.io.*;
 import javax.imageio.ImageIO;
-
+import java.net.*;
+import javax.swing.*;
 import java.lang.*;
 
 /**
@@ -84,12 +85,14 @@ public class Pin extends JPanel{
 		poffset_old = new Point();
 		
 		try{
-			File epingle = new File("Ressources/Images/blu-circle32.png");
+			String fileName = "resources/Images/blu-circle32.png";
+			URL defaultPin = Pin.class.getResource(fileName);
+			File epingle = new File(defaultPin.toURI());
         		pin =ImageIO.read(epingle);
         	}
         	
         	
-        	catch(IOException ioe)  
+        	catch(Exception ioe)  
         	{  
             		System.out.println("read trouble: " + ioe.getMessage());  
         	}  
