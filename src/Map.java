@@ -747,7 +747,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
          */
 	 public void loadImage()  
     	 {  
-        	String fileName = "ensea.jpg";
+        	String fileName = "Ressources/Images/ensea.jpg";
   		//modifier le bloc try catch : on ne se sert pas d'URL
        		try  
         	{  

@@ -84,7 +84,7 @@ public class Pin extends JPanel{
 		poffset_old = new Point();
 		
 		try{
-			File epingle = new File("blu-circle32.png");
+			File epingle = new File("Ressources/Images/blu-circle32.png");
         		pin =ImageIO.read(epingle);
         	}
         	

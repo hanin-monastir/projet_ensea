@@ -286,7 +286,7 @@ public class Configuration extends JFrame implements ActionListener{
 		if(e.getActionCommand().equals("Sauvegarder"))
 		{
 			System.out.println("Vous avez appuyé sur sauvegarder");
-			toString("itineraire.txt");
+			toString("Ressources/Conf/Itineraire.conf");
 			setVisible(false);			
 		}
 		else if(e.getActionCommand().equals("Choisir")){
@@ -300,7 +300,7 @@ public class Configuration extends JFrame implements ActionListener{
         */
 	public void readParameters(){
 		try{		
-			File monFichier = new File("itineraire.txt");
+			File monFichier = new File("Ressources/Conf/Itineraire.conf");
 			if (monFichier.exists()){			
 				FileReader fichierlu = new FileReader(monFichier);
 				BufferedReader bufferlu = new BufferedReader(fichierlu);

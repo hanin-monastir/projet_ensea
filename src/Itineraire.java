@@ -500,7 +500,7 @@ public class Itineraire extends Thread{
 	public boolean loadConfig(){
 		boolean chargement=false;
 		try{		
-			File monFichier = new File("itineraire.txt");
+			File monFichier = new File("Ressources/Conf/Itineraire.conf");
 			if (monFichier.exists()){			
 				FileReader fichierlu = new FileReader(monFichier);
 				BufferedReader bufferlu = new BufferedReader(fichierlu);
