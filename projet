@@ -1,52 +1,79 @@
 #!/bin/bash
-
-
-help(){
-echo -e "
-	-compile : permet de compiler le projet
-	-doc : permet de générer la documentation
-	-help : permet d'afficher ce message
-	pull : permet de récupérer les données du serveur git
-	add : permet d'ajouter un fichier à la liste des fichiers à suivre sur git
-	rm : permet de supprimer un fichier localement et sur git
-	push : permet d'ajouter les modifications à la branche master de git
-	testing : permet d'ajouter les modifications à la branche testing de git
-	commit : permet d'effecteur un commit
-	status : permet de connaitre le status de votre projet git
-	Aucun argument pour executer"
-
-}
-
-
 export LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/runtime/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/bin/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/os/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386/native_threads:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386/server:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386"
 export XAPPLRESDIR="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/X11/app-defaults"
 
 DIR=${0%/*}
 cd $DIR
 
+create-launcher(){
+echo -e "#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[fr]=$PWD/resources/Images/map_icone.png
+Name[fr]=EnseaMap
+Exec=sh -c $PWD/projet
+Name=EnseaMap
+Icon=$PWD/resources/Images/map_icone.png
+" > EnseaMap.desktop
+chmod +x EnseaMap.desktop
+}
+
+help(){
+echo -e "
+	-compile : permet de compiler le projet
+	-doc     : permet de générer la documentation
+	-launcher: permet de créer un lanceur
+	-help    : permet d'afficher ce message
+	pull     : permet de récupérer les données du serveur git
+	add      : permet d'ajouter un fichier à la liste des fichiers à suivre sur git
+	rm       : permet de supprimer un fichier localement et sur git
+	push     : permet d'ajouter les modifications à la branche master de git
+	testing  : permet d'ajouter les modifications à la branche testing de git
+	commit   : permet d'effecteur un commit
+	status   : permet de connaitre le status de votre projet git
+	
+	Aucun argument pour executer"
+
+}
+
+Tree(){
+	FILES=$(ls -ABCRhx *) 
+	echo "$FILES" > $DIR/resources/Tree/tree
+}
+
+
 case $1 in
 	#Git management
 	
-	"pull" ) git pull https://github.com/benoitfragit/projet_ensea master ;;
-	"add" ) git add $2;;
-	"rm" ) git rm $2;;
-	"push" ) git push https://github.com/benoitfragit/projet_ensea master ;;
-	"testing" ) git push https://github.com/benoitfragit/projet_ensea testing ;;
-	"commit" ) git commit -a;;
-	"status" ) git status;;
+	"pull"     ) git pull https://github.com/benoitfragit/projet_ensea master ;;
+	"add"      ) git add $2;;
+	"rm"       ) git rm $2;;
+	"push"     ) git push https://github.com/benoitfragit/projet_ensea master ;;
+	"testing"  ) git push https://github.com/benoitfragit/projet_ensea testing ;;
+	"commit"   ) git commit -a;;
+	"status"   ) git status;;
 
 	#Commande compilation execution
-	"-doc" ) #permet de générer la doc
-		 javadoc -d $DIR/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar $DIR/src/*.java;;
+	"-doc"     ) #permet de générer la doc
+		 javadoc -d $DIR/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar $DIR/src/*.java
+		 Tree ;;
 	
-	"-compile" ) javac -d $DIR/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR $DIR/src/*.java;; 
+	"-compile" ) 
+		 javac -d $DIR/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR $DIR/src/*.java
+		 Tree ;; 
 
-	"" ) java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR/resources:$DIR:$DIR/classes Test;;
+	""         )
+		 java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR/resources:$DIR:$DIR/classes Test;
+		 Tree ;;
 	
 	#Un peu d'aide
-	"-help" | "-h" ) help;;
+	"-help"    ) help;;
 
-	*) help;; 
+	"-launcher" ) create-launcher;;
+
+	*          ) help;; 
 esac 
 
 

@@ -4,3 +4,4 @@
 *.kml
 .gitignore
 classes
+*.desktop

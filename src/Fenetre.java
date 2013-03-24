@@ -101,26 +101,32 @@ public class Fenetre extends JFrame implements ActionListener{
 		JMenu menu1 = new JMenu("Fichier");
 
 		JMenuItem ouvrir = new JMenuItem("Ouvrir");
+		ouvrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		ouvrir.addActionListener(this);
 		menu1.add(ouvrir);
 		
 		JMenuItem creer = new JMenuItem("Créer");
+		creer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));	
 		creer.addActionListener(this);
 		menu1.add(creer);	
 	
 		JMenuItem charger = new JMenuItem("Charger");
+		charger.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));	
 		charger.addActionListener(this);
 		menu1.add(charger);
 		
 		JMenuItem sauver = new JMenuItem("Sauvegarder l'image");
+		sauver.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));	
 		sauver.addActionListener(this);
 		menu1.add(sauver);
 
 		JMenuItem sauverpin = new JMenuItem("Sauvegarder les positions");
+		sauverpin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));		
 		sauverpin.addActionListener(this);
 		menu1.add(sauverpin);
 
 		JMenuItem quitter = new JMenuItem("Quitter");
+		quitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));	
 		quitter.addActionListener(this);
 		menu1.add(quitter);		
 
@@ -128,10 +134,12 @@ public class Fenetre extends JFrame implements ActionListener{
 		JMenu menu2 = new JMenu("Édition");
 
 		JMenuItem annulertout = new JMenuItem("Annuler tout");
+		annulertout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));		
 		annulertout.addActionListener(this);
 		menu2.add(annulertout);			
 
 		JMenuItem annulerun = new JMenuItem("Annuler");
+		annulerun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.CTRL_MASK));
 		annulerun.addActionListener(this);
 		menu2.add(annulerun);			
 	
@@ -139,10 +147,12 @@ public class Fenetre extends JFrame implements ActionListener{
 		JMenu menu3 = new JMenu("Itinéraire");	
 	
 		JMenuItem itineraire = new JMenuItem("Tracer itinéraire");
+		itineraire.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));		
 		itineraire.addActionListener(this);
 		menu3.add(itineraire);
 
 		JMenuItem configitineraire = new JMenuItem("Configurer itinéraire");
+		configitineraire.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));		
 		configitineraire.addActionListener(this);
 		menu3.add(configitineraire);
 

@@ -292,7 +292,17 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                 super.paintComponent(g);
 
                 Graphics2D g2D = (Graphics2D) g;
- 
+                /** Désactivation de l'anti-aliasing */
+		/*g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+		*/
+		/** Demande de rendu rapide */
+		/*g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+		g2D.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+		g2D.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+		g2D.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
+ 		*/	
+ 			
                 g2D.drawImage(image, offsetX, offsetY, this);
          	//test
          	

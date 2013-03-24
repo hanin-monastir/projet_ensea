@@ -76,11 +76,11 @@ public class Itineraire extends Thread{
 	/**
 	*	Tableau qui contiendra les latitudes lors du chargement du fichier de config	
 	*/
-	double[] lat;
+	private double[] lat;
 	/**
 	*	Tableau qui contiendra les longitudes lors de la lecture du fichier de config
 	*/
-	double[] lon;
+	private double[] lon;
 	/**
 	*	Espace inter-breakponts
 	*/
@@ -88,7 +88,7 @@ public class Itineraire extends Thread{
 	/**
 	*	Espace inter-breakpont angulaire lors des demi-tours
 	*/
-	int angle;
+	private int angle;
 	/**
 	*	nombre de breakpoint nécéssaire, calculé dans le constructeur
 	*/
@@ -135,6 +135,9 @@ public class Itineraire extends Thread{
 	 * demandée par l'utilisateur
          * </p>
          * 
+         * @param m
+         *	La map sur laquelle l'itinéraire va s'afficher
+         *
          */
 	Itineraire(Map m){
 		//4 points seront nécéssaires
@@ -156,6 +159,7 @@ public class Itineraire extends Thread{
 	*	tout ceci en arrière plan afin de ne pas paralyser l'interface graphique.
 	*
 	*	@see Fenetre
+	*
 	*/
 	public void run(){
 		if(chargement){ 
@@ -254,6 +258,7 @@ public class Itineraire extends Thread{
 
 	/**
 	*	Construire l'adresse web pour obtenir via google map la zone
+	*
 	*/
 	public void computeUrl(){
 		url = "http://maps.googleapis.com/maps/api/staticmap?path=color:0x0000ff|weight:2|";		
@@ -271,7 +276,6 @@ public class Itineraire extends Thread{
 	
 
 		url += "&" + "size=" + size + "x" + size + "&markers=label:P|";
-	
 	
 		//on ajoute des marqeurs
 		for(int k = 0; k<chemin.size()-1;k++){ 
@@ -307,6 +311,7 @@ public class Itineraire extends Thread{
 
 	/**
 	*	Calcul la distance entre 2 points grâce à leurs coordonnées
+	*
 	*/
 	public void calculDistance(){
 		//retourne la distance en mètre entre deux points
@@ -315,6 +320,7 @@ public class Itineraire extends Thread{
 
 	/**
 	*	Trouve le point milieu ente deux points
+	*
 	*/
 	public void midPoint(){
 		double lat1 = Math.PI/180*latitude[0];
@@ -332,6 +338,7 @@ public class Itineraire extends Thread{
 
 	/**
 	*	Calcul le cap par rapport au Nord pour se rendre d'un point a à un point b
+	*
 	*/
 	public double getBearing(){
 		double lat1 = Math.PI/180*latitude[0];
@@ -380,6 +387,7 @@ public class Itineraire extends Thread{
 
 	/**
 	*	Calcul la position des breakpoints
+	*
 	*/
 	public void getBreakPoint(){
 		double d = espace;
@@ -420,6 +428,7 @@ public class Itineraire extends Thread{
 	*	Tentative pour obtenir des markeurs formant un arc de cercle en bout de chemin
 	* 	@param sens
 	* 		Le sens de parcours de l'avion
+	*
 	*/
 	public void getArcPoint(String sens){
 		//on travail sur les deux jeux de points
@@ -496,6 +505,7 @@ public class Itineraire extends Thread{
 	/**
 	*	Charger la configuration si elle existe
 	*	@return Un booléen montrant l'état du chargement
+	*
 	*/
 	public boolean loadConfig(){
 		boolean chargement=false;
@@ -558,6 +568,7 @@ public class Itineraire extends Thread{
 	/**
 	*	Permet de retourner la liste de breakpoints
 	*	@return La liste de breakpoints finale comportant les breakpoints situés en ligne droite
+	*
 	*/
 	public ArrayList<double[]> getListBreakPoint(){
 		return finale;
@@ -566,6 +577,7 @@ public class Itineraire extends Thread{
 	/**
 	*	Permet de retourner l'image Google Map
 	*	@return l'image de Google Map
+	*
 	*/		
 	public BufferedImage getImage(){
 		return map;
@@ -574,6 +586,7 @@ public class Itineraire extends Thread{
 	*	Montrer les messages d'erreur
 	*	@param erreur
 	*		Le message d'erreur à afficher si il n'y a pas eu chargement
+	*
 	*/
 	public void ShowError(String erreur){
 		JOptionPane Erreur = new JOptionPane();
@@ -582,6 +595,7 @@ public class Itineraire extends Thread{
 	/**
 	*	Sauvegarder les données
 	*	@return une chaine montrant l'état du composant
+	*
 	*/
 	public String toString(){
 		//enregistement automatique des données dans le dossier spécifié
@@ -643,6 +657,7 @@ public class Itineraire extends Thread{
 	*		L'index du premier élément
 	*	@param j
 	*		L'index du second élément
+	*
 	*/	
 	public void switchTab(int i, int j){
 		double tempo = lon[i];
