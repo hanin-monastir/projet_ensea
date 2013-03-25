@@ -33,7 +33,7 @@ public class Itineraire extends Thread{
 	*/	
 	private BufferedImage map;
 	/**
-	*	Le facteur de zoom demandée à google
+	*	Le facteur de zoom demandé à google
 	*/
 	private int zoom;
 	/**
@@ -246,9 +246,10 @@ public class Itineraire extends Thread{
 				}
 				//Aire de la zone
 				aireZone *=  distance*sizeB;
+				
+				//on construit l'adresse à envoyer à google mais google peut ne pas traiter l'adresse résultante
+				computeUrl();
 			}	
-			//on construit l'adresse à envoyer à google mais google peut ne pas traiter l'adresse résultante
-			computeUrl();
 		}
 		else
 		{
@@ -677,6 +678,7 @@ public class Itineraire extends Thread{
 	}
 	/**
 	*	Fonction pour calculer la distance parcourue par l'avion
+	*	et afficher diverses infos
 	*	
 	*/
 	public void getTotalDistance(){

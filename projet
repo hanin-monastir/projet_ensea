@@ -71,7 +71,7 @@ case $1 in
 	#Un peu d'aide
 	"-help"    ) help;;
 
-	"-launcher" ) create-launcher;;
+	"-launcher") create-launcher;;
 
 	*          ) help;; 
 esac 
