@@ -70,6 +70,12 @@ public class Fenetre extends JFrame implements ActionListener{
 	 *
          */
 	JButton recherche;
+	
+	/**
+         * Menu de choix de résolution
+         * dans une fenêtre
+         */
+         JFrame maResolution;
         /**
          * Constructeur Fenetre.
          * <p>
@@ -139,11 +145,11 @@ public class Fenetre extends JFrame implements ActionListener{
 		menu2.add(annulertout);			
 
 		JMenuItem annulerun = new JMenuItem("Annuler");
-		annulerun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.CTRL_MASK));
+		annulerun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
 		annulerun.addActionListener(this);
 		menu2.add(annulerun);			
 	
-		/////////////////// ITINERAIRE /////////////////////////////////////
+		/////////////////// Menu Itinéraire /////////////////////////////////////
 		JMenu menu3 = new JMenu("Itinéraire");	
 	
 		JMenuItem itineraire = new JMenuItem("Tracer itinéraire");
@@ -156,11 +162,17 @@ public class Fenetre extends JFrame implements ActionListener{
 		configitineraire.addActionListener(this);
 		menu3.add(configitineraire);
 
-				
+		//////////////////// Menu Résolution //////////////////////////////////
+		JMenu menu4 = new JMenu("Résolution");
+		JMenuItem resolution = new JMenuItem("Choix résolution");
+		resolution.addActionListener(this);
+		
+		menu4.add(resolution);
 		//////////////////// Ajout /////////////////////////////////////////
 		m.add(menu1);
 		m.add(menu2);
 		m.add(menu3);
+		m.add(menu4);
 		setJMenuBar(m);
 			
 		contentPane = getContentPane();
@@ -182,7 +194,9 @@ public class Fenetre extends JFrame implements ActionListener{
 		panel_search.setVisible(true);				
 		
 		panorama.setMode("Visualisation"); 
-
+		
+		maResolution = new Resolution();
+		
 		setVisible(true);
 	}
 	
@@ -211,6 +225,13 @@ public class Fenetre extends JFrame implements ActionListener{
 			Itineraire itn = new Itineraire(panorama);
 			itn.start();
 		}
+		
+		else if(e.getActionCommand().equals("Choix résolution"))
+		{
+			System.out.println("test");
+			maResolution.setVisible(true);
+		}
+		
 		else if(e.getActionCommand().equals("Annuler tout")){
 			if(panorama.getMode() == "Panorama"){
 				panorama.cancelAll();

@@ -71,8 +71,10 @@ case $1 in
 	#Un peu d'aide
 	"-help"    ) help;;
 
+	#créer un lanceur
 	"-launcher") create-launcher;;
 
+	#commande par défaut
 	*          ) help;; 
 esac 
 
