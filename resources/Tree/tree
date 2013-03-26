@@ -1,12 +1,12 @@
 EnseaMap.desktop  projet  README.md
 
 classes:
-Action.class	 Configuration.class  convertTab.class
-CropMenu.class	 Fenetre.class	      Itineraire.class
-KmlWriter.class  Map.class	      MouseMapMenu.class
-Pin.class	 Point.class	      ProgressWindows.class
-Recherche.class  Resolution.class     StraightLine.class
-Test.class
+Action.class	    Configuration.class  convertTab.class
+CropMenu.class	    Fenetre.class	 Itineraire.class
+KmlWriter.class     Map.class		 MouseMapMenu.class
+Pin.class	    Point.class		 ProgressWindows.class
+Recherche.class     Resolution.class	 SliderListener.class
+StraightLine.class  Test.class
 
 resources:
 Conf  Documentation  Images  Jar  Matlab  Test	Tree
@@ -83,7 +83,9 @@ resources/Tree:
 tree
 
 src:
-Action.java	   Configuration.java  convertTab.java	  CropMenu.java
-Fenetre.java	   Itineraire.java     KmlWriter.java	  Map.java
-MouseMapMenu.java  Pin.java	       Point.java	  ProgressWindows.java
-Recherche.java	   Resolution.java     StraightLine.java  Test.java
+Action.java	   Configuration.java  convertTab.java
+CropMenu.java	   Fenetre.java        Itineraire.java
+KmlWriter.java	   Map.java	       MouseMapMenu.java
+Pin.java	   Point.java	       ProgressWindows.java
+Recherche.java	   Resolution.java     SliderListener.java
+StraightLine.java  Test.java

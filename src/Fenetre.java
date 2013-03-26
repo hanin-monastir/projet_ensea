@@ -195,7 +195,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		panorama.setMode("Visualisation"); 
 		
-		maResolution = new Resolution();
+		maResolution = new Resolution(panorama);
 		
 		setVisible(true);
 	}

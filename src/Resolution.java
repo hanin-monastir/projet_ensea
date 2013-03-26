@@ -2,15 +2,19 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+
 class Resolution extends JFrame implements ActionListener{
 
 	JSlider resolutionSlider;
 	JButton validate;
 	Container contentPane;
+	Map carte;
 	
-	Resolution(){
+	Resolution(Map m){
 		
 		super("Choix résolution");
+		
+		carte = m;
 		
 		setResizable(false);
 		setSize(500,120);
@@ -20,6 +24,8 @@ class Resolution extends JFrame implements ActionListener{
 		
 		
 		resolutionSlider = new JSlider(JSlider.HORIZONTAL,20,100,100);
+		resolutionSlider.addChangeListener(new SliderListener());
+		
 		validate = new JButton("Ok");
 		//affichage des labels	sur les sliders
 		resolutionSlider.setMajorTickSpacing(10);
@@ -56,7 +62,12 @@ class Resolution extends JFrame implements ActionListener{
 		
 		if(e.getActionCommand().equals("Ok"))
 		{
-			System.out.println("Appui sur Ok");	
+			System.out.println("Appui sur Ok");
+			setVisible(false);	
+			/*
+			//Zone ou l'on va afficher l'image
+			*/	
+			
 		}
-	}
+	}			
 }
