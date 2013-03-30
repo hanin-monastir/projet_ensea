@@ -156,15 +156,17 @@ public class Configuration extends JFrame implements ActionListener{
 		Psave.setLayout(new GridBagLayout());
 				
 			GridBagConstraints cps = new GridBagConstraints();	
-			cps.fill = GridBagConstraints.HORIZONTAL;
+			cps.anchor = GridBagConstraints.LINE_END;
+			cps.fill = GridBagConstraints.BOTH;
 			cps.insets = new Insets(3, 3, 3, 3);
-			cps.weightx = 2;
 			//le textfield qui contient l'adresse
 			cps.gridx = 0;
 			cps.gridy = 0;
+			cps.weightx=1;
 			Psave.add(Adresse,cps);
 			//le bouton maintenant
-			cps.weightx = 1;
+			cps.weightx = 0;
+			cps.anchor = GridBagConstraints.LINE_END;
 			cps.gridx = 1;
 			cps.gridy = 0;
 			cps.fill = GridBagConstraints.VERTICAL;
