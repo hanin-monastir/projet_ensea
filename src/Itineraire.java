@@ -345,7 +345,7 @@ public class Itineraire extends Thread{
 		try {
 			//on doit d'abord vérifier la taille de l'url pour éviter les problème
 			int tailleUrl = url.length();
-			if(tailleUrl <= 2048 ){
+			if(tailleUrl < 2048 ){
 				//on récupère l'image envoyé par google
 	 			map = ImageIO.read(new URL(url));
 	 			//sauvegarde des données
@@ -363,6 +363,7 @@ public class Itineraire extends Thread{
 	 			ShowError(error);
 	 		}
 		} catch(Exception e){
+			System.out.println("taille " + url.length());
 			e.printStackTrace();
 		}
 	}

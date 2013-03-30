@@ -13,7 +13,7 @@ resources:
 Conf  Documentation  Images  Jar  Matlab  Test	Tree
 
 resources/Conf:
-Flight.conf  Itineraire.conf  Itineraire.conf.old
+Flight.conf  Itineraire.conf  Itineraire.conf.old.1
 
 resources/Documentation:
 docJava  docMatlab
