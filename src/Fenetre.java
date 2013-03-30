@@ -157,11 +157,17 @@ public class Fenetre extends JFrame implements ActionListener{
 		itineraire.addActionListener(this);
 		menu3.add(itineraire);
 
+		JMenu sousmenu3 = new JMenu("Configuration");
 		JMenuItem configitineraire = new JMenuItem("Configurer itinéraire");
 		configitineraire.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));		
 		configitineraire.addActionListener(this);
-		menu3.add(configitineraire);
-
+		sousmenu3.add(configitineraire);
+		
+		JMenuItem configflight = new JMenuItem("Configurer les paramètres de vol");
+		configflight.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));		
+		configflight.addActionListener(this);
+		sousmenu3.add(configflight);
+		menu3.add(sousmenu3);
 		//////////////////// Menu Résolution //////////////////////////////////
 		JMenu menu4 = new JMenu("Résolution");
 		JMenuItem resolution = new JMenuItem("Choix résolution");
@@ -216,6 +222,9 @@ public class Fenetre extends JFrame implements ActionListener{
 		{
 			System.out.println("Vous avez appuyé sur Quitter");
 			System.exit(0);
+		}
+		else if(e.getActionCommand().equals("Configurer les paramètres de vol")){
+			Flight paramVol = new Flight();
 		}
 		else if(e.getActionCommand().equals("Configurer itinéraire")){
 			Configuration conf = new Configuration();			
@@ -306,8 +315,6 @@ public class Fenetre extends JFrame implements ActionListener{
 					
 					if (fphoto.exists() && fpin.exists()){
 						//les deux dossiers nécéssaires existent tout est ok
-						panorama.offsetX = 0;
-						panorama.offsetY = 0;
 						panorama.loadImage(Photo);
 						panorama.readWork(pin);
 					}
@@ -374,8 +381,10 @@ public class Fenetre extends JFrame implements ActionListener{
 				try{
 					File fphoto = new File (Photo);
 					File fgps = new File(Gps);
-					progressebarre.setVisible(true);
+					
+					
 					if (fphoto.exists() && fgps.exists()){
+						progressebarre.setVisible(true);
 						//les deux dossiers nécéssaires existent tout est ok
 						folderphoto[0] = Photo;
 						foldergps[0] = Gps;

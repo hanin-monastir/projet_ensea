@@ -124,6 +124,23 @@ public class Itineraire extends Thread{
 	*/
 	private int aireZone;
 	
+	/**
+	*	Une liste représentant l'importance du point
+	*
+	*/
+	private ArrayList<int[]> areaRisk;
+	
+	/**
+	*	Importance et zone d'influence des breakpoints
+	*/
+	private int distLine;
+	private int distKey;
+	private int distArc;
+	private int infLine;
+	private int infKey;
+	private int infArc;
+	private int minDiam;
+	
         /**
          * Constructeur Itineraire
          * <p>
@@ -186,7 +203,9 @@ public class Itineraire extends Thread{
 			getBasePoint(p1,p2);
 			base2 = new ArrayList<double[]>(breakpoint);		
 			breakpoint.clear();
-				
+			
+			areaRisk = new ArrayList<int[]>();	
+			int[] influency = new int[2];
 			//on a maintenant les deux bases ie les breakpionts de deux cotés opposés
 			//pour chaque couple de breakpoint de la base on applique la méthode
 			if (base1.size() == base2.size() && !base1.isEmpty()){
@@ -208,18 +227,38 @@ public class Itineraire extends Thread{
 						for(int j = 0 ; j< arc.size();j++){
 							chemin.add(arc.get(j));
 							finale.add(arc.get(j));
+							
+							influency = new int[2];
+							influency[0] = distArc;
+							influency[1] = infArc;
+							areaRisk.add(influency);
 						}
 
 						//on ajoute le point de la ligne droite
 						chemin.add(breakpoint.get(0));
 						finale.add(breakpoint.get(0));
+						
+						influency = new int[2];
+						influency[0] = distKey;							
+						influency[1] = infKey;
+						areaRisk.add(influency);
 						//on ajoute le tout à la liste finale
 						for(int k = 1;k<breakpoint.size()-1;k++){
 							finale.add(breakpoint.get(k));
+						
+							influency = new int[2];
+							influency[0] = distLine;												
+							influency[1] = infLine;
+							areaRisk.add(influency);
 						}
 						//on ajoute le dernier point
 						finale.add(breakpoint.get(breakpoint.size()-1));		
-						chemin.add(breakpoint.get(breakpoint.size()-1));		
+						chemin.add(breakpoint.get(breakpoint.size()-1));
+						
+						influency = new int[2];
+						influency[0] = distKey;	
+						influency[1] = infKey;
+						areaRisk.add(influency);		
 						sens = "négatif";
 					}
 					else
@@ -229,15 +268,32 @@ public class Itineraire extends Thread{
 						for(int j = arc.size()-1 ; j>=0 ;j--){
 							chemin.add(arc.get(j));
 							finale.add(arc.get(j));
+							influency = new int[2];
+							influency[0] = distArc;
+							influency[1] = infArc;
+							areaRisk.add(influency);							
 						}				
 						
 						chemin.add(breakpoint.get(breakpoint.size()-1));
 						finale.add(breakpoint.get(breakpoint.size()-1));
+						influency=new int[2];
+						influency[0] = distKey;							
+						influency[1] = infKey;
+						areaRisk.add(influency);	
+											
 						for(int k = breakpoint.size()-2;k>=1;k--){
 							finale.add(breakpoint.get(k));
+							influency = new int[2];
+							influency[0] = distLine;												
+							influency[1] = infLine;
+							areaRisk.add(influency);							
 						}
 						finale.add(breakpoint.get(0));
 						chemin.add(breakpoint.get(0));
+						influency = new int[2];
+						influency[0] = distKey;	
+						influency[1] = infKey;
+						areaRisk.add(influency);						
 						sens = "positif";
 					}
 					sizeB = breakpoint.size() - 1;
@@ -293,7 +349,7 @@ public class Itineraire extends Thread{
 				//on récupère l'image envoyé par google
 	 			map = ImageIO.read(new URL(url));
 	 			//sauvegarde des données
-	 			toString();
+	 			recordData();
 	 			//écriture de l'image
 	 			if(map != null){
 	 				carte.loadImage(map);
@@ -302,7 +358,8 @@ public class Itineraire extends Thread{
 	 		}
 	 		else
 	 		{
-	 			String error = "Google ne peut pas retourner d'image, réduisez le nombre de breakpoints ou diminuez la taille de la zone survolée";
+	 			String error = "Google ne peut pas retourner d'image, réduisez le nombre de breakpoints ou diminuez la taille de la zone survolée\nLe fichier de breakpoints et le kml sont générés";
+	 			recordData();
 	 			ShowError(error);
 	 		}
 		} catch(Exception e){
@@ -473,30 +530,117 @@ public class Itineraire extends Thread{
 			double clat = Math.asin(Math.sin(lat1)*Math.cos(d/R) + Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng));
 			double clon = lon1 + Math.atan2(Math.sin(brng)*Math.sin(d/R)*Math.cos(lat1), Math.cos(d/R)-Math.sin(lat1)*Math.sin(clat));
 			
-			//on obtient le centre du cercle
+						
+			//on obtient le centre du cercle idéal
 			clat *= 180/Math.PI;
 			clon *= 180/Math.PI;	
+			
+			int fin = 0;
+			int debut = 0; 
+			if(sens == "positif"){
+				fin = orientation - 180;
+				debut = orientation;
+			}
+			else
+			{
+				fin = -orientation;
+				debut = -orientation -180;
+			}
+			
+			/*
+				Explication :
+				Pour pouvoir travailler avec plusieurs modèles d'avion possédant chacun
+				un angle maximale de 1/2 tours, si l'espace entre deux lignes s'avère
+				inférieure à la distance minimale autorisée par l'avion on essai defaire un cercle plus 
+				grand entre les lignes.			
+			
+			*/
+			if(distance < minDiam){
+				//Distance du centre du nouveau cercle à l'ancien centre de cercle
+				d = Math.sqrt(Math.pow(minDiam/2,2)-Math.pow(distance/2,2));
+				
+				//Calcul le cap vers lequel doit être positionné le cap
+				latitude[0] = finale.get(finale.size()-2)[0];
+				longitude[0] = finale.get(finale.size()-2)[1];
+				latitude[1] = finale.get(finale.size()-1)[0];
+				longitude[1] = finale.get(finale.size()-1)[1];
+				brng = getBearing();
+				
+				//Calcul la position exacte du cercle
+				lat0 = clat;
+				lon0 = clon;
+				lat1 = Math.PI/180*lat0;
+				lon1 = Math.PI/180*lon0;
+				clat = Math.asin(Math.sin(lat1)*Math.cos(d/R) + Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng));
+				clon = lon1 + Math.atan2(Math.sin(brng)*Math.sin(d/R)*Math.cos(lat1), Math.cos(d/R)-Math.sin(lat1)*Math.sin(clat));							
+				//on obtient le centre du cercle convenable
+				clat *= 180/Math.PI;
+				clon *= 180/Math.PI;
+				distance = minDiam;
+				//met à jours orientation
+				latitude[0] = clat;
+				longitude[0] = clon;
+				bk = new double[2];
+				if( sens == "positif" ){
+					bk = breakpoint.get(0);	
+				}
+				else
+				{
+					bk = breakpoint.get(breakpoint.size()-1);
+				}
+
+				latitude[1] = bk[0];
+				longitude[1] = bk[1];
+				brng = getBearing();
+				int f1= (int)(180/Math.PI*brng) ;
+
+				//met à jours l'angle de fin
+				latitude[1] = finale.get(finale.size()-1)[0];
+				longitude[1] = finale.get(finale.size()-1)[1];
+				brng = getBearing();
+				int f2 = (int)(180/Math.PI*brng)  ;
+				
+				if( sens == "positif" ){
+					if(f2<0){
+						f2 = -f2;
+					}
+					debut = f1-angle;
+					fin = f1 - 360 + Math.abs(f1-f2)+angle;
+				}
+				else
+				{
+					f2 = -f2 ;
+					f1 = -f1;
+					debut = f2 + angle;
+					fin = f2+360-Math.abs(f2-f1);
+				}
+				System.out.println(f1 + " " + f2 + " " + debut + " " + fin + " "  + Math.abs(f1 - f2));
+			}
+		
 			
 					
 			//on trouve des points sur le cercle
 			double[]  n = null;
 			if(sens == "positif"){
-				for (int i = orientation - angle ; i > orientation -180 ; i -= angle){
+				for (int i = debut ; i > fin ; i -= angle){
 					n = new double[2];
-					n[0] = clat + (espace/(2*111000) * Math.cos(i * Math.PI / 180));
-					n[1] = clon + (espace/(2*76000) * Math.sin(i * Math.PI / 180));
+					n[0] = clat + (distance/(2*111000) * Math.cos(i * Math.PI / 180));
+					n[1] = clon + (distance/(2*76000) * Math.sin(i * Math.PI / 180));
 					arc.add(n);
-				}	
-				Collections.reverse(arc);			
+				}
+				
+				Collections.reverse(arc);
+							
 			}
 			else
 			{
-				for (int i = -orientation -180 + angle ; i < -orientation ; i += angle){
+				for (int i = debut ; i < fin ; i += angle){
 					n = new double[2];
-					n[0] = clat + (espace/(2*111000) * Math.cos(i * Math.PI / 180));
-					n[1] = clon - (espace/(2*76000) * Math.sin(i * Math.PI / 180));
-					arc.add(n);
+					n[0] = clat + (distance/(2*111000) * Math.cos(i * Math.PI / 180));
+					n[1] = clon - (distance/(2*76000) * Math.sin(i * Math.PI / 180));
+					arc.add(n);	
 				}
+				
 				Collections.reverse(arc);
 			}
 		}
@@ -554,12 +698,49 @@ public class Itineraire extends Thread{
 						default : break;
 					}
 				}
-				chargement=true;
 			}
 			else
 			{
 				chargement=false;
+				return chargement;
 			}
+			
+			//chargement des paramètres de vol
+			monFichier = new File("resources/Conf/Flight.conf");
+			if (monFichier.exists()){			
+				FileReader fichierlu = new FileReader(monFichier);
+				BufferedReader bufferlu = new BufferedReader(fichierlu);
+				String ligne = "";
+				String[] resultat = null;
+				while ((ligne = bufferlu.readLine()) != null){	
+					resultat = ligne.split(" ");
+					switch(resultat[0]){
+						case "ligne" : 
+							infLine = Integer.parseInt(resultat[1]);
+							distLine = Integer.parseInt(resultat[2]);
+							break;
+						case "inter" : 
+							infKey = Integer.parseInt(resultat[1]);
+							distKey = Integer.parseInt(resultat[2]);
+							break;
+						case "arc"  : 
+							infArc = Integer.parseInt(resultat[1]);
+							distArc = Integer.parseInt(resultat[2]);
+							break;
+						case "diametre" : 
+							minDiam = Integer.parseInt(resultat[1]);
+							break;
+						default : break;
+					}
+				}	
+			}
+			else
+			{
+				chargement = false;
+				return chargement;
+			}
+			
+			chargement = true;
 		} catch(Exception ei){
 			ei.printStackTrace();
 		}
@@ -590,7 +771,7 @@ public class Itineraire extends Thread{
 	*
 	*/
 	public void ShowError(String erreur){
-		JOptionPane Erreur = new JOptionPane();
+		final JOptionPane Erreur = new JOptionPane();
 		Erreur.showMessageDialog(null, erreur, "Erreur", JOptionPane.ERROR_MESSAGE);		
 	}
 	/**
@@ -598,7 +779,7 @@ public class Itineraire extends Thread{
 	*	@return une chaine montrant l'état du composant
 	*
 	*/
-	public String toString(){
+	public String recordData(){
 		//enregistement automatique des données dans le dossier spécifié
 		if(folder != "" && folder != null){
 			//enregistrement des breakpoints et de l'image
@@ -611,7 +792,25 @@ public class Itineraire extends Thread{
 				BufferedWriter bw = new BufferedWriter(new FileWriter(monFichier)) ;
 				String ligne = "";
 				for(double[] p : finale){
-					ligne = (float)p[0] + " " + (float)p[1];
+					int i = finale.indexOf(p);
+					double alpha = 0;
+					if (i != finale.size()-1){
+						latitude[0] = p[0];
+						longitude[0] = p[1];
+						latitude[1] = finale.get(i+1)[0];
+						longitude[1] = finale.get(i+1)[1];
+						alpha = getBearing();
+					}
+					else
+					{
+						latitude[0] = finale.get(i-1)[0];
+						longitude[0] = finale.get(i-1)[1];
+						latitude[1] = p[0];
+						longitude[1] = p[1];					
+						alpha = getBearing();
+					}
+					alpha *= 180/Math.PI;
+					ligne = (float)p[0] + " " + (float)p[1] + " " + alpha + " " +  areaRisk.get(i)[0] + " " +areaRisk.get(i)[1];
 					bw.write(ligne,0,ligne.length());
 					bw.newLine();
 					bw.flush();  
@@ -673,7 +872,7 @@ public class Itineraire extends Thread{
 	*
 	*/
 	public void ShowInfo(String message){
-		JOptionPane info = new JOptionPane();
+		final JOptionPane info = new JOptionPane();
 		info.showMessageDialog(null,message, "Information", JOptionPane.INFORMATION_MESSAGE);
 	}
 	/**
@@ -697,5 +896,6 @@ public class Itineraire extends Thread{
 		float airePhoto = aireZone/nbligne;
 		String info = "Aire de la zone m²: " + aireZone +"\nDistance parcourue(m): "+ Dtotale + "\nNombre de breakpoints total: " + finale.size() + "\nbreakpoints sensibles (arc): " + (chemin.size() - 2) + "\n\nchamps minimum par photo m²: " + airePhoto ;		
 		ShowInfo(info);
-	}		
+	}				
 }
+

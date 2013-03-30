@@ -1,7 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+import java.util.*;
+import java.util.Collections;
 
 class Resolution extends JFrame implements ActionListener{
 
@@ -9,6 +10,8 @@ class Resolution extends JFrame implements ActionListener{
 	JButton validate;
 	Container contentPane;
 	Map carte;
+	String nom;
+	SliderListener ecouteur;
 	
 	Resolution(Map m){
 		
@@ -24,7 +27,9 @@ class Resolution extends JFrame implements ActionListener{
 		
 		
 		resolutionSlider = new JSlider(JSlider.HORIZONTAL,20,100,100);
-		resolutionSlider.addChangeListener(new SliderListener());
+		ecouteur = new SliderListener();
+		ecouteur.setImage(carte.getNamePicture());
+		resolutionSlider.addChangeListener(ecouteur);
 		
 		validate = new JButton("Ok");
 		//affichage des labels	sur les sliders
@@ -62,7 +67,32 @@ class Resolution extends JFrame implements ActionListener{
 		
 		if(e.getActionCommand().equals("Ok"))
 		{
-			System.out.println("Appui sur Ok");
+			System.out.println("Appui sur Ok " + carte.getNamePicture() + " " + ecouteur.getCurrentValue());
+			/*
+				Gestion des modes
+			*/
+			if(carte.getMode() == "Panorama"){
+				//on ramène les pins au bon endroit
+				ArrayList<Pin> listPin = carte.getListPin();
+				int offsetX = carte.getOffsetX();
+				int offsetY = carte.getOffsetY();
+				double scale = carte.getScale();
+				
+				for(Pin p : listPin){
+					int xp = listPin.get(listPin.indexOf(p)).poffset.getX();
+					int yp = listPin.get(listPin.indexOf(p)).poffset.getY();		
+			
+					xp = (int)((xp-offsetX)/scale);
+					yp = (int)((yp-offsetY)/scale);								
+					//retour au vrai coordonnées
+					p.poffset.setX(xp);
+					p.poffset.setY(yp);			
+				}
+
+				
+				//on charge la nouvelle image
+				carte.loadImage(ecouteur.getNewImage());
+			}
 			setVisible(false);	
 			/*
 			//Zone ou l'on va afficher l'image

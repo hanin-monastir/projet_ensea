@@ -72,11 +72,13 @@ public class Configuration extends JFrame implements ActionListener{
 	Configuration(){
 		super("Configuration de l'itinéraire");
 		setResizable(false);
-		setLocation(200,30);
-		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
 		setSize(400,500);
-				
+		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation((tailleEcran.width - this.getWidth())/2, (tailleEcran.height - this.getHeight())/2);
 		
+		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
+
+				
 		//création des composants
 		/*
 			Bouton de sauvegarde
@@ -154,16 +156,18 @@ public class Configuration extends JFrame implements ActionListener{
 		Psave.setLayout(new GridBagLayout());
 				
 			GridBagConstraints cps = new GridBagConstraints();	
-			cps.fill = GridBagConstraints.BOTH;
+			cps.fill = GridBagConstraints.HORIZONTAL;
 			cps.insets = new Insets(3, 3, 3, 3);
-			cps.weightx = 1;
+			cps.weightx = 2;
 			//le textfield qui contient l'adresse
 			cps.gridx = 0;
 			cps.gridy = 0;
 			Psave.add(Adresse,cps);
 			//le bouton maintenant
+			cps.weightx = 1;
 			cps.gridx = 1;
 			cps.gridy = 0;
+			cps.fill = GridBagConstraints.VERTICAL;
 			Psave.add(Record,cps);
 		/*
 			Panel qui va acceuillir les points
@@ -267,6 +271,7 @@ public class Configuration extends JFrame implements ActionListener{
 		add(Psave,contraintes);
 		//bouton d'enregistrement
 		contraintes.gridy = 10;
+		contraintes.fill = GridBagConstraints.VERTICAL;
 		add(Sauvegarde,contraintes);
 		/*
 			on affiche la fenêtre

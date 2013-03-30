@@ -1,4 +1,4 @@
-import java.awt.*;
+	import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.geom.*;
@@ -149,7 +149,12 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	*		
         */
 	String mode;
-                
+               
+        /**
+        *	L'image en cours d'affichage
+        */        
+        String nom;
+        
         /**
          * Constructeur Map.
          * <p>
@@ -758,6 +763,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	 public void loadImage()  
     	 {  
         	String fileName = "resources/Images/ensea.jpg";
+        	nom = fileName;
   		//modifier le bloc try catch : on ne se sert pas d'URL
        		try  
         	{  
@@ -795,11 +801,17 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	public void loadImage(String s)  
     	{  
         	String fileName = s; 
+        	nom = s;
 		//modifier le bloc try catch : on ne se sert pas d'URL
        		try{  
 			File photo = new File(fileName);
         		image =ImageIO.read(photo);
         		imageInit = image;
+        		offsetX = 0;
+        		offsetY = 0;
+        		listPin.clear();
+        		listLine.clear();
+        		History.clear();
         		initWidth = image.getWidth();
 			initHeight = image.getHeight();
 			scale = 1;
@@ -1349,6 +1361,38 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	*/
 	public String getMode(){
 		return mode;
+	}
+	/**
+	*	Retourne le chemin de l'image en cours d'affichage
+	*/
+	public String getNamePicture(){
+		return nom;
+	}
+	
+	/**
+	*	accéder à la liste de pin
+	*/
+	public ArrayList<Pin> getListPin(){
+		return listPin;	
+	}
+	/**
+	*	acceder à l'offsetX
+	*/
+	public int getOffsetX(){
+		return offsetX;
+	}
+	/**
+	*	acceder à l'offsetY
+	*/
+	public int getOffsetY(){
+		return offsetY;
+	}
+	
+	/**
+	*	acceder au scale
+	*/
+	public double getScale(){
+		return scale;
 	}
 }
 
