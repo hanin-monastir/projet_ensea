@@ -6,7 +6,19 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+* <b>Permet d'afficher la fenetre de configuration des paramètres de vol</b>
+* @see Itineraire
+*
+* @author Franquet Benoit Corentin Floch
+* @version 1.0
+*
+*/
 public class Flight extends JFrame implements ActionListener {
+	/**
+	*	Les différents Sliders permetant de configurer les paramètres
+	*
+	*/
 	private JSlider dline;
 	private JSlider dkey;
 	private JSlider darc;
@@ -15,6 +27,10 @@ public class Flight extends JFrame implements ActionListener {
 	private JSlider iarc;
 	private JSlider diam;
 	
+	/**
+	*	Constructeur de la classe
+	*
+	*/
 	Flight(){
 		super("Configuration des paramètres de vol");
 		setResizable(false);
@@ -145,11 +161,23 @@ public class Flight extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 	
+	/**
+	*	Fonction qui permet de capter les évènements 
+	*
+	* 	@param e
+	*		Un évènement
+	*
+	*/
 	public void actionPerformed(ActionEvent e){
 		toString("resources/Conf/Flight.conf");
 		setVisible(false);
 	}
 	
+	/**
+	*	Permet d'enregistrer les données
+	*	@param f
+	*		Le fichier ou sera enregisté les données
+	*/
 	public String toString(String f){
 		try{		
 			File monFichier = new File(f);

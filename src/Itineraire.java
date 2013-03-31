@@ -11,6 +11,7 @@ import java.lang.* ;
 /**
  * <b>Itinéraire est la classe qui permet de calculer les différents points de passage de l'avion.</b>
  * @see Configuration
+ * @see Flight
  * 
  * @author benoit Franquet Corentin Floch
  * @version 1.0
@@ -131,14 +132,33 @@ public class Itineraire extends Thread{
 	private ArrayList<int[]> areaRisk;
 	
 	/**
-	*	Importance et zone d'influence des breakpoints
+	*	Zone d'importance en ligne droite
 	*/
 	private int distLine;
+	/**
+	*	Zone d'influence à l'amorce des demi-tours
+	*/
 	private int distKey;
+	/**
+	*	Zone d'influence dans les demis tours
+	*/
 	private int distArc;
+	/**
+	*	Importance des breakpoints dans les lignes droites
+	*/
 	private int infLine;
+	/**	
+	*	Importance des breakpoints à l'amorce des virages
+	*/
 	private int infKey;
+	/**
+	*	Importance des breakpoints dans les demi-tours
+	*/
 	private int infArc;
+	/**
+	*	Distance minimale entre deux lignes lors d'un demi-tours
+	*	Peut être vue comme le diamètre minimal du cercle de demi tours
+	*/
 	private int minDiam;
 	
         /**
@@ -179,11 +199,18 @@ public class Itineraire extends Thread{
 	*
 	*/
 	public void run(){
+		/*
+			Deux fichiers doivent être chargés
+			Le fichier de configuration de l'itinéraire ie Itineraire.conf
+			et le fichier de config de vol Flight.conf
+		*/
 		if(chargement){ 
 			double[] bkp = new double[2];
 			double[] p1 = new double[2];
 			double[] p2 = new double[2];
+			//Finale contient tout les breakpoints
 			finale = new ArrayList<double[]>();
+			//Chemin contient uniquement les breakpoints dans les demi-tours
 			chemin = new ArrayList<double[]>();
 			
 			//obtention de la première base
@@ -552,7 +579,7 @@ public class Itineraire extends Thread{
 				Explication :
 				Pour pouvoir travailler avec plusieurs modèles d'avion possédant chacun
 				un angle maximale de 1/2 tours, si l'espace entre deux lignes s'avère
-				inférieure à la distance minimale autorisée par l'avion on essai defaire un cercle plus 
+				inférieure à la distance minimale autorisée par l'avion on essai de faire un cercle plus 
 				grand entre les lignes.			
 			
 			*/
@@ -593,14 +620,17 @@ public class Itineraire extends Thread{
 				latitude[1] = bk[0];
 				longitude[1] = bk[1];
 				brng = getBearing();
+				//Calcul du cap pour joindre le centre du cercle et le premier point
 				int f1= (int)(180/Math.PI*brng) ;
 
 				//met à jours l'angle de fin
 				latitude[1] = finale.get(finale.size()-1)[0];
 				longitude[1] = finale.get(finale.size()-1)[1];
 				brng = getBearing();
+				//Calcul du cap joignant le 2ème point et le centre
 				int f2 = (int)(180/Math.PI*brng)  ;
 				
+				//Attribution des nouvelles valeurs debut et fin sur le cercle
 				if( sens == "positif" ){
 					if(f2<0){
 						f2 = -f2;
@@ -629,9 +659,7 @@ public class Itineraire extends Thread{
 					n[1] = clon + (distance/(2*76000) * Math.sin(i * Math.PI / 180));
 					arc.add(n);
 				}
-				
-				Collections.reverse(arc);
-							
+				Collections.reverse(arc);			
 			}
 			else
 			{
@@ -641,7 +669,6 @@ public class Itineraire extends Thread{
 					n[1] = clon - (distance/(2*76000) * Math.sin(i * Math.PI / 180));
 					arc.add(n);	
 				}
-				
 				Collections.reverse(arc);
 			}
 		}

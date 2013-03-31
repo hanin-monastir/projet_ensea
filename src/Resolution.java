@@ -3,6 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import java.util.Collections;
+import com.mathworks.toolbox.javabuilder.* ;
+import Panorama.* ;
+import java.io.*;	
 
 class Resolution extends JFrame implements ActionListener{
 
@@ -28,7 +31,6 @@ class Resolution extends JFrame implements ActionListener{
 		
 		resolutionSlider = new JSlider(JSlider.HORIZONTAL,20,100,100);
 		ecouteur = new SliderListener();
-		ecouteur.setImage(carte.getNamePicture());
 		resolutionSlider.addChangeListener(ecouteur);
 		
 		validate = new JButton("Ok");
@@ -67,37 +69,45 @@ class Resolution extends JFrame implements ActionListener{
 		
 		if(e.getActionCommand().equals("Ok"))
 		{
-			System.out.println("Appui sur Ok " + carte.getNamePicture() + " " + ecouteur.getCurrentValue());
 			/*
 				Gestion des modes
 			*/
-			if(carte.getMode() == "Panorama"){
-				//on ramène les pins au bon endroit
-				ArrayList<Pin> listPin = carte.getListPin();
-				int offsetX = carte.getOffsetX();
-				int offsetY = carte.getOffsetY();
-				double scale = carte.getScale();
-				
-				for(Pin p : listPin){
-					int xp = listPin.get(listPin.indexOf(p)).poffset.getX();
-					int yp = listPin.get(listPin.indexOf(p)).poffset.getY();		
-			
-					xp = (int)((xp-offsetX)/scale);
-					yp = (int)((yp-offsetY)/scale);								
-					//retour au vrai coordonnées
-					p.poffset.setX(xp);
-					p.poffset.setY(yp);			
-				}
+			setVisible(false);
 
-				
-				//on charge la nouvelle image
-				carte.loadImage(ecouteur.getNewImage());
-			}
-			setVisible(false);	
-			/*
-			//Zone ou l'on va afficher l'image
-			*/	
+			//restore l'étét d'origine de la carte
+			carte.cancelAll();
 			
+			//affiche l'image
+			displayImage();			
 		}
+	}	
+	
+	public void displayImage(){
+		//mise en place
+		Object facteur[] = new Object[1];
+		Object nom[] = new Object[1];
+		Object path[] = new Object[1];
+						
+            	Panorama pano = null;	
+            	try{
+            		pano = new Panorama();
+            		facteur[0] = ecouteur.getCurrentValue();
+            		nom[0] = carte.getNamePicture();
+            		path[0] = pano.SubImage(1,facteur[0],nom[0]);
+			File file = new File(carte.getNamePicture());
+			String fileimage = file.getAbsolutePath();            			
+            		String dos = fileimage.substring(0,fileimage.lastIndexOf(File.separator));
+            		String newimage = dos + "/subImage.png";
+            		System.out.println(newimage);
+            		//on charge la nouvelle image
+			carte.loadImage(newimage);
+			carte.repaint();
+            	} catch(MWException ei){
+            		ei.printStackTrace();
+            	} catch(Exception ea){
+            		ea.printStackTrace();
+            	} finally{
+           		pano.dispose();            	
+           	}	
 	}			
 }

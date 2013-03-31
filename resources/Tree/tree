@@ -53,7 +53,7 @@ resources/Documentation/docMatlab/html/resources:
 background.gif	tab.gif  titlebar_end.gif  titlebar.gif
 
 resources/Images:
-blu-circle32.png  ensea.jpg  map_icone.png
+blu-circle32.png  ensea.jpg  map_icone.png  subImage.png
 
 resources/Jar:
 Panorama.jar
