@@ -1,4 +1,4 @@
-EnseaMap.desktop  projet  README.md
+EnseaMap.desktop  gps.mat  projet  README.md
 
 classes:
 Action.class	  Configuration.class	 convertTab.class
@@ -78,7 +78,7 @@ resources/Test/Gps:
 1.txt  2.txt  3.txt  4.txt
 
 resources/Test/Photo:
-1.png  2.png  3.png  4.png  mosaique.png
+1.png  2.png  3.png  4.png  mosaique.png  subImage.png
 
 resources/Tree:
 tree

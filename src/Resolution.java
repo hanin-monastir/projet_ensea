@@ -73,7 +73,7 @@ class Resolution extends JFrame implements ActionListener{
 				Gestion des modes
 			*/
 			setVisible(false);
-
+			System.out.println(carte.getNamePicture());
 			//restore l'étét d'origine de la carte
 			carte.cancelAll();
 			
@@ -109,5 +109,5 @@ class Resolution extends JFrame implements ActionListener{
             	} finally{
            		pano.dispose();            	
            	}	
-	}			
+	}	
 }

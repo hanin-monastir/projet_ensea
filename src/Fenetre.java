@@ -199,10 +199,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		panel_search.setVisible(true);				
 		
-		panorama.setMode("Visualisation"); 
-		
-		maResolution = new Resolution(panorama);
-		
+		panorama.setMode("Visualisation"); 		
 		setVisible(true);
 	}
 	
@@ -237,7 +234,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		else if(e.getActionCommand().equals("Choix résolution"))
 		{
-			System.out.println("test");
+			maResolution = new Resolution(panorama);
 			maResolution.setVisible(true);
 		}
 		

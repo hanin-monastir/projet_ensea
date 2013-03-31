@@ -262,6 +262,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		////////////////////////////
 		
                 loadImage(s);
+                nom = s;
 		//imageInit = new BufferedImage();		
 		
 		imageInit = image;
