@@ -1,13 +1,12 @@
-EnseaMap.desktop  gps.mat  projet  README.md
+EnseaMap.desktop  projet  README.md
 
 classes:
-Action.class	  Configuration.class	 convertTab.class
-CropMenu.class	  Fenetre.class		 Flight.class
-Influency.class   Itineraire.class	 KmlWriter.class
-Map.class	  MouseMapMenu.class	 Pin.class
-Point.class	  ProgressWindows.class  Recherche.class
-Resolution.class  SliderListener.class	 StraightLine.class
-Test.class
+Action.class	       Configuration.class  convertTab.class
+CropMenu.class	       Fenetre.class	    Flight.class
+Itineraire.class       KmlWriter.class	    Map.class
+MouseMapMenu.class     Pin.class	    Point.class
+ProgressWindows.class  Recherche.class	    Resolution.class
+SliderListener.class   StraightLine.class   Test.class
 
 resources:
 Conf  Documentation  Images  Jar  Matlab  Test	Tree
@@ -53,7 +52,7 @@ resources/Documentation/docMatlab/html/resources:
 background.gif	tab.gif  titlebar_end.gif  titlebar.gif
 
 resources/Images:
-blu-circle32.png  ensea.jpg  map_icone.png  subImage.png
+blu-circle32.png  ensea.jpg  map_icone.png
 
 resources/Jar:
 Panorama.jar
@@ -65,20 +64,20 @@ GetPixelLat.m	   GetPixelLon.m	  Gps.m		    hnormalise.m
 Homographie.m	   homography2d.m	  iscolinear.m	    Lissage.m
 MapData.m	   Matching.m		  normalise2dpts.m  Panorama.m
 randomsample.m	   ransacfithomography.m  ransac.m	    Recollement.m
-Showhomographie.m  Showkeys.m		  Surf.m	    Teinte.m
-Warping.m
+Showhomographie.m  Showkeys.m		  SubImage.m	    Surf.m
+Teinte.m	   Warping.m
 
 resources/Test:
 Data  Gps  Photo
 
 resources/Test/Data:
-breakpoints.txt  map.kml  mapview.png
+breakpoints.txt  mapview.png
 
 resources/Test/Gps:
 1.txt  2.txt  3.txt  4.txt
 
 resources/Test/Photo:
-1.png  2.png  3.png  4.png  mosaique.png  subImage.png
+1.png  2.png  3.png  4.png  mosaique.png
 
 resources/Tree:
 tree

@@ -1395,6 +1395,13 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	public double getScale(){
 		return scale;
 	}
+	/**
+	*	Fonction pour régler le nom de l'image en cours
+	*
+	*/
+	public void setNamePicture(String s){
+		nom = s;
+	}
 }
 
 

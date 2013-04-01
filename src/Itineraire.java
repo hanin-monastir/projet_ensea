@@ -380,6 +380,8 @@ public class Itineraire extends Thread{
 	 			//écriture de l'image
 	 			if(map != null){
 	 				carte.loadImage(map);
+					String picture = folder + "/mapview.png";
+					carte.setNamePicture(picture);
 	 			}
 	 			getTotalDistance();
 	 		}

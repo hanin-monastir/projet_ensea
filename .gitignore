@@ -5,3 +5,4 @@
 .gitignore
 classes
 *.desktop
+*/subImage.png
