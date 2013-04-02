@@ -12,7 +12,7 @@ resources:
 Conf  Documentation  Images  Jar  Matlab  Test	Tree
 
 resources/Conf:
-Flight.conf  Itineraire.conf  Itineraire.conf.old1
+Flight.conf  Itineraire.conf  Itineraire.conf.old
 
 resources/Documentation:
 docJava  docMatlab
@@ -23,13 +23,14 @@ html
 resources/Documentation/docJava/html:
 Action.html	      allclasses-frame.html  allclasses-noframe.html
 Configuration.html    constant-values.html   convertTab.html
-deprecated-list.html  Fenetre.html	     help-doc.html
-index-all.html	      index.html	     Itineraire.html
-KmlWriter.html	      Map.html		     MouseMapMenu.html
-overview-tree.html    package-frame.html     package-list
-package-summary.html  package-tree.html      Pin.html
-Point.html	      ProgressWindows.html   Recherche.html
-resources	      serialized-form.html   StraightLine.html
+deprecated-list.html  Fenetre.html	     Flight.html
+help-doc.html	      index-all.html	     index.html
+Itineraire.html       KmlWriter.html	     Map.html
+MouseMapMenu.html     overview-tree.html     package-frame.html
+package-list	      package-summary.html   package-tree.html
+Pin.html	      Point.html	     ProgressWindows.html
+Recherche.html	      Resolution.html	     resources
+serialized-form.html  SliderListener.html    StraightLine.html
 stylesheet.css	      Test.html
 
 resources/Documentation/docJava/html/resources:
@@ -52,7 +53,7 @@ resources/Documentation/docMatlab/html/resources:
 background.gif	tab.gif  titlebar_end.gif  titlebar.gif
 
 resources/Images:
-blu-circle32.png  ensea.jpg  map_icone.png
+blu-circle32.png  ensea.jpg  fond-noir.jpg  map_icone.png  subImage.png
 
 resources/Jar:
 Panorama.jar
@@ -71,7 +72,7 @@ resources/Test:
 Data  Gps  Photo
 
 resources/Test/Data:
-breakpoints.txt  mapview.png
+breakpoints.txt  map.kml  mapview.png
 
 resources/Test/Gps:
 1.txt  2.txt  3.txt  4.txt

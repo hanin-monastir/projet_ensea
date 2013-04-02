@@ -7,15 +7,44 @@ import com.mathworks.toolbox.javabuilder.* ;
 import Panorama.* ;
 import java.io.*;	
 
-class Resolution extends JFrame implements ActionListener{
 
+/**
+*	<b> Résolution est la classe qui permet la gestion de la résolution des images</b>
+*	@author Floch Corentin Franquet Benoit
+*	@version 1.0	
+*/
+public class Resolution extends JFrame implements ActionListener{
+	/**
+	*	Le slider permettant de régler la résolution
+	*/
 	JSlider resolutionSlider;
+	/**
+	*	Le bouton pour valider
+	*/
 	JButton validate;
+	/**
+	*	Le conteneur de la JFrame
+	*/	
 	Container contentPane;
+	/**
+	*	La map sur laquelle afficher la nouvelle image
+	*/
 	Map carte;
+	/**
+	*	le nom de l'image
+	*/
 	String nom;
+	/**
+	*	L'écouteur personnalisé qui est placé sur le slider
+	*/
 	SliderListener ecouteur;
 	
+	/**
+	*	Constructeur de la clase 
+	*	@see Fenetre
+	*	@param m
+	*		La carte sur laquelle afficher l'image
+	*/
 	Resolution(Map m){
 		
 		super("Choix résolution");
@@ -65,6 +94,11 @@ class Resolution extends JFrame implements ActionListener{
 		setVisible(false);
 	}
 	
+	/**
+	*	Fonction de gestion des actions
+	*	@param e
+	*		Un évènement survenu sur le bouton ok	
+	*/
 	public void actionPerformed(ActionEvent e){
 		
 		if(e.getActionCommand().equals("Ok"))
@@ -82,6 +116,10 @@ class Resolution extends JFrame implements ActionListener{
 		}
 	}	
 	
+	/**
+	*	Permet de générer la nouvelle image en fonction appel à la fonction
+	*	Matlab dédiée, puis l'affche dans la map
+	*/
 	public void displayImage(){
 		//mise en place
 		Object facteur[] = new Object[1];
@@ -98,9 +136,12 @@ class Resolution extends JFrame implements ActionListener{
 			String fileimage = file.getAbsolutePath();            			
             		String dos = fileimage.substring(0,fileimage.lastIndexOf(File.separator));
             		String newimage = dos + "/subImage.png";
-            		System.out.println(newimage);
+            		File nimage = new File(newimage);
+            		File dimage = new File(".subImage.png");
+            		deplacer(nimage,dimage);
+            		
             		//on charge la nouvelle image
-			carte.loadImage(newimage);
+			carte.loadImage(".subImage.png");
 			carte.repaint();
             	} catch(MWException ei){
             		ei.printStackTrace();
@@ -109,5 +150,21 @@ class Resolution extends JFrame implements ActionListener{
             	} finally{
            		pano.dispose();            	
            	}	
-	}	
+	}
+	
+	/**
+	*	Permet de déplcer un fichier
+	*	@param source
+	*		Le fichier source
+	*	@param destination
+	*		Le fichier finale
+	*/	
+	public void deplacer(File source,File destination) {
+        	if( !destination.exists() ) {
+        	        // On supprime si le fichier existe déjà
+        	        boolean suppr = destination.delete();
+        	}
+        	boolean result = source.renameTo(destination);
+	}
+
 }

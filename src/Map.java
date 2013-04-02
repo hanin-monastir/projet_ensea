@@ -1,4 +1,4 @@
-	import java.awt.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.geom.*;
@@ -156,64 +156,11 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         String nom;
         
         /**
-         * Constructeur Map.
-         * <p>
-         * A la construction d'un objet Map, on charge une image par défaut. La couleur de fond est fixée à noire
-         * </p>
-         * 
-         * @param r
-         *            Le panneau Recherche de la classe Fenetre
-         * 
-         */
-        Map(Recherche r){
-        	mode = "Visualisation";
-        	drawArea = false;
-        	areaDrawn = false;		
-		//matlab
-		Latitude = null;
-		Longitude = null;
-		Lat = null;
-		Lon = null;          	
-
-                search = new Recherche();
-		search = r;
-                lat = search.getlat;
-                lon = search.getlon;
-		
-		setBackground(Color.black);
-                //setSize(100, 100); // utile ?
-               
-                addMouseListener(this);
-                addMouseMotionListener(this);
-		addMouseWheelListener(this);
-		//problème clavier avec champs de recherche
-		
-		scale = 1.0;
-		offsetX = 0;
-                offsetY = 0;
-		//////////////////////////// attention à la position de cette intanciation : loadImage doit pouvoir modifier listPin
-		listPin = new ArrayList<Pin>();
-		listPoint = new ArrayList<Point>();
-		listLine = new ArrayList<StraightLine>();
-
-	
-		//on initialise les copies par appel au copie constructeur
-		History = new ArrayList<Action>();
-		////////////////////////////
-                loadImage();   	
-		
-		System.out.println("Width = "+initWidth+" Height = "+initHeight);
-               
-                Graphics2D g2 = image.createGraphics();
-                g2.drawImage(image, offsetX, offsetY, this);
-                g2.dispose();
-                
-                //ajout du menu propre au composant
-                popupmenu = new MouseMapMenu(this);
-                cropMenu = new CropMenu(this);
-                originCrop = new Point();
-        }
-
+        *	L'ancienne image affichée
+        */
+        String anciennom;
+        
+        
 	/**
         * Surcharge du constructeur Map
         * 
@@ -225,6 +172,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         * @see Map
         */
 	Map(Recherche r,String s){
+		nom = "";
 		mode = "Visualisation";
 		drawArea = false;
 		areaDrawn = false;
@@ -262,7 +210,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		////////////////////////////
 		
                 loadImage(s);
-                nom = s;
+
 		//imageInit = new BufferedImage();		
 		
 		imageInit = image;
@@ -764,7 +712,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	 public void loadImage()  
     	 {  
         	String fileName = "resources/Images/ensea.jpg";
-        	nom = fileName;
+        	setNamePicture(fileName);
   		//modifier le bloc try catch : on ne se sert pas d'URL
        		try  
         	{  
@@ -802,7 +750,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	public void loadImage(String s)  
     	{  
         	String fileName = s; 
-        	nom = s;
+        	setNamePicture(s);
 		//modifier le bloc try catch : on ne se sert pas d'URL
        		try{  
 			File photo = new File(fileName);
@@ -1365,6 +1313,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	}
 	/**
 	*	Retourne le chemin de l'image en cours d'affichage
+	*	@see Resolution
+	*	@return Le chemin de l'image actuellement affichée
 	*/
 	public String getNamePicture(){
 		return nom;
@@ -1372,18 +1322,21 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	
 	/**
 	*	accéder à la liste de pin
+	*	@return la liste de pin
 	*/
 	public ArrayList<Pin> getListPin(){
 		return listPin;	
 	}
 	/**
 	*	acceder à l'offsetX
+	*	@return l'offsetX
 	*/
 	public int getOffsetX(){
 		return offsetX;
 	}
 	/**
 	*	acceder à l'offsetY
+	*	@return l'offsetY
 	*/
 	public int getOffsetY(){
 		return offsetY;
@@ -1391,15 +1344,19 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	
 	/**
 	*	acceder au scale
+	*	@return Le scale
 	*/
 	public double getScale(){
 		return scale;
 	}
 	/**
 	*	Fonction pour régler le nom de l'image en cours
-	*
+	*	@param s
+	*		Régler le nom de l'imge en cours
+	*	@see Resolution
 	*/
 	public void setNamePicture(String s){
+		anciennom = nom;
 		nom = s;
 	}
 }

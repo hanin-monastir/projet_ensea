@@ -60,8 +60,13 @@ case $1 in
 		 javadoc -d $DIR/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar $DIR/src/*.java
 		 Tree ;;
 	
-	"-compile" ) 
-		 javac -d $DIR/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR $DIR/src/*.java
+	"-compile" )
+		if [ ! -d $DIR/classes ]; then
+		{
+			mkdir $DIR/classes
+		}
+		fi
+		javac -d $DIR/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR $DIR/src/*.java
 		 Tree ;; 
 
 	""         )

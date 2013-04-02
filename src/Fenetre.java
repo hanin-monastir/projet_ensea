@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 
 import javax.swing.*;
 import javax.swing.JFileChooser;
@@ -76,6 +77,13 @@ public class Fenetre extends JFrame implements ActionListener{
          * dans une fenêtre
          */
          JFrame maResolution;
+         
+         /**
+         * ArrayList de menu
+         *
+         */
+         ArrayList<JMenuItem> activableMenu;
+         
         /**
          * Constructeur Fenetre.
          * <p>
@@ -101,6 +109,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		setSize(tailleEcran);
 		
+		activableMenu = new ArrayList<JMenuItem>();
 		
 		JMenuBar m = new JMenuBar();
 		//////////////////// Menu Fichier //////////////////////////////////
@@ -110,6 +119,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		ouvrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		ouvrir.addActionListener(this);
 		menu1.add(ouvrir);
+		
 		
 		JMenuItem creer = new JMenuItem("Créer");
 		creer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));	
@@ -124,12 +134,16 @@ public class Fenetre extends JFrame implements ActionListener{
 		JMenuItem sauver = new JMenuItem("Sauvegarder l'image");
 		sauver.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));	
 		sauver.addActionListener(this);
+		activableMenu.add(sauver);
 		menu1.add(sauver);
 
 		JMenuItem sauverpin = new JMenuItem("Sauvegarder les positions");
 		sauverpin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));		
 		sauverpin.addActionListener(this);
+		activableMenu.add(sauverpin);
 		menu1.add(sauverpin);
+
+		menu1.addSeparator();
 
 		JMenuItem quitter = new JMenuItem("Quitter");
 		quitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));	
@@ -142,11 +156,13 @@ public class Fenetre extends JFrame implements ActionListener{
 		JMenuItem annulertout = new JMenuItem("Annuler tout");
 		annulertout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));		
 		annulertout.addActionListener(this);
+		activableMenu.add(annulertout);
 		menu2.add(annulertout);			
 
 		JMenuItem annulerun = new JMenuItem("Annuler");
 		annulerun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
 		annulerun.addActionListener(this);
+		activableMenu.add(annulerun);
 		menu2.add(annulerun);			
 	
 		/////////////////// Menu Itinéraire /////////////////////////////////////
@@ -173,33 +189,32 @@ public class Fenetre extends JFrame implements ActionListener{
 		JMenuItem resolution = new JMenuItem("Choix résolution");
 		resolution.addActionListener(this);
 		
+		activableMenu.add(resolution);
 		menu4.add(resolution);
 		//////////////////// Ajout /////////////////////////////////////////
+		enableMenu(false);
+		
 		m.add(menu1);
 		m.add(menu2);
 		m.add(menu3);
 		m.add(menu4);
+		
 		setJMenuBar(m);
 			
 		contentPane = getContentPane();
 		
 		///Essai de disposition : Panneau Recherche
 		panel_search = new Recherche();
+		panel_search.setVisible(false);
 		recherche = panel_search.Bouton;
 		recherche.addActionListener(this);
-		panorama = new Map(panel_search);
+		panorama = null;
 		
-
 		progressebarre = new ProgressWindows();
 		progressebarre.setVisible(false);		
-		progressebarre.setLocationRelativeTo(null);
-		//contentPane.add(progressBar,"North");
-		contentPane.add(panorama,"Center");		
-		contentPane.add(panel_search, "West");
-		
-		panel_search.setVisible(true);				
-		
-		panorama.setMode("Visualisation"); 		
+		progressebarre.setLocationRelativeTo(null);	
+		contentPane.add(panel_search, "West");				
+				
 		setVisible(true);
 	}
 	
@@ -227,9 +242,23 @@ public class Fenetre extends JFrame implements ActionListener{
 			Configuration conf = new Configuration();			
 		}
 		else if(e.getActionCommand().equals("Tracer itinéraire")){
-			panorama.setMode("Visualisation");
+			
+			panel_search = new Recherche();
+			panel_search.setVisible(false);
+			
+			panorama = new Map(panel_search,"resources/Images/fond-noir.jpg");
 			Itineraire itn = new Itineraire(panorama);
 			itn.start();
+
+			panorama.setVisible(true);
+			panorama.setMode("Visualisation");
+			panorama.repaint();
+			contentPane.removeAll(); 
+			contentPane.add(panorama,"Center");
+			contentPane.add(panel_search,"West");
+			enableMenu(true);
+			setVisible(true);	
+
 		}
 		
 		else if(e.getActionCommand().equals("Choix résolution"))
@@ -278,9 +307,9 @@ public class Fenetre extends JFrame implements ActionListener{
        				System.out.println(path);
        				
 				panel_search = new Recherche();
-				panel_search.setVisible(true);		
+				panel_search.setVisible(false);		
 				panorama =  new Map(panel_search,path);
-				
+				enableMenu(true);
 				contentPane.removeAll(); 
 				contentPane.add(panorama,"Center");
 				contentPane.add(panel_search,"West");				
@@ -312,7 +341,22 @@ public class Fenetre extends JFrame implements ActionListener{
 					
 					if (fphoto.exists() && fpin.exists()){
 						//les deux dossiers nécéssaires existent tout est ok
-						panorama.loadImage(Photo);
+						if ( panorama == null ){
+							panel_search = new Recherche();
+							panel_search.setVisible(true);		
+							panorama =  new Map(panel_search,Photo);
+							panorama.setVisible(true);
+							panorama.repaint();
+							contentPane.removeAll(); 
+							contentPane.add(panorama,"Center");
+							contentPane.add(panel_search,"West");
+							enableMenu(true);
+							setVisible(true);	
+						}
+						else
+						{
+							panorama.loadImage(Photo);
+						}
 						panorama.readWork(pin);
 					}
 					if (fgps.exists()){
@@ -434,6 +478,7 @@ public class Fenetre extends JFrame implements ActionListener{
 						panorama =  new Map(panel_search,mosaique);
 						panorama.RecordCoord(LATITUDE,LONGITUDE,ltarray,lnarray);
 						panorama.setMode("Panorama");
+						enableMenu(true);
 						contentPane.removeAll(); 
 						contentPane.add(panorama,"Center");
 						contentPane.add(panel_search,"West");				
@@ -492,5 +537,15 @@ public class Fenetre extends JFrame implements ActionListener{
 		JOptionPane info = new JOptionPane();
 		info.showMessageDialog(null,message, "Information", JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+	/**
+	*	Activer / Désactiver les menus
+	*/
+	public void enableMenu(boolean b){
+		for(JMenuItem m : activableMenu ){
+			m.setEnabled(b);
+		}
+	}
+	
 }
 

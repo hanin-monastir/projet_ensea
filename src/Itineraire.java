@@ -181,6 +181,7 @@ public class Itineraire extends Thread{
 		sens = "positif";
 		vue = "satellite";
 		carte = m;
+
 		carte.cancelAll();
 		latitude = new double[2];
 		longitude = new double[2];
