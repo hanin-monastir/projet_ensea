@@ -162,7 +162,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         
         
 	/**
-        * Surcharge du constructeur Map
+        * constructeur Map
         * 
         * @param r
         *            Le panneau recherch

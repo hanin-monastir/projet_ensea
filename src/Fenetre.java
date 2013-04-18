@@ -210,6 +210,12 @@ public class Fenetre extends JFrame implements ActionListener{
 		recherche.addActionListener(this);
 		panorama = null;
 		
+		//Jpanel provisoire
+		String textLabel = "<html><b><big><big>Bienvenue sur ENSEAMap</big></big></b><br><br><br>1. Configurer un itinéraire<br>2. Visualiser l'itinéraire'<br>3. Construire un panorama</left></html>";
+		JLabel provisoire = new JLabel(textLabel);
+		provisoire.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
+		contentPane.add(provisoire,"Center");
+		
 		progressebarre = new ProgressWindows();
 		progressebarre.setVisible(false);		
 		progressebarre.setLocationRelativeTo(null);	
@@ -542,6 +548,7 @@ public class Fenetre extends JFrame implements ActionListener{
 	*	Activer / Désactiver les menus
 	*/
 	public void enableMenu(boolean b){
+		//Tous les menus ne doivent pas être activés, cela dépend du mode
 		for(JMenuItem m : activableMenu ){
 			m.setEnabled(b);
 		}
