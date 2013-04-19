@@ -9,16 +9,19 @@ ProgressWindows.class  Recherche.class	    Resolution.class
 SliderListener.class   StraightLine.class   Test.class
 
 resources:
-Conf  Documentation  Images  Jar  Matlab  Test	Tree
+Camera	Conf  Documentation  Images  Jar  Matlab  Test	Tree
+
+resources/Camera:
+resolution.m
 
 resources/Conf:
 Flight.conf  Itineraire.conf  Itineraire.conf.old12
 
 resources/Documentation:
-docJava  docMatlab
+docJava  docMatlab  README.pdf	SURF.pdf
 
 resources/Documentation/docJava:
-html
+Diagramme_UML.png  html
 
 resources/Documentation/docJava/html:
 Action.html	      allclasses-frame.html  allclasses-noframe.html
@@ -69,23 +72,38 @@ Showhomographie.m  Showkeys.m		  SubImage.m	    Surf.m
 Teinte.m	   Warping.m
 
 resources/Test:
-Data  Gps  Photo
+Data  itineraire
 
 resources/Test/Data:
 breakpoints.txt  map.kml  mapview.png
 
-resources/Test/Gps:
-1.txt  2.txt  3.txt  4.txt
+resources/Test/itineraire:
+1  2  gps.mat  mosaique.png
 
-resources/Test/Photo:
-1.png  2.png  3.png  4.png  mosaique.png
+resources/Test/itineraire/1:
+Gps  Photo
+
+resources/Test/itineraire/1/Gps:
+1.txt  2.txt
+
+resources/Test/itineraire/1/Photo:
+1.png  2.png  mosaique.png
+
+resources/Test/itineraire/2:
+Gps  Photo
+
+resources/Test/itineraire/2/Gps:
+1.txt  2.txt
+
+resources/Test/itineraire/2/Photo:
+1.png  2.png  mosaique.png
 
 resources/Tree:
 tree
 
 src:
-Action.java	     Configuration.java    convertTab.java    CropMenu.java
-Fenetre.java	     .Fenetre.java.swp	   Flight.java	      Itineraire.java
-KmlWriter.java	     Map.java		   MouseMapMenu.java  Pin.java
-Point.java	     ProgressWindows.java  Recherche.java     Resolution.java
-SliderListener.java  StraightLine.java	   Test.java
+Action.java	      Configuration.java  convertTab.java  CropMenu.java
+Fenetre.java	      Flight.java	  Itineraire.java  KmlWriter.java
+Map.java	      MouseMapMenu.java   Pin.java	   Point.java
+ProgressWindows.java  Recherche.java	  Resolution.java  SliderListener.java
+StraightLine.java     Test.java

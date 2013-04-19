@@ -108,7 +108,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		int largeur = (int)tailleEcran.getWidth();
 		
 		setSize(tailleEcran);
-		
+				
 		activableMenu = new ArrayList<JMenuItem>();
 		
 		JMenuBar m = new JMenuBar();
@@ -210,8 +210,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		recherche.addActionListener(this);
 		panorama = null;
 		
-		//Jpanel provisoire
-		String textLabel = "<html><b><big><big>Bienvenue sur ENSEAMap</big></big></b><br><br><br>1. Configurer un itinéraire<br>2. Visualiser l'itinéraire'<br>3. Construire un panorama</left></html>";
+		String textLabel = "<html><b><big><big>Bienvenue sur ENSEAMap</big></big></b></html>";
 		JLabel provisoire = new JLabel(textLabel);
 		provisoire.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
 		contentPane.add(provisoire,"Center");
@@ -419,29 +418,23 @@ public class Fenetre extends JFrame implements ActionListener{
 			chooser1.setAcceptAllFileFilterUsed(false);
 
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
-				String Photo = chooser1.getSelectedFile().getAbsolutePath() + "/Photo";
-				String Gps = chooser1.getSelectedFile().getAbsolutePath() + "/Gps";
+				String Photo = chooser1.getSelectedFile().getAbsolutePath(); //+ "/Photo";
 				Object folderphoto[] = new Object[1];
-				Object foldergps[] = new Object[1];
-				Object extension[] = new Object[1];				
+			
 
 				try{
 					File fphoto = new File (Photo);
-					File fgps = new File(Gps);
 					
-					
-					if (fphoto.exists() && fgps.exists()){
+					if (fphoto.exists()){
 						progressebarre.setVisible(true);
 						//les deux dossiers nécéssaires existent tout est ok
 						folderphoto[0] = Photo;
-						foldergps[0] = Gps;
-						extension[0] = "*.png";
 
 						String mosaique = Photo + "/mosaique.png";		
 						try{
 							System.out.println("Début");
 							mypano = new Panorama();							
-							mypano.Panorama(folderphoto[0],extension[0],foldergps[0]);
+							mypano.stitch(folderphoto[0]);
 							progressebarre.setVisible(false);
 							coord = mypano.GetMatrix(2);
 							ltarray = (MWNumericArray) coord[0];
@@ -502,9 +495,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			}
 		}     		
      		else if(e.getActionCommand().equals("Recherche"))
-		{
-     			System.out.println("Ca marche !!!!");
-     			
+		{     			
      			String latitude = "";
      			String longitude = "";
      			
