@@ -56,7 +56,7 @@ public class Fenetre extends JFrame implements ActionListener{
 	Container contentPane;
 
         /**
-         * Matrice utilisée pour la conversion des données Matlab 
+         * Matrices utilisées pour la conversion des données Matlab 
          * 
          */
 	double[][] LATITUDE;
@@ -70,13 +70,7 @@ public class Fenetre extends JFrame implements ActionListener{
 	 *
          */
 	JButton recherche;
-	
-//	/**
-//         * Menu de choix de résolution
-//         * dans une fenêtre
-//         */
-//         JFrame maResolution;
-         
+	      
          /**
          * ArrayList de menu
          *
@@ -190,13 +184,6 @@ public class Fenetre extends JFrame implements ActionListener{
 		configflight.addActionListener(this);
 		sousmenu3.add(configflight);
 		menu3.add(sousmenu3);
-		//////////////////// Menu Résolution //////////////////////////////////
-//		JMenu menu4 = new JMenu("Résolution");
-//		JMenuItem resolution = new JMenuItem("Choix résolution");
-//		resolution.addActionListener(this);
-//		
-//		activableMenu.add(resolution);
-//		menu4.add(resolution);
 		//////////////////// Ajout /////////////////////////////////////////
 		enableMenu(false);
 		
@@ -281,14 +268,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			enableMenu(true);
 			setVisible(true);	
 
-		}
-		
-		else if(e.getActionCommand().equals("Choix résolution"))
-		{
-//			maResolution = new Resolution(panorama);
-//			maResolution.setVisible(true);
-		}
-		
+		}		
 		else if(e.getActionCommand().equals("Annuler tout")){
 			if(panorama.getMode() == "Panorama"){
 				panorama.cancelAll();
@@ -500,6 +480,8 @@ public class Fenetre extends JFrame implements ActionListener{
 	
 	/**
 	*	Activer / Désactiver les menus
+	*	@param b
+	*		un boolean pour savoir si on doit activer certains éléments
 	*/
 	public void enableMenu(boolean b){
 		//Tous les menus ne doivent pas être activés, cela dépend du mode
@@ -509,6 +491,14 @@ public class Fenetre extends JFrame implements ActionListener{
 	}
 	/**
 	*	Lire les fichiers de coordonnée
+	*	@param flat
+	*		le fichier de latitude
+	*	@param flon
+	*		le fichier de longitude
+	*	@param LAT
+	*		Le nom du fichier latitude
+	*	@param LON
+	*		Le nom du fichier longitude	
 	*/
 	public void readData(File flat,File flon,String LAT,String LON){
 		if (flat.exists() && flon.exists()){

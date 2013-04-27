@@ -4,10 +4,9 @@ import java.lang.* ;
 import java.io.*;
 import java.net.*;
 /**
- * <b>convertTab est la classe qui permet de convertir le tableau de donnée du format
- *  MWNumericArray à double .</b>
+ * <b>convertTab est la classe qui permet de lire les fichiers de coordonnées .</b>
  * <p>
- * Elle permet de bénéficier de l'avantage des threads pour la conversion.
+ * Elle permet de bénéficier de l'avantage des threads pour la lecture des données.
  * Les deux tableaux latitude et longitude sont ainsi convertis quasiment en même temps et non plus
  * séquentiellement.
  * </p>
@@ -38,12 +37,10 @@ public class convertTab implements Runnable{
 
 	/**
 	*	Constructeur de la classe
-	*	@param tab
-	*		Le tableau brut à convertir
-	*	@param l
-	*		Le nombre de ligne
-	*	@param c
-	*		Le nombre de colonne
+	*	@param flat
+	*		Le fichier de latitude
+	*	@param flon
+	*		Le fichier de longitude
 	*	@see Fenetre
 	*/
 	convertTab(File flat,File flon){

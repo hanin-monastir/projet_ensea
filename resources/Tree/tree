@@ -109,8 +109,8 @@ resources/Tree:
 tree
 
 src:
-Action.java	     Configuration.java    convertTab.java    CropMenu.java
-Fenetre.java	     Flight.java	   Itineraire.java    KmlWriter.java
-Map.java	     MouseMapMenu.java	   optionMatlab.java  Pin.java
-Point.java	     ProgressWindows.java  Recherche.java     Resolution.java
-SliderListener.java  StraightLine.java	   Test.java
+Action.java   Configuration.java    convertTab.java    CropMenu.java
+Fenetre.java  Flight.java	    Itineraire.java    KmlWriter.java
+Map.java      MouseMapMenu.java     optionMatlab.java  Pin.java
+Point.java    ProgressWindows.java  Recherche.java     StraightLine.java
+Test.java

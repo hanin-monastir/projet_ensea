@@ -33,9 +33,20 @@ public class optionMatlab extends JFrame implements ActionListener{
 	*/
 	private JSlider LimitX;
 	private JSlider LimitY; 
+	/**
+	*	La zone UTM a renseignée
+	*
+	*/
 	private JTextField ZoneUTM;
+	/**
+	*	Savoir si on doit utiliser ou non la reconstruction optimale
+	*/
 	private JCheckBox OptimalBuild;
 	
+	/**
+	*	Constucteur de la classe optionMatlab
+	*	
+	*/
 	optionMatlab(){
 		super("Configuration de construction du panorama");
 		setResizable(false);
@@ -121,6 +132,8 @@ public class optionMatlab extends JFrame implements ActionListener{
 	
 	/**
 	*	Capter l'appui sur un bouton
+	*	@param e
+	*		Un évènement
 	*/
 	public void actionPerformed(ActionEvent e){
 		if(e.getActionCommand().equals("Sauvegarder"))
@@ -132,6 +145,8 @@ public class optionMatlab extends JFrame implements ActionListener{
 	
 	/**
 	*	Enregistrer l'état du composant
+	*	@param s
+	*		Le nom du fichier où les donnees seront enregistrées
 	*/
 	public String toString(String s){
 		try{
