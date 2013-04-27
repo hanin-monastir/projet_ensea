@@ -160,7 +160,11 @@ public class Itineraire extends Thread{
 	*	Peut être vue comme le diamètre minimal du cercle de demi tours
 	*/
 	private int minDiam;
-	
+	/**
+	*	Tentative pour corriger un problème
+	*
+	*/
+	private boolean iswrited;
         /**
          * Constructeur Itineraire
          * <p>
@@ -176,13 +180,15 @@ public class Itineraire extends Thread{
          *	La map sur laquelle l'itinéraire va s'afficher
          *
          */
-	Itineraire(Map m){
+	//Itineraire(Map m){
+	Itineraire(){
 		//4 points seront nécéssaires
 		sens = "positif";
 		vue = "satellite";
-		carte = m;
+		iswrited = false;
+		//carte = m;
 
-		carte.cancelAll();
+		//carte.cancelAll();
 		latitude = new double[2];
 		longitude = new double[2];
 		lat = new double[4];
@@ -379,11 +385,11 @@ public class Itineraire extends Thread{
 	 			//sauvegarde des données
 	 			recordData();
 	 			//écriture de l'image
-	 			if(map != null){
+	 			/*if(map != null){
 	 				carte.loadImage(map);
 					String picture = folder + "/mapview.png";
 					carte.setNamePicture(picture);
-	 			}
+	 			}*/
 	 			getTotalDistance();
 	 		}
 	 		else
@@ -815,9 +821,25 @@ public class Itineraire extends Thread{
 		if(folder != "" && folder != null){
 			//enregistrement des breakpoints et de l'image
 			String listeBkp = folder + "/breakpoints.txt";
-			String carte =  folder + "/mapview.png";
+			String Carte =  folder + "/mapview.png";
 
 			try{
+				File ancien_iti = new File(Carte);
+				if(ancien_iti.exists()){
+					ancien_iti.delete();
+				}
+
+				//image
+				FileOutputStream fos = new FileOutputStream(Carte);
+				if(map != null){
+
+					ImageIO.write(map,"png",fos);
+					while( ! ancien_iti.exists()){
+						//attendre que le thread ait fini d'écrire le fihcier'
+					}
+					iswrited = true;
+				}
+			
 				//breakponts
 				File monFichier = new File(listeBkp);
 				BufferedWriter bw = new BufferedWriter(new FileWriter(monFichier)) ;
@@ -841,18 +863,13 @@ public class Itineraire extends Thread{
 						alpha = getBearing();
 					}
 					alpha *= 180/Math.PI;
-					ligne = (float)p[0] + " " + (float)p[1] + " " + alpha + " " +  areaRisk.get(i)[0] + " " +areaRisk.get(i)[1];
+					ligne = p[0] + " " + p[1] + " " + alpha + " " +  areaRisk.get(i)[0] + " " +areaRisk.get(i)[1];
 					bw.write(ligne,0,ligne.length());
 					bw.newLine();
 					bw.flush();  
 				}
 				bw.close();
 				
-				//image
-				FileOutputStream fos = new FileOutputStream(carte);
-				if(map != null){
-					ImageIO.write(map,"png",fos);
-				}
 				//on enregistre en KML
 				KmlWriter kmlw = new KmlWriter(finale,folder + "/map.kml",lat,lon);
 			} catch(Exception e){
@@ -927,6 +944,21 @@ public class Itineraire extends Thread{
 		float airePhoto = aireZone/nbligne;
 		String info = "Aire de la zone m²: " + aireZone +"\nDistance parcourue(m): "+ Dtotale + "\nNombre de breakpoints total: " + finale.size() + "\nbreakpoints sensibles (arc): " + (chemin.size() - 2) + "\n\nchamps minimum par photo m²: " + airePhoto ;		
 		ShowInfo(info);
-	}				
+	}	
+	
+	/**
+	*	Return le dossier d'enregistrment
+	*
+	*/
+	public String getFolder(){
+		return folder;
+	}
+	/**
+	*	retourne ok si l'image a été écris
+	*
+	*/
+	public boolean getWrited(){
+		return iswrited;
+	}			
 }
 

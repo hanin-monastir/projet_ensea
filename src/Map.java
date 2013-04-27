@@ -116,13 +116,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
          * A chaque action, on enregistre l'état précédent de la Map dans une arraylist pour le restaurer
          */
 	private ArrayList<Action> History;
-
-	//matlab à conserver car envoyer à la fonction Matlab de recherche
-        /**
-         * Les matrices de coordonnées sous formes Matlab permettre d'éffecteur des recherches 
-         */
-	MWArray Lon;
-	MWArray Lat;
 	
         /**
          * Même donnée latitude et longitude mais converties en double pour en faciliter l'accès
@@ -154,7 +147,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         *	L'image en cours d'affichage
         */        
         String nom;
-        
+        String nomLat;
+        String nomLon;
         /**
         *	L'ancienne image affichée
         */
@@ -179,8 +173,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		//matlab
 		Latitude = null;
 		Longitude = null;
-                Lat = null;
-		Lon = null;
                 
                 search = new Recherche();
 		search = r;
@@ -808,12 +800,12 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	*	     La matrice de longitude non convertie
         * 
         */
-	public void RecordCoord(double[][] lat, double[][] lon,MWArray lt,MWArray ln){
+	public void RecordCoord(double[][] lat, double[][] lon,String LAT, String LON){
 		//cette méthode permet d'enregistrer les données pour ne plus àvoir a les recharger		
-		Lat = lt;
-		Lon = ln; 
 		Latitude = lat;
 		Longitude = lon;
+		nomLat = LAT;
+		nomLon = LON;
 	}
 	
         /**
@@ -825,60 +817,60 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	 *	      La longitude du point recherché
          * 
          */
-	public void searchResult(double lat, double lon){
-		//Centrer l'image au pixel indiqué
-		Panorama pan = null;
-		Object LAT = null;
-		Object LON = null;
-		Object latd = null;
-		Object lond = null;
-		Object[] pix = null; 
-		MWArray out1 = null;
-		MWArray out2 = null;
+//	public void searchResult(double lat, double lon){
+//		//Centrer l'image au pixel indiqué
+//		Panorama pan = null;
+//		Object LAT = null;
+//		Object LON = null;
+//		Object latd = null;
+//		Object lond = null;
+//		Object[] pix = null; 
+//		MWArray out1 = null;
+//		MWArray out2 = null;
 
-		if (Lat != null){
-			try {	
-				//on convertit les inputs en Object	
-				LAT = (Object) Latitude;
-				LON = (Object) Longitude;
-				latd = (Object) lat;
-				lond = (Object) lon;
-	
-				//on crée une instance de notre classe
-				pan = new Panorama();	
-				pix = pan.findMinValue(2, LAT, LON, latd, lond);
-	
-				//notification
-				System.out.println("Pixel: " + pix[0] + " " +  pix[1]);
-	
-				//1ere conversion obligatoire
-				out1 = (MWNumericArray) pix[0];
-				out2 = (MWNumericArray) pix[1];	
-	
-				//conversion double
-				double py = (double) out1.get(1);
-				double px = (double) out2.get(1);
-	
-				//arrondi
-				int Px = (int) Math.floor(px*scale+offsetX);
-				int Py = (int) Math.floor(offsetY+py*scale);
-				
-				//décalle ie on centre la zone
-				offsetX = dimX/2 - (Px - offsetX);
-				offsetY = dimY/2 - (Py - offsetY);
-				repaint();				
-			} catch (MWException ei){
-				ei.printStackTrace();
-			} catch (Exception ei){
-				ei.printStackTrace();		
-			} finally{
-				//on libère la mémoire
-				pan.dispose();
-				MWArray.disposeArray(out1);
-				MWArray.disposeArray(out2);
-			}
-		}	
-	}	
+//		if (Lat != null){
+//			try {	
+//				//on convertit les inputs en Object	
+//				LAT = (Object) Latitude;
+//				LON = (Object) Longitude;
+//				latd = (Object) lat;
+//				lond = (Object) lon;
+//	
+//				//on crée une instance de notre classe
+//				pan = new Panorama();	
+//				pix = pan.findMinValue(2, LAT, LON, latd, lond);
+//	
+//				//notification
+//				System.out.println("Pixel: " + pix[0] + " " +  pix[1]);
+//	
+//				//1ere conversion obligatoire
+//				out1 = (MWNumericArray) pix[0];
+//				out2 = (MWNumericArray) pix[1];	
+//	
+//				//conversion double
+//				double py = (double) out1.get(1);
+//				double px = (double) out2.get(1);
+//	
+//				//arrondi
+//				int Px = (int) Math.floor(px*scale+offsetX);
+//				int Py = (int) Math.floor(offsetY+py*scale);
+//				
+//				//décalle ie on centre la zone
+//				offsetX = dimX/2 - (Px - offsetX);
+//				offsetY = dimY/2 - (Py - offsetY);
+//				repaint();				
+//			} catch (MWException ei){
+//				ei.printStackTrace();
+//			} catch (Exception ei){
+//				ei.printStackTrace();		
+//			} finally{
+//				//on libère la mémoire
+//				pan.dispose();
+//				MWArray.disposeArray(out1);
+//					MWArray.disposeArray(out2);
+//			}
+//		}	
+//	}	
 
         /**
          * Permet de placer les pins sur la carte
@@ -1026,7 +1018,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
     		if(returnVal == JFileChooser.APPROVE_OPTION){
 			String map = chooser.getSelectedFile().getAbsolutePath()+"/map.jpg";
 			String pin = chooser.getSelectedFile().getAbsolutePath()+"/positions.txt";
-			String gps = chooser.getSelectedFile().getAbsolutePath()+"/gps.mat";
+			String latf = chooser.getSelectedFile().getAbsolutePath()+"/latitude.txt";
+			String lonf = chooser.getSelectedFile().getAbsolutePath()+"/longitude.txt";
    	 		try{
 				FileOutputStream fos = new FileOutputStream(map);
 				//on enregistre bien le buffered image pour ne pas prendre en compte les effets de zooom
@@ -1038,7 +1031,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 				toString(pin);
 			}
 			//on déplace le fichier gps
-			deplacer(new File("gps.mat"),new File(gps));
+			deplacer(new File(nomLat),new File(latf));
+			deplacer(new File(nomLon),new File(lonf));
 		} 
 	}
 

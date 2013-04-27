@@ -13,7 +13,6 @@ import java.awt.Desktop.*;
 //Matlab import
 import com.mathworks.toolbox.javabuilder.* ;
 import Panorama.* ;
-
 import java.util.* ;
 import java.lang.* ;
 
@@ -72,11 +71,11 @@ public class Fenetre extends JFrame implements ActionListener{
          */
 	JButton recherche;
 	
-	/**
-         * Menu de choix de résolution
-         * dans une fenêtre
-         */
-         JFrame maResolution;
+//	/**
+//         * Menu de choix de résolution
+//         * dans une fenêtre
+//         */
+//         JFrame maResolution;
          
          /**
          * ArrayList de menu
@@ -144,6 +143,13 @@ public class Fenetre extends JFrame implements ActionListener{
 		menu1.add(sauverpin);
 
 		menu1.addSeparator();
+		JMenuItem confPanorama = new JMenuItem("Configurer le panorama");
+		confPanorama.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));		
+		confPanorama.addActionListener(this);
+		menu1.add(confPanorama);
+
+
+		menu1.addSeparator();
 
 		JMenuItem quitter = new JMenuItem("Quitter");
 		quitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));	
@@ -185,19 +191,19 @@ public class Fenetre extends JFrame implements ActionListener{
 		sousmenu3.add(configflight);
 		menu3.add(sousmenu3);
 		//////////////////// Menu Résolution //////////////////////////////////
-		JMenu menu4 = new JMenu("Résolution");
-		JMenuItem resolution = new JMenuItem("Choix résolution");
-		resolution.addActionListener(this);
-		
-		activableMenu.add(resolution);
-		menu4.add(resolution);
+//		JMenu menu4 = new JMenu("Résolution");
+//		JMenuItem resolution = new JMenuItem("Choix résolution");
+//		resolution.addActionListener(this);
+//		
+//		activableMenu.add(resolution);
+//		menu4.add(resolution);
 		//////////////////// Ajout /////////////////////////////////////////
 		enableMenu(false);
 		
 		m.add(menu1);
 		m.add(menu2);
 		m.add(menu3);
-		m.add(menu4);
+//		m.add(menu4);
 		
 		setJMenuBar(m);
 			
@@ -240,6 +246,9 @@ public class Fenetre extends JFrame implements ActionListener{
 			System.out.println("Vous avez appuyé sur Quitter");
 			System.exit(0);
 		}
+		else if(e.getActionCommand().equals("Configurer le panorama")){
+			optionMatlab option = new optionMatlab();
+		}
 		else if(e.getActionCommand().equals("Configurer les paramètres de vol")){
 			Flight paramVol = new Flight();
 		}
@@ -249,12 +258,20 @@ public class Fenetre extends JFrame implements ActionListener{
 		else if(e.getActionCommand().equals("Tracer itinéraire")){
 			
 			panel_search = new Recherche();
-			panel_search.setVisible(false);
-			
-			panorama = new Map(panel_search,"resources/Images/fond-noir.jpg");
-			Itineraire itn = new Itineraire(panorama);
-			itn.start();
+			panel_search.setVisible(false);			
 
+			//panorama = new Map(panel_search,"resources/Images/fond-noir.jpg");
+			//Itineraire itn = new Itineraire(panorama);
+			Itineraire itn = new Itineraire();
+			itn.start();
+			while(itn.getWrited() == false){
+			}			
+			
+			String folder = itn.getFolder();
+			String im = folder + "/mapview.png";
+			File Im = new File(im);
+
+			panorama = new Map(panel_search,im);
 			panorama.setVisible(true);
 			panorama.setMode("Visualisation");
 			panorama.repaint();
@@ -268,8 +285,8 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		else if(e.getActionCommand().equals("Choix résolution"))
 		{
-			maResolution = new Resolution(panorama);
-			maResolution.setVisible(true);
+//			maResolution = new Resolution(panorama);
+//			maResolution.setVisible(true);
 		}
 		
 		else if(e.getActionCommand().equals("Annuler tout")){
@@ -297,7 +314,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		else if(e.getActionCommand().equals("Ouvrir"))
 		{
 			System.out.println("Ouvrir");
-			panorama.setMode("Visualisation");	
+				
 			JFileChooser chooser = new JFileChooser();
     			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
     			chooser.setFileFilter(filter);
@@ -314,6 +331,7 @@ public class Fenetre extends JFrame implements ActionListener{
 				panel_search = new Recherche();
 				panel_search.setVisible(false);		
 				panorama =  new Map(panel_search,path);
+				panorama.setMode("Visualisation");
 				enableMenu(true);
 				contentPane.removeAll(); 
 				contentPane.add(panorama,"Center");
@@ -333,16 +351,15 @@ public class Fenetre extends JFrame implements ActionListener{
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
 				String Photo = chooser1.getSelectedFile().getAbsolutePath() + "/map.jpg";
 				String pin = chooser1.getSelectedFile().getAbsolutePath() + "/positions.txt";
-				String gps = chooser1.getSelectedFile().getAbsolutePath() + "/gps.mat";
-				MWArray ltarray = null;
-				MWArray lnarray = null;
-				Object[] coord = null;
+				String Lat = chooser1.getSelectedFile().getAbsolutePath() + "/latitude.txt";
+				String Lon = chooser1.getSelectedFile().getAbsolutePath() + "/longitude.txt";
+
 				Panorama pano = null;
 				try{
 					File fphoto = new File (Photo);
 					File fpin = new File(pin);
-					File fgps = new File(gps);
-					File outgps = new File("gps.mat");
+					File flat = new File(Lat);
+					File flon = new File(Lon);
 					
 					if (fphoto.exists() && fpin.exists()){
 						//les deux dossiers nécéssaires existent tout est ok
@@ -364,39 +381,8 @@ public class Fenetre extends JFrame implements ActionListener{
 						}
 						panorama.readWork(pin);
 					}
-					if (fgps.exists()){
-						//Maintenant on charge le fichier gps
-						panorama.deplacer(fgps,outgps);
-						try{
-							pano = new Panorama();
-							coord = pano.GetMatrix(2);
-							ltarray = (MWNumericArray) coord[0];
-							lnarray = (MWNumericArray) coord[1];
-							int ligne = ltarray.getDimensions()[0];
-							int colonne = ltarray.getDimensions()[1];
-							LATITUDE = new double[ligne][colonne];
-							LONGITUDE = new double[ligne][colonne];
-							convertTab clat = new convertTab((MWNumericArray)ltarray,ligne,colonne);
-							convertTab clon = new convertTab((MWNumericArray)lnarray,ligne,colonne);
-							
-							Thread tlat = new Thread(clat);
-							Thread tlon = new Thread(clon);
-							
-							tlat.start();
-							tlon.start();
-							while(tlat.isAlive() || tlon.isAlive()){
-							}
-							LATITUDE = clat.getTableau();
-							LONGITUDE = clon.getTableau();
-						
-							panorama.RecordCoord(LATITUDE,LONGITUDE,ltarray,lnarray);
-							panorama.setMode("Panorama");
-						} catch(MWException pi){
-							pi.printStackTrace();
-						} finally{
-							pano.dispose();
-						}
-					}
+					
+					readData(flat,flon,Lat,Lon);		
 				} catch(Exception ek){
 					ek.printStackTrace();
 				}								
@@ -406,10 +392,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		else if(e.getActionCommand().equals("Créer"))
 		{
 			Panorama mypano = null;		
-			Object[] coord = null;
-			MWArray ltarray = null;
-			MWArray lnarray = null;
-		
+			//contentPane.removeAll();			
 			//Création d'un nouveau panorama avec les paramètres par défaut
 			JFileChooser chooser1 = new JFileChooser(); 
 			chooser1.setCurrentDirectory(new java.io.File("."));
@@ -420,49 +403,28 @@ public class Fenetre extends JFrame implements ActionListener{
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
 				String Photo = chooser1.getSelectedFile().getAbsolutePath(); //+ "/Photo";
 				Object folderphoto[] = new Object[1];
+				Object configpano[] = new Object[1];
+				String Lat = chooser1.getSelectedFile().getAbsolutePath() + "/latitude.txt";
+				String Lon = chooser1.getSelectedFile().getAbsolutePath() + "/longitude.txt";
+				String Config = "resources/Conf/Panorama.conf";	
 			
-
 				try{
 					File fphoto = new File (Photo);
-					
+					File flat = new File(Lat);
+					File flon = new File(Lon);					
 					if (fphoto.exists()){
 						progressebarre.setVisible(true);
 						//les deux dossiers nécéssaires existent tout est ok
 						folderphoto[0] = Photo;
-
+						configpano[0] = Config;
+						
 						String mosaique = Photo + "/mosaique.png";		
 						try{
-							System.out.println("Début");
-							mypano = new Panorama();							
-							mypano.stitch(folderphoto[0]);
+							System.out.println("Accès au Matlab Computer Runtime");
+							mypano = new Panorama();	
+							System.out.println("Accès réussi");									
+							mypano.stitch(folderphoto[0],configpano[0]);
 							progressebarre.setVisible(false);
-							coord = mypano.GetMatrix(2);
-							ltarray = (MWNumericArray) coord[0];
-							lnarray = (MWNumericArray) coord[1];
-							int ligne = ltarray.getDimensions()[0];
-							int colonne = ltarray.getDimensions()[1];
-							LATITUDE = new double[ligne][colonne];
-							LONGITUDE = new double[ligne][colonne];
-				
-							/*
-								Test des threads
-								on crée un thread pour la latitude
-								et pour la longitude
-							*/
-							
-							convertTab clat = new convertTab((MWNumericArray)ltarray,ligne,colonne);
-							convertTab clon = new convertTab((MWNumericArray)lnarray,ligne,colonne);
-							
-							Thread tlat = new Thread(clat);
-							Thread tlon = new Thread(clon);
-							
-							tlat.start();
-							tlon.start();
-							while(tlat.isAlive() || tlon.isAlive()){
-							}
-							LATITUDE = clat.getTableau();
-							LONGITUDE = clon.getTableau();
-				
 						} catch(MWException ei){
 							ei.printStackTrace();
 						} finally{
@@ -475,10 +437,11 @@ public class Fenetre extends JFrame implements ActionListener{
 						recherche = panel_search.getButton();
 						recherche.addActionListener(this);			
 						panorama =  new Map(panel_search,mosaique);
-						panorama.RecordCoord(LATITUDE,LONGITUDE,ltarray,lnarray);
+						readData(flat,flon,Lat,Lon);
 						panorama.setMode("Panorama");
 						enableMenu(true);
-						contentPane.removeAll(); 
+						
+						contentPane.removeAll();
 						contentPane.add(panorama,"Center");
 						contentPane.add(panel_search,"West");				
 	        				setVisible(true);
@@ -496,18 +459,18 @@ public class Fenetre extends JFrame implements ActionListener{
 		}     		
      		else if(e.getActionCommand().equals("Recherche"))
 		{     			
-     			String latitude = "";
-     			String longitude = "";
-     			
-     			latitude = panel_search.getLatitude();
-     			longitude = panel_search.getLongitude();
-     			
-     			double lat = Double.parseDouble(latitude);
-     			double lon = Double.parseDouble(longitude);
-     			
-     			System.out.println("latitude : "+lat+" longitude : "+lon);
-     			
-     			panorama.searchResult(lat, lon);	
+//     			String latitude = "";
+//     			String longitude = "";
+//     			
+//     			latitude = panel_search.getLatitude();
+//     			longitude = panel_search.getLongitude();
+//     			
+//     			double lat = Double.parseDouble(latitude);
+//     			double lon = Double.parseDouble(longitude);
+//     			
+//     			System.out.println("latitude : "+lat+" longitude : "+lon);
+//     			
+//     			panorama.searchResult(lat, lon);	
      		}		
 	}
 
@@ -544,6 +507,27 @@ public class Fenetre extends JFrame implements ActionListener{
 			m.setEnabled(b);
 		}
 	}
-	
+	/**
+	*	Lire les fichiers de coordonnée
+	*/
+	public void readData(File flat,File flon,String LAT,String LON){
+		if (flat.exists() && flon.exists()){
+			convertTab coord = new convertTab(flat,flon);
+			Thread tcoord = new Thread(coord);		
+			tcoord.start();
+			while(tcoord.isAlive()){
+			}
+				
+			int ligne = coord.getLigne();
+			int colonne = coord.getColonne();
+			LATITUDE = new double[ligne][colonne];
+			LONGITUDE = new double[ligne][colonne];						
+			LATITUDE = coord.getLAT();
+			LONGITUDE = coord.getLON();
+			
+			panorama.RecordCoord(LATITUDE,LONGITUDE,LAT,LON);
+			panorama.setMode("Panorama");
+		}	
+	}
 }
 

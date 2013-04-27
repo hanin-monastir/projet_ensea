@@ -57,20 +57,20 @@ case $1 in
 
 	#Commande compilation execution
 	"-doc"     ) #permet de générer la doc
-		 javadoc -d $DIR/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar $DIR/src/*.java
+		 javadoc -d $PWD/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar $PWD/src/*.java
 		 Tree ;;
 	
 	"-compile" )
-		if [ ! -d $DIR/classes ]; then
+		if [ ! -d $PWD/classes ]; then
 		{
-			mkdir $DIR/classes
+			mkdir $PWD/classes
 		}
 		fi
-		javac -d $DIR/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR $DIR/src/*.java
+		javac -d $PWD/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar:$PWD $PWD/src/*.java
 		 Tree ;; 
 
 	""         )
-		 java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$DIR/resources/Jar/Panorama.jar:$DIR/resources:$DIR:$DIR/classes Test;
+		 java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar:$PWD/resources:$PWD:$PWD/classes Test;
 		 Tree ;;
 	
 	#Un peu d'aide

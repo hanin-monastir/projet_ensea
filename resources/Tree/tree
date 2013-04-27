@@ -1,21 +1,22 @@
-EnseaMap.desktop  gps.mat  projet  README.md
+EnseaMap.desktop  projet  README.md
 
 classes:
-Action.class	       Configuration.class  convertTab.class
-CropMenu.class	       Fenetre.class	    Flight.class
-Itineraire.class       KmlWriter.class	    Map.class
-MouseMapMenu.class     Pin.class	    Point.class
-ProgressWindows.class  Recherche.class	    Resolution.class
-SliderListener.class   StraightLine.class   Test.class
+Action.class	    Configuration.class    convertTab.class
+CropMenu.class	    Fenetre.class	   Flight.class
+Itineraire.class    KmlWriter.class	   Map.class
+MouseMapMenu.class  optionMatlab.class	   Pin.class
+Point.class	    ProgressWindows.class  Recherche.class
+Resolution.class    SliderListener.class   StraightLine.class
+Test.class
 
 resources:
 Camera	Conf  Documentation  Images  Jar  Matlab  Test	Tree
 
 resources/Camera:
-resolution.m
+resolution.jpg	resolution.m
 
 resources/Conf:
-Flight.conf  Itineraire.conf  Itineraire.conf.old12
+Flight.conf  Itineraire.conf  Itineraire.conf.old12  Panorama.conf
 
 resources/Documentation:
 docJava  docMatlab  README.pdf	SURF.pdf
@@ -62,14 +63,15 @@ resources/Jar:
 Panorama.jar
 
 resources/Matlab:
-Attenuation.m	   Box.m		  Detection.m	    Distance.m
-Extraction.m	   findMinValue.m	  GetMatrix.m	    GetPixelCoord.m
-GetPixelLat.m	   GetPixelLon.m	  Gps.m		    hnormalise.m
-Homographie.m	   homography2d.m	  iscolinear.m	    Lissage.m
-MapData.m	   Matching.m		  normalise2dpts.m  Panorama.m
-randomsample.m	   ransacfithomography.m  ransac.m	    Recollement.m
-Showhomographie.m  Showkeys.m		  SubImage.m	    Surf.m
-Teinte.m	   Warping.m
+adjustA.m	 Attenuation.m	 Box.m			Detection.m
+Distance.m	 Extraction.m	 findMinValue.m		GetMatrix.m
+GetPixelCoord.m  GetPixelLat.m	 GetPixelLon.m		Gps.m
+hnormalise.m	 Homographie.m	 homography2d.m		iscolinear.m
+Lissage.m	 MapData.m	 Matching.m		normalise2dpts.m
+Panorama.m	 randomsample.m  ransacfithomography.m	ransac.m
+rebuild.m	 Recollement.m	 Showhomographie.m	Showkeys.m
+stitchBand.m	 stitch.m	 SubImage.m		Surf.m
+Teinte.m	 Warping.m
 
 resources/Test:
 Data  itineraire
@@ -102,8 +104,8 @@ resources/Tree:
 tree
 
 src:
-Action.java	      Configuration.java  convertTab.java  CropMenu.java
-Fenetre.java	      Flight.java	  Itineraire.java  KmlWriter.java
-Map.java	      MouseMapMenu.java   Pin.java	   Point.java
-ProgressWindows.java  Recherche.java	  Resolution.java  SliderListener.java
-StraightLine.java     Test.java
+Action.java	     Configuration.java    convertTab.java    CropMenu.java
+Fenetre.java	     Flight.java	   Itineraire.java    KmlWriter.java
+Map.java	     MouseMapMenu.java	   optionMatlab.java  Pin.java
+Point.java	     ProgressWindows.java  Recherche.java     Resolution.java
+SliderListener.java  StraightLine.java	   Test.java

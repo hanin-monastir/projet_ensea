@@ -5,6 +5,7 @@ function [Latitude, Longitude] = Gps(fgps)
 fichier=fopen(fgps);
 
 %on parse les infos
+%Une méthode plus rapide consiste à directement charger un fichier texte
 %Heure: $heure\nLatitude: $deg_N°$min_N'N\nLongitude: $deg_E°$min_E'E\nSatellites: $satellites
 for i=1:4
     ligne = fgets(fichier);

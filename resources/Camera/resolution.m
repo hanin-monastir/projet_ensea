@@ -25,6 +25,29 @@ disp(' ')
 %On applique Thales
 n1 = (largeur*alt)/(res*f);
 n2 = (hauteur*alt)/(res*f);
+
+%évolution de la resolution en fonction de la resolution 
+x = 5e-3:1e-3:1.5e-1;	
+y1 = largeur*alt ./ (x*f);
+y2 = hauteur*alt ./ (x*f);
+
+subplot(211);
+plot(x,y1);
+title('Évolution de la resolution sur la largeur');
+xlabel('Resolution au sol');
+ylabel('Resolution largeur');
+grid;
+text(1e-1,n1,'\leftarrow 10cm','HorizontalAlignment','left');
+text(7e-3,2592,'\leftarrow 7mm','HorizontalAlignment','left');
+subplot(212);
+plot(x,y2);
+title('Évolution de la resolution sur la hauteur');
+xlabel('Resolution au sol');
+ylabel('Resolution hauteur');
+grid;
+text(1e-1,n2,'\leftarrow 10cm','HorizontalAlignment','left');
+
+
 disp('Calcul des résolutions en largeur et hauteur')
 disp('En largeur: n = (largeur*altitude)/(resolution_cherchée*focale)')
 disp('En hauteur: n = (hauteur*altitude)/(resolution_cherchée*focale)')

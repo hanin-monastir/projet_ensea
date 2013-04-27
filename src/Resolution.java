@@ -131,7 +131,7 @@ public class Resolution extends JFrame implements ActionListener{
             		pano = new Panorama();
             		facteur[0] = ecouteur.getCurrentValue();
             		nom[0] = carte.getNamePicture();
-            		path[0] = pano.SubImage(1,facteur[0],nom[0]);
+            		//path[0] = pano.SubImage(1,facteur[0],nom[0]);
 			File file = new File(carte.getNamePicture());
 			String fileimage = file.getAbsolutePath();            			
             		String dos = fileimage.substring(0,fileimage.lastIndexOf(File.separator));

@@ -1,10 +1,8 @@
 //Matlab import
-import com.mathworks.toolbox.javabuilder.* ;
-import Panorama.* ;
-
 import java.util.* ;
 import java.lang.* ;
-
+import java.io.*;
+import java.net.*;
 /**
  * <b>convertTab est la classe qui permet de convertir le tableau de donnée du format
  *  MWNumericArray à double .</b>
@@ -22,11 +20,8 @@ public class convertTab implements Runnable{
 	/**
 	*	Le tableau une fois convertit
 	*/
-	private double[][] Tableau;
-	/**
-	*	Le tableau à convertir
-	*/
-	private MWArray aconvertir;
+	private double[][] TableauLAT;
+	private double[][] TableauLON;
 	/**
 	*	Le nombre de ligne du tableau
 	*/
@@ -35,6 +30,11 @@ public class convertTab implements Runnable{
 	*	Le nombre de colonne du tableau
 	*/
 	private int colonne;
+	/**
+	*	Le fichier de latidue
+	*/
+	private File lat;
+	private File lon;
 
 	/**
 	*	Constructeur de la classe
@@ -46,30 +46,81 @@ public class convertTab implements Runnable{
 	*		Le nombre de colonne
 	*	@see Fenetre
 	*/
-	convertTab(MWNumericArray tab,int l,int c){
-		aconvertir = tab;
-		ligne = l;
-		colonne = c;
-		Tableau = new double[ligne][colonne];
+	convertTab(File flat,File flon){
+		TableauLAT = null;
+		TableauLON = null;
+		lat = flat;
+		lon = flon;
 	}
 	/**
 	*	Fonction qui permet de retourner le tableau convertit
 	*	@return Le tableau convertit
 	* 	@see Fenetre
 	*/	
-	public double[][] getTableau(){
-		return Tableau;
+	public double[][] getLAT(){
+		return TableauLAT;
+	}
+	public double[][] getLON(){
+		return TableauLON;
+	}
+	/**
+	*	On retourne les dimensions
+	*
+	*/
+		public int getLigne(){
+		return ligne;
+	}
+	public int getColonne(){
+		return colonne;
 	}
 	/**
 	*	Fonction de lancement du thread, pendant lequel la conversion s'effectue
 	*
 	*/
 	public void run() {
-		for (int i=2;i<ligne;i++){
-			for (int j=1;j<colonne;j++){
-				int[] idx = new int[]{i,j};
-				Tableau[i][j] = (double) aconvertir.get(idx);
+		try{
+			//Lecture du tableau de latitude pour obtenir les tailles
+			FileReader fichierlu = new FileReader(lat);
+			BufferedReader bufferlu = new BufferedReader(fichierlu);
+			String Ligne = "";
+			String[] resultat = null;
+			while ((Ligne = bufferlu.readLine()) != null) {	
+				resultat = Ligne.split(",");
+				ligne = ligne + 1;
+				colonne = resultat.length;
 			}
+		
+			TableauLAT = new double[ligne][colonne];
+			TableauLON = new double[ligne][colonne];
+			
+			//lecture des cellules de lat
+			FileReader fichierLAT = new FileReader(lat);
+			FileReader fichierLON = new FileReader(lon);
+			BufferedReader bufferLAT = new BufferedReader(fichierLAT);
+			BufferedReader bufferLON = new BufferedReader(fichierLON);
+			String LigneLAT = "";
+			String[] resultatLAT = null;
+			String LigneLON = "";
+			String[] resultatLON = null;
+			int l = 0;	
+			while ((LigneLAT = bufferLAT.readLine()) != null) {	
+				LigneLON = bufferLON.readLine();
+				resultatLAT = LigneLAT.split(",");
+				resultatLON = LigneLON.split(",");
+				
+				for(int c = 0;c<resultat.length;c++){
+					double lt = Double.parseDouble(resultatLAT[c]);	
+					double ln = Double.parseDouble(resultatLON[c]);
+					TableauLAT[l][c] = lt;
+					TableauLON[l][c] = ln;
+				}
+				
+				l++;
+			}		
+		
+
+		} catch(Exception e){
+				e.printStackTrace();
 		}
 	}
 }
