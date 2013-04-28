@@ -203,10 +203,29 @@ public class Fenetre extends JFrame implements ActionListener{
 		recherche.addActionListener(this);
 		panorama = null;
 		
-		String textLabel = "<html><b><big><big>Bienvenue sur ENSEAMap</big></big></b></html>";
+		///Fenêtre d'accueil
+		String textLabel = "<html><b><big><big>Bienvenue</big></big></b></html>";
 		JLabel provisoire = new JLabel(textLabel);
 		provisoire.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
-		contentPane.add(provisoire,"Center");
+		provisoire.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM); 
+		
+		Icon image = new ImageIcon( "resources/Images/map_icone.png" );
+		JLabel label = new JLabel();
+		label.setIcon( image );
+		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
+		
+		
+		JPanel accueil = new JPanel(new GridBagLayout());
+		GridBagConstraints contraintes = new GridBagConstraints();
+		contraintes.fill = GridBagConstraints.BOTH;
+		contraintes.insets = new Insets(3, 3, 3, 3);
+		contraintes.weightx = 1;		
+		contraintes.gridx = 0;	
+		contraintes.gridy = 0;
+		accueil.add(label,contraintes);
+		contraintes.gridy = 1;
+		accueil.add(provisoire,contraintes);
+		contentPane.add(accueil,"Center");
 		
 		progressebarre = new ProgressWindows();
 		progressebarre.setVisible(false);		

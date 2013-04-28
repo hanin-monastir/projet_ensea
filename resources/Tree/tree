@@ -1,4 +1,4 @@
-EnseaMap.desktop  projet  projet~  README.md
+EnseaMap.desktop  projet  README.md
 
 classes:
 Action.class	    Configuration.class    convertTab.class
@@ -63,14 +63,14 @@ resources/Jar:
 Panorama.jar
 
 resources/Matlab:
-adjustA.m      Attenuation.m   Box.m		      Detection.m
-Distance.m     Extraction.m    georeferencement.m     Gps.m
-hnormalise.m   Homographie.m   homography2d.m	      iscolinear.m
-Lissage.m      MapData.m       Matching.m	      normalise2dpts.m
-Panorama.m     randomsample.m  ransacfithomography.m  ransac.m
-Recollement.m  resolution.m    Showhomographie.m      Showkeys.m
-stitchBand.m   stitch.m        Surf.m		      Teinte.m
-utm2deg.m      Warping.m       wgs2utm.m
+Attenuation.m	       Box.m		   Detection.m	  Distance.m
+Extraction.m	       georeferencement.m  Gps.m	  hnormalise.m
+Homographie.m	       homography2d.m	   iscolinear.m   Lissage.m
+Matching.m	       normalise2dpts.m    Panorama.m	  randomsample.m
+ransacfithomography.m  ransac.m		   Recollement.m  resolution.m
+Showhomographie.m      Showkeys.m	   stitchBand.m   stitch.m
+Surf.m		       Teinte.m		   utm2wgs.m	  Warping.m
+wgs2utm.m
 
 resources/Test:
 Data  itineraire
