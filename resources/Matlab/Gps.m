@@ -1,3 +1,14 @@
+% GPS Lire les fichiers gps
+% 
+% Utilisation: [Latitude, Longitude] = Gps(fgps) 
+%
+% Arguments:
+%	fgps	- un fichier txt contenant les infos gps
+%
+% Returns:
+% 	Latitude La latitude du centre de l'image correspondante
+% 	Longitude La longitude du centre de l'image correspondante
+%
 function [Latitude, Longitude] = Gps(fgps)
 %GPS permet de trouver les coordonnées de chaque pixel
 % Pour cela, on lit le fichier gps associé à la photo

@@ -1,3 +1,14 @@
+% HOMOGRAPHIE permet de trouver l'homographie entre deux images
+%
+% Utlisation: [H, ppositif ] = Homographie(match1, match2)
+%
+% Arguments:
+%	match1	- les points de l'image 1
+%	match2	- les points de l'image 2
+%
+% Returns:
+%	H l'homographie entre les deux images
+%	ppositif les points verifiant l'homographie
 function [H, ppositif ] = Homographie(match1, match2)
 %HOMOGRAPHIE fonction qui permet de trouver l'homographie en appliquant
 %l'algorithme de RANSAC

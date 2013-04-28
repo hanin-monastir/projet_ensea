@@ -57,8 +57,8 @@ case $1 in
 
 	#Commande compilation execution
 	"-doc"     ) #permet de générer la doc
-		 javadoc -d $PWD/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar $PWD/src/*.java
-		 Tree ;;
+		javadoc -d $PWD/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar $PWD/src/*.java
+		Tree ;;
 	
 	"-compile" )
 		if [ ! -d $PWD/classes ]; then
@@ -67,11 +67,11 @@ case $1 in
 		}
 		fi
 		javac -d $PWD/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar:$PWD $PWD/src/*.java
-		 Tree ;; 
+		Tree ;; 
 
 	""         )
-		 java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar:$PWD/resources:$PWD:$PWD/classes Test;
-		 Tree ;;
+		java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar:$PWD/resources:$PWD:$PWD/classes Test;
+		Tree ;;
 	
 	#Un peu d'aide
 	"-help"    ) help;;

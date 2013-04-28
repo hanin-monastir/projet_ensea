@@ -1,4 +1,18 @@
-function [position, nombre] = Panorama(photo,ext,gps,pos)
+% PANORAMA permet de creer une bande de photos
+%
+% Utilisation: [position, nombre] = Panorama(photo,ext,gps,pos,build)
+%
+% Arguments:
+%	photos	- Un dossier de photos
+%	ext	- L'extension des photos
+%	gps	- Un dossier gps1
+%	pos	- Le tableau de position dans lequel on ajoute les centres de la nouvelle bande
+%	build	- Utiliser ou non la reconstruction optimale
+%
+% Returns:
+%	positions La position des centres des images
+%	nombre    Le nombre d'image dans une bande
+function [position, nombre] = Panorama(photo,ext,gps,pos,build)
 %on désactive les warnings
 warning off
 position = pos;
@@ -35,6 +49,29 @@ if exist(dossier_gps)
    	end
 else
 	chargment = false;
+end
+
+%................Construction optimale
+if build ==  1
+	for i=1:numel(list)
+		imi = fullfile(dossier,list(i).name);
+		for j = i+1:numel(list)
+        		%on ouvre les images
+        		imj = fullfile(dossier,list(j).name);
+
+        		[F1, F2, pointsF1, pointsF2] = Detection(imi, imj);
+        		[features1, validPoints1, features2, validPoints2] = Extraction(F1,F2,pointsF1,pointsF2);
+
+        		%appariement
+        		[match1, match2] = Matching(features1, validPoints1, features2, validPoints2);
+        		S(i,j) = size(match1,1);
+        		S(j,i) = size(match1,1); 
+    		end  
+	end
+	Somme = sum(S(:,1:size(S,2)));
+	[ordre,idx] = sort(Somme,2,'descend');
+	list = list(idx);
+	list_gps = list_gps(idx);
 end
 
 %................Construction de la bande
@@ -74,6 +111,7 @@ if chargement == true
 			y1 = round(R(2)/R(3));
 			x1 = abs(bbox(1)-x1)+1;
 			y1 = abs(bbox(3)-y1)+1;
+	
 			gps1 = fullfile(dossier_gps,list_gps(n-1).name);
 			[lat1, lon1] = Gps(gps1);
 			
@@ -97,7 +135,7 @@ if chargement == true
 			end			
 			position{size(position,2)} = tab;
 		end
-		
+			
 		IM2 = imread(im2);
 		gps2 = fullfile(dossier_gps,list_gps(n).name); 
 		[lat2,lon2] = Gps(gps2);

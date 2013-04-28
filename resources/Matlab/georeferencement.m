@@ -1,3 +1,19 @@
+%GEOREFERENCEMENT creer les matrices de coordonnees
+%
+% Utilisation: [H,lat,lon] = georeferencement(tab,siz,taille,nombre,z)
+%
+% Arguments:
+%	tab	- Un tableau contenant les centres des images apres recollements
+%	siz	- La taille de l'image finale
+%	taille	- Le nombre de bande dans l'images
+%	nombre	- Le nombre de photo par bande
+%	z	- La zone UTM correspondant à la zone de survol
+%
+% Returns:
+%	H L'homographie liant les pixels aux coordonnées
+%	lat la matrice de latitude
+%	lon la matrice de longitude
+% 
 function [H,lat,lon] = georeferencement(tab,siz,taille,nombre,z)
 %GEOREFERENCEMENT fonction de georeferencement
 %Elle permet de trouver les matrices de coordonnées
@@ -28,13 +44,21 @@ X = H^-1 * Y ;
 X = reshape(X,3,2)';
 
 disp('Calcul des coordonnees UTM de chaque pixel et retour aux coordonnees WGS84 ')
-for j = 1:tx
-    for i = 1:ty
-        V = X*[j;i;1];
-        %conversion
-        [lat(i,j),lon(i,j)] = utm2deg(V(1),V(2),zone); 
-    end
-end
-
+%creation des matrices d'indice
+[Col, Lin] = meshgrid(1:tx,1:ty);
+x = reshape(Col,1,tx*ty);
+y = reshape(Lin,1,tx*ty);
+z = ones(1,tx*ty);
+%Calcul des coordonnées utm de chauqe pixel
+V = X*[x;y;z];
+E(1:size(V,2)) = V(1,:)';
+N(1:size(V,2)) = V(2,:)';
+%retour aux vrais coordonnées
+[lat,lon] = utm2wgs(E,N,zone);
+%remise en forme
+lat = reshape(lat,ty,tx);
+lon = reshape(lon,ty,tx);
+lat = double(lat);
+lon = double(lon);
 disp('fin du géoréférencement');
 end

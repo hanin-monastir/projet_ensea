@@ -247,8 +247,6 @@ public class Fenetre extends JFrame implements ActionListener{
 			panel_search = new Recherche();
 			panel_search.setVisible(false);			
 
-			//panorama = new Map(panel_search,"resources/Images/fond-noir.jpg");
-			//Itineraire itn = new Itineraire(panorama);
 			Itineraire itn = new Itineraire();
 			itn.start();
 			while(itn.getWrited() == false){
@@ -267,7 +265,6 @@ public class Fenetre extends JFrame implements ActionListener{
 			contentPane.add(panel_search,"West");
 			enableMenu(true);
 			setVisible(true);	
-
 		}		
 		else if(e.getActionCommand().equals("Annuler tout")){
 			if(panorama.getMode() == "Panorama"){
@@ -280,7 +277,6 @@ public class Fenetre extends JFrame implements ActionListener{
 			}
 		}
 		else if(e.getActionCommand().equals("Sauvegarder l'image")){
-			//panel_search.toString("positions.txt");
 			panorama.saveImage();
 			ShowInfo("Le panorama a été placé dans le dossier courant");
 		}
@@ -346,6 +342,9 @@ public class Fenetre extends JFrame implements ActionListener{
 						if ( panorama == null ){
 							panel_search = new Recherche();
 							panel_search.setVisible(true);		
+							recherche = null;
+							recherche = panel_search.getButton();
+							recherche.addActionListener(this);
 							panorama =  new Map(panel_search,Photo);
 							panorama.setVisible(true);
 							panorama.repaint();
@@ -439,18 +438,18 @@ public class Fenetre extends JFrame implements ActionListener{
 		}     		
      		else if(e.getActionCommand().equals("Recherche"))
 		{     			
-//     			String latitude = "";
-//     			String longitude = "";
-//     			
-//     			latitude = panel_search.getLatitude();
-//     			longitude = panel_search.getLongitude();
-//     			
-//     			double lat = Double.parseDouble(latitude);
-//     			double lon = Double.parseDouble(longitude);
-//     			
-//     			System.out.println("latitude : "+lat+" longitude : "+lon);
-//     			
-//     			panorama.searchResult(lat, lon);	
+     			String latitude = "";
+     			String longitude = "";
+     			
+     			latitude = panel_search.getLatitude();
+     			longitude = panel_search.getLongitude();
+     			
+     			double lat = Double.parseDouble(latitude);
+     			double lon = Double.parseDouble(longitude);
+     			
+     			System.out.println("latitude : "+lat+" longitude : "+lon);
+     			
+     			panorama.searchResult(lat, lon);	
      		}		
 	}
 

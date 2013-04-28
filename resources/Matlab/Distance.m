@@ -1,3 +1,17 @@
+% DISTANCE permet de donner plus d'importance aux pixels centraux
+%
+% Utilistion: imd = Distance(MI1,MI2,MIII,im1,im2,imd)
+%
+% Arguments:
+%	MI1	- la zone occupee par l'image 1 apres recollement
+%	MI2	- la zone occupee par l'image 2 après recollement
+%	MIII	- la zone de recouvrement
+%	im1	- la premiere image
+%	im2	- la deuxieme image
+%	imd	- l'image finale
+% 
+% Returns:
+%	imd l'image finale
 function imd = Distance(MI1,MI2,MIII,im1,im2,imd)
 %DISTANCE permet de pondérer les pixels par la distance au coté dss images
 %on cherche les deux droite les plus proches

@@ -1,3 +1,14 @@
+% BOX permet de limiter la zone de reconstruction
+% 
+% Utilisation: bb = Box(im1,im2,H)
+% 
+% Arguments: 
+%	im1	- La premiere image
+%	im2	- La seconde images
+%	H	- L'homographie permettant de recoller l'image 2 à l'image 1
+%
+% Returns:
+%	bb La zone permettant la reconstruction de l'image en limitant les bandes noires autour de l'image
 function bb = Box(im1,im2,H)
 %BOX Cette fonction permet de calculer la taille optimale de l'image finale pour
 %cela on calcul où se trouveront les coins des images après transformation

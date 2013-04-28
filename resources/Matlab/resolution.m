@@ -1,3 +1,14 @@
+% RESOLUTION permet d'abaisser la taille des images si necessaire
+%
+% Utilisation: etat = resolution(dossier,liste,limit)
+%
+% Arguments:
+%	dossier	- Le dossier contenant les bandes de photos
+%	liste   - La liste des bandes de photos
+%	limit	- Un tableau contenant les limites des images
+%
+% Returns:
+%	etat = 1 si on abaisse la resolution
 function etat = resolution(dossier,liste,limit)
 larglimit = limit(1);
 hautlimit = limit(2);

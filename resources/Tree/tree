@@ -1,4 +1,4 @@
-EnseaMap.desktop  projet  README.md
+EnseaMap.desktop  projet  projet~  README.md
 
 classes:
 Action.class	    Configuration.class    convertTab.class
@@ -30,12 +30,12 @@ Configuration.html    constant-values.html   convertTab.html
 deprecated-list.html  Fenetre.html	     Flight.html
 help-doc.html	      index-all.html	     index.html
 Itineraire.html       KmlWriter.html	     Map.html
-MouseMapMenu.html     overview-tree.html     package-frame.html
-package-list	      package-summary.html   package-tree.html
-Pin.html	      Point.html	     ProgressWindows.html
-Recherche.html	      Resolution.html	     resources
-serialized-form.html  SliderListener.html    StraightLine.html
-stylesheet.css	      Test.html
+MouseMapMenu.html     optionMatlab.html      overview-tree.html
+package-frame.html    package-list	     package-summary.html
+package-tree.html     Pin.html		     Point.html
+ProgressWindows.html  Recherche.html	     Resolution.html
+resources	      serialized-form.html   SliderListener.html
+StraightLine.html     stylesheet.css	     Test.html
 
 resources/Documentation/docJava/html/resources:
 background.gif	tab.gif  titlebar_end.gif  titlebar.gif
@@ -79,7 +79,7 @@ resources/Test/Data:
 breakpoints.txt  map.kml  mapview.png
 
 resources/Test/itineraire:
-1  2  latitude.txt  longitude.txt  mosaique.png
+1  2  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
 
 resources/Test/itineraire/1:
 Copie  Gps  Photo

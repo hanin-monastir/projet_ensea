@@ -1,3 +1,17 @@
+% SURF permet de recoller deux images
+% 
+% Utilisation: [ima,H,bbox,MII,MIII] = Surf(image1, image2)
+% 
+% Arguments: 
+%     image1  - La premiere image 
+%     image2  - La seconde image
+% 
+% Returns:
+%     ima  L'image finale
+%     H    L'homographie permettant de recoller les images
+%     bbox la boite permettant d'avoir le moins de bande noire autour de l'image finale
+%     MII  la zone contenant les image finale sans recouvrement
+%     MIII la zone de recouvrement des deux images
 function [ima,H,bbox,MII,MIII] = Surf(image1, image2)
 %cette fonction permet de recoller deux images
 %certains warning de prévention apparaissent

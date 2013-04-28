@@ -1,3 +1,15 @@
+% RECOLLEMENT permet de recoller deux images
+%
+% Utilistion: [imd,MII,MIII] = Recollement(im1,im2)
+%
+% Arguments: 
+%	im1	- Premiere image
+%	im2	- Deuxieme images
+%	
+% Returns:
+%	imd l'image finale
+%	MII la zone de non superposition des images
+%	MIII la zone de superposition des images
 function [imd,MII,MIII] = Recollement(im1,im2)
 %fonction qui permet de recoller les images proprement, on ouvre d'abord
 %les images en gray afin de créer les matrices de zone. Une fois trouvées

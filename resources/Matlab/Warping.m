@@ -1,3 +1,16 @@
+% WARPING permet d'appliquer une homographie a une image
+% 
+% Utilisation: nim = Warping(im, H, interp_mode, bbox_mode, verbose)
+% 
+% Arguments:
+%     im  - l'image qui va subir l'homographie
+%     H   - l'homographie
+%     inter_mode  - le mode d'interpolation
+%     bbox_mode   - les dimensions de l'image finale permettant d'obtenir le moins de bande noire
+%     verbose     - future option
+% 
+% Returns:
+%     nim nouvelle image
 function nim = Warping(im, H, interp_mode, bbox_mode, verbose)
 %fonction qui permet de redimensionner et placer l'image correctement avant
 %le recollement

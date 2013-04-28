@@ -1,3 +1,14 @@
+% ATTENUATION attenuer les bande noires entre recollement
+%
+% Utilisation: imc = Attenuation(imc,bande,M)
+%
+% Arguments:
+%	imc	- La mosaique finale
+%	bande	- Le nombre du pixel a prendre en compte
+%	M	- Matrice donnant la zone de recouvrement entre deux images
+%
+% Returns:
+%	imc l'image finale
 function imc = Attenuation(imc,bande,M)
 %ATTENUATION atténuer les bandes noires qui peuvent apparaitre
 % on définit ici l'épaisseur sur lesquelle sera réalisé le moyennage

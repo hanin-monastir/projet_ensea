@@ -1,3 +1,15 @@
+% STITCHBAND permet de recoller les bandes entre elles
+% 
+% Utilisation: [Mosaique,position] = stitchBand(dossier,bande,position)
+% 
+% Arguments:
+%     dossier     - le dossier contenant la mosaique
+%     bande       - la nouvelle bande a recoller
+%     position    - le tableau contenant la position et les coordonnees des centres des images
+% 
+% Returns:
+%     Mosaique    - La mosaique apres recollement
+%     position    - Le tableau de position mis à jours
 function [Mosaique,position] = stitchBand(dossier,bande,position)
 	mosaique_finale = fullfile(dossier,'/mosaique.png')
 	%On applique la méthode de recollement sur la mosaique finale

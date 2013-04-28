@@ -1,3 +1,14 @@
+% TEINTE egalise les niveaux de gris entres les images
+% 
+% Utilisation: im2 = Teinte(im1,im2,R)
+% 
+% Arguments:
+%     im1     - la première image
+%     im2     - la deuxième image
+%     R       - la zone de recouvrement
+%  
+% Returns:
+%     im2 apres egalisation des niveaux de gris
 function im2 = Teinte(im1,im2,R)
 %fonction qui modifie la teinte de l'image en égalisant les niveaux de gris
 %de chaque sous calque RVB

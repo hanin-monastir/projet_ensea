@@ -817,60 +817,40 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	 *	      La longitude du point recherché
          * 
          */
-//	public void searchResult(double lat, double lon){
-//		//Centrer l'image au pixel indiqué
-//		Panorama pan = null;
-//		Object LAT = null;
-//		Object LON = null;
-//		Object latd = null;
-//		Object lond = null;
-//		Object[] pix = null; 
-//		MWArray out1 = null;
-//		MWArray out2 = null;
-
-//		if (Lat != null){
-//			try {	
-//				//on convertit les inputs en Object	
-//				LAT = (Object) Latitude;
-//				LON = (Object) Longitude;
-//				latd = (Object) lat;
-//				lond = (Object) lon;
-//	
-//				//on crée une instance de notre classe
-//				pan = new Panorama();	
-//				pix = pan.findMinValue(2, LAT, LON, latd, lond);
-//	
-//				//notification
-//				System.out.println("Pixel: " + pix[0] + " " +  pix[1]);
-//	
-//				//1ere conversion obligatoire
-//				out1 = (MWNumericArray) pix[0];
-//				out2 = (MWNumericArray) pix[1];	
-//	
-//				//conversion double
-//				double py = (double) out1.get(1);
-//				double px = (double) out2.get(1);
-//	
-//				//arrondi
-//				int Px = (int) Math.floor(px*scale+offsetX);
-//				int Py = (int) Math.floor(offsetY+py*scale);
-//				
-//				//décalle ie on centre la zone
-//				offsetX = dimX/2 - (Px - offsetX);
-//				offsetY = dimY/2 - (Py - offsetY);
-//				repaint();				
-//			} catch (MWException ei){
-//				ei.printStackTrace();
-//			} catch (Exception ei){
-//				ei.printStackTrace();		
-//			} finally{
-//				//on libère la mémoire
-//				pan.dispose();
-//				MWArray.disposeArray(out1);
-//					MWArray.disposeArray(out2);
-//			}
-//		}	
-//	}	
+	public void searchResult(double lat, double lon){
+		//Centrer l'image au pixel indiqué
+		try {			
+			//on otient les tailles des tableaux
+			//System.out.println(Latitude.length+"\n"+Latitude[0].length);
+			int l = Latitude.length;
+			int c = Latitude[0].length;
+			
+			int px = 0;
+			int py = 0;
+			
+			for(int i = 0;i<l;i++){
+				for(int j=0;j<c;j++){
+					if(Latitude[i][j] == lat && Longitude[i][j] == lon){
+						px = j;
+						py = i;
+						//on sort
+						i = l;
+						j = c;
+					}
+				}
+			}
+			
+			//arrondi
+			int Px = (int) Math.floor(px*scale+offsetX);
+			int Py = (int) Math.floor(offsetY+py*scale);	
+			//décalle ie on centre la zone
+			offsetX = dimX/2 - (Px - offsetX);
+			offsetY = dimY/2 - (Py - offsetY);
+			repaint();				
+		} catch (Exception ei){
+			ei.printStackTrace();		
+		}	
+	}	
 
         /**
          * Permet de placer les pins sur la carte

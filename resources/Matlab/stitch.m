@@ -1,3 +1,18 @@
+% STITCH permet de creer le panorama georeference
+%
+% Utilisation: stitch(dossier,configuration)
+%
+% Arguments: 
+%	dossier		- Le dossier contenant les données gps et photos
+%	configuration	- Le fichier de configuration
+%
+% Notes: le fichier de configuration est ainsi 
+% 	ligne 1 	- resolution maximale en largeur
+%	ligne 2		- resolution maximale en hauteur
+%	ligne 3		- numero de la zone UTIM
+%	ligne 4		- code ASCII de la lettre de la zone UTM
+%	ligne 5		- 1 si on utilise le recollement optimale
+% 
 function stitch(dossier,configuration)
 %...............Configuration
 	if exist(configuration)
@@ -6,6 +21,7 @@ function stitch(dossier,configuration)
 		num = num2str(conf(3));
 		zone = [num ,' '];
 		zone = [zone,char(conf(4))];
+		build = conf(5);
 	
 %...............Fichier final
 		Mosaique_finale = fullfile(dossier,'/mosaique.png');
@@ -56,7 +72,7 @@ function stitch(dossier,configuration)
 						ext = '*.png';
 						disp(Photo)
 						disp(Gps)
-						[position, nombre] = Panorama(Photo,ext,Gps,position);
+						[position, nombre] = Panorama(Photo,ext,Gps,position,build);
 						bande = fullfile(Photo,'/mosaique.png');
 						
 						%on recolle la nouvelle bande à la mosaique
@@ -81,9 +97,9 @@ function stitch(dossier,configuration)
 		
 %...............Géoréférencement
 		[H,lat,lon]=georeferencement(tab,size(Mosaique),taille,nombre,zone);
-		csvwrite(latitude,lat);
-		csvwrite(longitude,lon);
-	
+		dlmwrite(latitude,lat,'precision',9);
+		dlmwrite(longitude,lon,'precision',9);
+		lon
 		disp('Fin de la construction du panorama');
 	else
 		disp('Le fichier de configuration n"existe pas, operation annulee');
