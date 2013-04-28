@@ -43,6 +43,12 @@ Tree(){
 	echo "$FILES" > $DIR/resources/Tree/tree
 }
 
+Executable(){
+echo "Main-Class: Test" >> $PWD/classes/MANIFEST.MF
+echo "Class-Path:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar:$PWD/resources:$PWD:$PWD/classes\n" >> $PWD/classes/MANIFEST.MF	
+cd $PWD/classes
+jar cvmf MANIFEST.MF Programme.jar *.class
+}
 
 case $1 in
 	#Git management
@@ -56,6 +62,7 @@ case $1 in
 	"status"   ) git status;;
 
 	#Commande compilation execution
+	"-exec"    ) Executable;;		
 	"-doc"     ) #permet de générer la doc
 		javadoc -d $PWD/resources/Documentation/docJava/html -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar $PWD/src/*.java
 		Tree ;;

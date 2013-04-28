@@ -839,13 +839,22 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 					}
 				}
 			}
+			//retour au vrai coord
+			for(Pin p: listPin){
+				p.poffset.setX((int)((p.poffset.getX()-offsetX)/scale));
+				p.poffset.setY((int)((p.poffset.getY()-offsetY)/scale));
+			}
 			
-			//arrondi
 			int Px = (int) Math.floor(px*scale+offsetX);
 			int Py = (int) Math.floor(offsetY+py*scale);	
 			//décalle ie on centre la zone
 			offsetX = dimX/2 - (Px - offsetX);
 			offsetY = dimY/2 - (Py - offsetY);
+			//mise à jours de pins
+			for(Pin p: listPin){
+				p.poffset.setX(p.poffset.getX()+offsetX);
+				p.poffset.setY(p.poffset.getY()+offsetY);
+			}
 			repaint();				
 		} catch (Exception ei){
 			ei.printStackTrace();		

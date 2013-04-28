@@ -214,6 +214,10 @@ public class Fenetre extends JFrame implements ActionListener{
 		label.setIcon( image );
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
 		
+		Icon logo = new ImageIcon("resources/Images/Ensea.gif");
+		JLabel ecole = new JLabel();
+		ecole.setIcon( logo );
+		ecole.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
 		
 		JPanel accueil = new JPanel(new GridBagLayout());
 		GridBagConstraints contraintes = new GridBagConstraints();
@@ -222,8 +226,10 @@ public class Fenetre extends JFrame implements ActionListener{
 		contraintes.weightx = 1;		
 		contraintes.gridx = 0;	
 		contraintes.gridy = 0;
-		accueil.add(label,contraintes);
+		accueil.add(ecole,contraintes);
 		contraintes.gridy = 1;
+		accueil.add(label,contraintes);
+		contraintes.gridy = 2;
 		accueil.add(provisoire,contraintes);
 		contentPane.add(accueil,"Center");
 		
@@ -313,7 +319,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			JFileChooser chooser = new JFileChooser();
     			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
     			chooser.setFileFilter(filter);
-   			
+   			chooser.setApproveButtonText("Ouvrir");
    			int returnVal = chooser.showOpenDialog(this.getParent());
     			
     			if(returnVal == JFileChooser.APPROVE_OPTION)
@@ -343,6 +349,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			chooser1.setDialogTitle("Séléctionner le dossier contenant les photos et le gps");
 			chooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);	
 			chooser1.setAcceptAllFileFilterUsed(false);
+			chooser1.setApproveButtonText("Charger");
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
 				String Photo = chooser1.getSelectedFile().getAbsolutePath() + "/map.jpg";
 				String pin = chooser1.getSelectedFile().getAbsolutePath() + "/positions.txt";
@@ -397,7 +404,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			chooser1.setDialogTitle("Séléctionner le dossier contenant les photos et le gps");
 			chooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);	
 			chooser1.setAcceptAllFileFilterUsed(false);
-
+			chooser1.setApproveButtonText("Créer");
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
 				String Photo = chooser1.getSelectedFile().getAbsolutePath(); //+ "/Photo";
 				Object folderphoto[] = new Object[1];
