@@ -32,7 +32,20 @@ public class Flight extends JFrame implements ActionListener {
 	*
 	*/
 	Flight(){
-		super("Configuration des paramètres de vol");
+		super();
+		//tentative internationalisation
+		Locale currentLocale = Locale.getDefault();
+		String locale = currentLocale.getLanguage();
+		String country = currentLocale.getCountry();
+        	ResourceBundle messages;
+        	currentLocale = new Locale(locale, country);
+        	String path = "resources/locales/" + locale + "/MouseMapMenu"; 
+        	messages = ResourceBundle.getBundle(path, currentLocale);
+        			
+	
+		String titre = messages.getString("titre");
+					
+		setTitle(titre);
 		setResizable(false);
 		setSize(430,280);
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
@@ -40,18 +53,24 @@ public class Flight extends JFrame implements ActionListener {
 
 		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
 		
-
 		//bouton de sauvegarde
-		JButton Sauvegarde = new JButton("Sauvegarder");
+		String save = messages.getString("sauvegarde");
+		JButton Sauvegarde = new JButton(save);
 		Sauvegarde.addActionListener(this);	
 		
 		//Les différents labels
-		JLabel larc = new JLabel("Arc");
-		JLabel lkey = new JLabel("Inter");
-		JLabel lligne = new JLabel("Ligne");
-		JLabel linfluence = new JLabel("Influence");
-		JLabel limportance = new JLabel("Importance");
-		JLabel ldiametre = new JLabel("Diamètre minimale 1/2 tours");
+		String tarc = messages.getString("arc");
+		String tkey = messages.getString("key");
+		String tligne = messages.getString("ligne");
+		String tinfluence = messages.getString("influence");
+		String timportance = messages.getString("importance");
+		String tdiametre = messages.getString("diametre");
+		JLabel larc = new JLabel(tarc);
+		JLabel lkey = new JLabel(tkey);
+		JLabel lligne = new JLabel(tligne);
+		JLabel linfluence = new JLabel(tinfluence);
+		JLabel limportance = new JLabel(timportance);
+		JLabel ldiametre = new JLabel(tdiametre);
 		
 		//Les différents paramètes de taille
 		dline = new JSlider(JSlider.HORIZONTAL,20,100,20);

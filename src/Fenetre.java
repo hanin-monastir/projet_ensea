@@ -76,6 +76,25 @@ public class Fenetre extends JFrame implements ActionListener{
          *
          */
          ArrayList<JMenuItem> activableMenu;
+         /**
+         *	String pour internationaliser
+         */
+         String open;
+         String create;
+         String load;
+         String savepicture;
+         String imageinfo;
+         String savepin;
+         String configurerpano;
+         String quit;
+         String cancelall;
+         String cancel;
+         String drawiti;
+         String configiti;
+         String confflight;
+         String createerror;
+         String choosercreate;
+         String rech;
          
         /**
          * Constructeur Fenetre.
@@ -87,10 +106,43 @@ public class Fenetre extends JFrame implements ActionListener{
          *            Le titre de la fenêtre
          * 
          */
-	Fenetre(String titre){
+	Fenetre(){
+		super();
+		Locale currentLocale = Locale.getDefault();
+		String locale = currentLocale.getLanguage();
+		String country = currentLocale.getCountry();
+        	ResourceBundle messages;
+        	currentLocale = new Locale(locale, country);
+        	String path = "resources/locales/" + locale + "/Fenetre"; 
+        	messages = ResourceBundle.getBundle(path, currentLocale);
+        	String path1 = "resources/locales/" + locale + "/Recherche";	
+		ResourceBundle messagerecherche = ResourceBundle.getBundle(path1, currentLocale);
 	
-		super(titre);
+		//Chargement des locales
+		String titre = messages.getString("titre");
+		String fichier = messages.getString("fichier");
+		open = messages.getString("ouvrir");
+		create = messages.getString("creer");
+		load = messages.getString("charger");
+		savepicture = messages.getString("sauvegarde");
+		imageinfo = messages.getString("imageinfo");
+		savepin = messages.getString("pin");
+		configurerpano = messages.getString("configurerpano");
+		quit = messages.getString("quit");
+		String edit = messages.getString("edit");
+		cancelall = messages.getString("cancelall");
+		cancel = messages.getString("cancel");
+		String iti = messages.getString("itineraire");
+		drawiti = messages.getString("drawiti");
+		String config = messages.getString("config");
+		configiti = messages.getString("configiti");
+		confflight = messages.getString("confflight");
+		createerror = messages.getString("createerror");
+		String welcome = messages.getString("welcome");
+		choosercreate = messages.getString("choosercreate");
+		rech = messagerecherche.getString("recherche");
 		
+		setTitle(titre);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//choisit l'icone de la fenetre
 		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
@@ -99,45 +151,41 @@ public class Fenetre extends JFrame implements ActionListener{
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
 		int hauteur = (int)tailleEcran.getHeight();
 		int largeur = (int)tailleEcran.getWidth();
-		
 		setSize(tailleEcran);
-				
 		activableMenu = new ArrayList<JMenuItem>();
-		
 		JMenuBar m = new JMenuBar();
 		//////////////////// Menu Fichier //////////////////////////////////
-		JMenu menu1 = new JMenu("Fichier");
-
-		JMenuItem ouvrir = new JMenuItem("Ouvrir");
+		JMenu menu1 = new JMenu(fichier);
+		JMenuItem ouvrir = new JMenuItem(open);
 		ouvrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		ouvrir.addActionListener(this);
 		menu1.add(ouvrir);
 		
 		
-		JMenuItem creer = new JMenuItem("Créer");
+		JMenuItem creer = new JMenuItem(create);
 		creer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));	
 		creer.addActionListener(this);
 		menu1.add(creer);	
 	
-		JMenuItem charger = new JMenuItem("Charger");
+		JMenuItem charger = new JMenuItem(load);
 		charger.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));	
 		charger.addActionListener(this);
 		menu1.add(charger);
 		
-		JMenuItem sauver = new JMenuItem("Sauvegarder l'image");
+		JMenuItem sauver = new JMenuItem(savepicture);
 		sauver.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));	
 		sauver.addActionListener(this);
 		activableMenu.add(sauver);
 		menu1.add(sauver);
 
-		JMenuItem sauverpin = new JMenuItem("Sauvegarder les positions");
+		JMenuItem sauverpin = new JMenuItem(savepin);
 		sauverpin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));		
 		sauverpin.addActionListener(this);
 		activableMenu.add(sauverpin);
 		menu1.add(sauverpin);
 
 		menu1.addSeparator();
-		JMenuItem confPanorama = new JMenuItem("Configurer le panorama");
+		JMenuItem confPanorama = new JMenuItem(configurerpano);
 		confPanorama.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));		
 		confPanorama.addActionListener(this);
 		menu1.add(confPanorama);
@@ -145,41 +193,41 @@ public class Fenetre extends JFrame implements ActionListener{
 
 		menu1.addSeparator();
 
-		JMenuItem quitter = new JMenuItem("Quitter");
+		JMenuItem quitter = new JMenuItem(quit);
 		quitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));	
 		quitter.addActionListener(this);
 		menu1.add(quitter);		
 
 		//////////////////// Menu Édition /////////////////////////////////
-		JMenu menu2 = new JMenu("Édition");
+		JMenu menu2 = new JMenu(edit);
 
-		JMenuItem annulertout = new JMenuItem("Annuler tout");
+		JMenuItem annulertout = new JMenuItem(cancelall);
 		annulertout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));		
 		annulertout.addActionListener(this);
 		activableMenu.add(annulertout);
 		menu2.add(annulertout);			
 
-		JMenuItem annulerun = new JMenuItem("Annuler");
+		JMenuItem annulerun = new JMenuItem(cancel);
 		annulerun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
 		annulerun.addActionListener(this);
 		activableMenu.add(annulerun);
 		menu2.add(annulerun);			
 	
 		/////////////////// Menu Itinéraire /////////////////////////////////////
-		JMenu menu3 = new JMenu("Itinéraire");	
+		JMenu menu3 = new JMenu(iti);	
 	
-		JMenuItem itineraire = new JMenuItem("Tracer itinéraire");
+		JMenuItem itineraire = new JMenuItem(drawiti);
 		itineraire.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));		
 		itineraire.addActionListener(this);
 		menu3.add(itineraire);
 
-		JMenu sousmenu3 = new JMenu("Configuration");
-		JMenuItem configitineraire = new JMenuItem("Configurer itinéraire");
+		JMenu sousmenu3 = new JMenu(config);
+		JMenuItem configitineraire = new JMenuItem(configiti);
 		configitineraire.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));		
 		configitineraire.addActionListener(this);
 		sousmenu3.add(configitineraire);
 		
-		JMenuItem configflight = new JMenuItem("Configurer les paramètres de vol");
+		JMenuItem configflight = new JMenuItem(confflight);
 		configflight.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));		
 		configflight.addActionListener(this);
 		sousmenu3.add(configflight);
@@ -204,7 +252,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		panorama = null;
 		
 		///Fenêtre d'accueil
-		String textLabel = "<html><b><big><big>Bienvenue</big></big></b></html>";
+		String textLabel = "<html><b><big><big>" + welcome + "</big></big></b></html>";
 		JLabel provisoire = new JLabel(textLabel);
 		provisoire.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
 		provisoire.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM); 
@@ -253,21 +301,21 @@ public class Fenetre extends JFrame implements ActionListener{
          */
 	public void actionPerformed(ActionEvent e){
 	
-		if(e.getActionCommand().equals("Quitter"))
+		if(e.getActionCommand().equals(quit))
 		{
 			System.out.println("Vous avez appuyé sur Quitter");
 			System.exit(0);
 		}
-		else if(e.getActionCommand().equals("Configurer le panorama")){
+		else if(e.getActionCommand().equals(configurerpano)){
 			optionMatlab option = new optionMatlab();
 		}
-		else if(e.getActionCommand().equals("Configurer les paramètres de vol")){
+		else if(e.getActionCommand().equals(confflight)){
 			Flight paramVol = new Flight();
 		}
-		else if(e.getActionCommand().equals("Configurer itinéraire")){
+		else if(e.getActionCommand().equals(configiti)){
 			Configuration conf = new Configuration();			
 		}
-		else if(e.getActionCommand().equals("Tracer itinéraire")){
+		else if(e.getActionCommand().equals(drawiti)){
 			
 			panel_search = new Recherche();
 			panel_search.setVisible(false);			
@@ -291,35 +339,35 @@ public class Fenetre extends JFrame implements ActionListener{
 			enableMenu(true);
 			setVisible(true);	
 		}		
-		else if(e.getActionCommand().equals("Annuler tout")){
+		else if(e.getActionCommand().equals(cancelall)){
 			if(panorama.getMode() == "Panorama"){
 				panorama.cancelAll();
 			}
 		}
-		else if(e.getActionCommand().equals("Annuler")){
+		else if(e.getActionCommand().equals(cancel)){
 			if(panorama.getMode() == "Panorama"){
 				panorama.cancelOne();
 			}
 		}
-		else if(e.getActionCommand().equals("Sauvegarder l'image")){
+		else if(e.getActionCommand().equals(savepicture)){
 			panorama.saveImage();
-			ShowInfo("Le panorama a été placé dans le dossier courant");
+			ShowInfo(imageinfo);
 		}
 		
-		else if(e.getActionCommand().equals("Sauvegarder les positions")){
+		else if(e.getActionCommand().equals(savepin)){
 			if(panorama.getMode() == "Panorama"){
 				panorama.savePin();
 			}
 		}
 		
-		else if(e.getActionCommand().equals("Ouvrir"))
+		else if(e.getActionCommand().equals(open))
 		{
 			System.out.println("Ouvrir");
 				
 			JFileChooser chooser = new JFileChooser();
     			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
     			chooser.setFileFilter(filter);
-   			chooser.setApproveButtonText("Ouvrir");
+   			chooser.setApproveButtonText(open);
    			int returnVal = chooser.showOpenDialog(this.getParent());
     			
     			if(returnVal == JFileChooser.APPROVE_OPTION)
@@ -341,15 +389,15 @@ public class Fenetre extends JFrame implements ActionListener{
         			setVisible(true);
     			}				
 		}
-		else if(e.getActionCommand().equals("Charger"))
+		else if(e.getActionCommand().equals(load))
 		{
 			//sélection du dossier
 			JFileChooser chooser1 = new JFileChooser(); 
 			chooser1.setCurrentDirectory(new java.io.File("."));
-			chooser1.setDialogTitle("Séléctionner le dossier contenant les photos et le gps");
+			chooser1.setDialogTitle(choosercreate);
 			chooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);	
 			chooser1.setAcceptAllFileFilterUsed(false);
-			chooser1.setApproveButtonText("Charger");
+			chooser1.setApproveButtonText(load);
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
 				String Photo = chooser1.getSelectedFile().getAbsolutePath() + "/map.jpg";
 				String pin = chooser1.getSelectedFile().getAbsolutePath() + "/positions.txt";
@@ -394,17 +442,17 @@ public class Fenetre extends JFrame implements ActionListener{
 			}
 		}	
 		/////////// Matlab actions mcr requis ici ///////////////////
-		else if(e.getActionCommand().equals("Créer"))
+		else if(e.getActionCommand().equals(create))
 		{
 			Panorama mypano = null;		
 			//contentPane.removeAll();			
 			//Création d'un nouveau panorama avec les paramètres par défaut
 			JFileChooser chooser1 = new JFileChooser(); 
 			chooser1.setCurrentDirectory(new java.io.File("."));
-			chooser1.setDialogTitle("Séléctionner le dossier contenant les photos et le gps");
+			chooser1.setDialogTitle(choosercreate);
 			chooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);	
 			chooser1.setAcceptAllFileFilterUsed(false);
-			chooser1.setApproveButtonText("Créer");
+			chooser1.setApproveButtonText(create);
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
 				String Photo = chooser1.getSelectedFile().getAbsolutePath(); //+ "/Photo";
 				Object folderphoto[] = new Object[1];
@@ -455,14 +503,14 @@ public class Fenetre extends JFrame implements ActionListener{
 					{
 						System.out.println("Impossible de trouver les dossiers nécéssires");
 						//Boîte du message d'erreur
-						ShowError("Le dossier choisit ne contient pas les dossiers\nPHoto et Gps permettant de reconstruire la zone.");			
+						ShowError(createerror);			
 					}
 				} catch(Exception ea){
 					ea.printStackTrace();
 				}				
 			}
 		}     		
-     		else if(e.getActionCommand().equals("Recherche"))
+     		else if(e.getActionCommand().equals(rech))
 		{     			
      			String latitude = "";
      			String longitude = "";

@@ -44,11 +44,32 @@ public class optionMatlab extends JFrame implements ActionListener{
 	private JCheckBox OptimalBuild;
 	
 	/**
+	*	String pour l'internationalisation
+	*/
+	private String sauver;
+	
+	/**
 	*	Constucteur de la classe optionMatlab
 	*	
 	*/
 	optionMatlab(){
-		super("Configuration de construction du panorama");
+		super();
+		Locale currentLocale = Locale.getDefault();
+		String locale = currentLocale.getLanguage();
+		String country = currentLocale.getCountry();
+        	ResourceBundle messages;
+        	currentLocale = new Locale(locale, country);
+        	String path = "resources/locales/" + locale + "/optionMatlab"; 
+        	messages = ResourceBundle.getBundle(path, currentLocale);
+        		
+		String titre = messages.getString("titre");
+		String coordUTM = messages.getString("coordUTM");
+		String hauteur = messages.getString("hauteur");
+		String largeur = messages.getString("largeur");
+		String build = messages.getString("build");
+		sauver = messages.getString("sauvegarde");
+		
+		setTitle(titre);
 		setResizable(false);
 		setSize(440,250);
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
@@ -59,10 +80,10 @@ public class optionMatlab extends JFrame implements ActionListener{
 		/**
 		*	Les différents labels
 		*/
-		JLabel CoordUTM = new JLabel("Coordonnées UTM de la zone");
-		JLabel Hauteur = new JLabel("Limite en hauteur des images");
-		JLabel Largeur = new JLabel("Limite en largeur des images");
-		String Build = "Utiliser le mode de créatio optimal";
+		JLabel CoordUTM = new JLabel(coordUTM);
+		JLabel Hauteur = new JLabel(hauteur);
+		JLabel Largeur = new JLabel(largeur);
+		String Build = build;
 		
 		/**
 		*	Les champs de texte
@@ -75,7 +96,7 @@ public class optionMatlab extends JFrame implements ActionListener{
 		OptimalBuild = new JCheckBox(Build);
 		OptimalBuild.setSelected(false);
 		
-		JButton sauvegarde = new JButton("Sauvegarder");
+		JButton sauvegarde = new JButton(sauver);
 		sauvegarde.addActionListener(this);
 		
 		/**
@@ -136,7 +157,7 @@ public class optionMatlab extends JFrame implements ActionListener{
 	*		Un évènement
 	*/
 	public void actionPerformed(ActionEvent e){
-		if(e.getActionCommand().equals("Sauvegarder"))
+		if(e.getActionCommand().equals(sauver))
 		{
 			toString("resources/Conf/Panorama.conf");
 			setVisible(false);			

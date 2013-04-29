@@ -10,7 +10,7 @@ Recherche.class     Resolution.class	 SliderListener.class
 StraightLine.class  Test.class
 
 resources:
-Camera	Conf  Documentation  Images  Jar  Matlab  Test	Tree
+Camera	Conf  Documentation  Images  Jar  locales  Matlab  Test  Tree
 
 resources/Camera:
 resolution.jpg	resolution.m
@@ -61,6 +61,23 @@ blu-circle32.png  Ensea.gif  ensea.jpg	fond-noir.jpg  map_icone.png
 
 resources/Jar:
 Panorama.jar
+
+resources/locales:
+en  fr
+
+resources/locales/en:
+Configuration_en_US.properties	CropMenu_en_US.properties
+Fenetre_en_US.properties	Flight_en_US.properties
+Itineraire_en_US.properties	MouseMapMenu_en_US.properties
+optionMatlab_en_US.properties	ProgressWindows_en_US.properties
+Recherche_en_US.properties
+
+resources/locales/fr:
+Configuration_fr_FR.properties	CropMenu_fr_FR.properties
+Fenetre_fr_FR.properties	Flight_fr_FR.properties
+Itineraire_fr_FR.properties	MouseMapMenu_fr_FR.properties
+optionMatlab_fr_FR.properties	ProgressWindows_fr_FR.properties
+Recherche_fr_FR.properties
 
 resources/Matlab:
 Attenuation.m	       Box.m		   Detection.m	  Distance.m

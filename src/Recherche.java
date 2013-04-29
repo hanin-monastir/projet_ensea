@@ -4,6 +4,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;  
 import java.io.*;
 import javax.imageio.ImageIO; 
+import java.util.*;
 //import java.net.*;  
  
 import javax.swing.*;  
@@ -23,6 +24,15 @@ public class Recherche extends JPanel implements ActionListener, Serializable{
 	Recherche(){
 	
 		super();
+		Locale currentLocale = Locale.getDefault();
+		String locale = currentLocale.getLanguage();
+		String country = currentLocale.getCountry();
+        	ResourceBundle messages;
+        	currentLocale = new Locale(locale, country);
+        	String path = "resources/locales/" + locale + "/Recherche"; 
+        	messages = ResourceBundle.getBundle(path, currentLocale);	
+		String recherche = messages.getString("recherche");
+		
 		//permet d'utiliser le panneau de recherche
 
 		getlat = "";
@@ -30,7 +40,7 @@ public class Recherche extends JPanel implements ActionListener, Serializable{
 
 		setLayout(new BorderLayout());
         	
-		JLabel Recherche = new JLabel("Recherche");
+		JLabel Recherche = new JLabel(recherche);
 		Recherche.setHorizontalAlignment(SwingConstants.CENTER);		
 		JLabel Latitude = new JLabel("Latitude");
 		JLabel Longitude = new JLabel("Longitude");

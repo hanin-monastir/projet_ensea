@@ -1,8 +1,13 @@
+import java.util.*;
+
 public class Test{
 
 	public static void main(String [] args){
-	
-		Fenetre fenetre = new Fenetre("Cartographie aérienne et Géoréférencement");
+				Locale currentLocale = Locale.getDefault();
+			String locale = currentLocale.getLanguage();
+			String country = currentLocale.getCountry();	
+			System.out.println(locale+" "+country);
+		Fenetre fenetre = new Fenetre();
 	}
 }
 

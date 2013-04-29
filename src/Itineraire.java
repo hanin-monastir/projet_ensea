@@ -165,6 +165,15 @@ public class Itineraire extends Thread{
 	*
 	*/
 	private boolean iswrited;
+	/**
+	*	String pour l'internationalisation
+	*
+	*/
+	private String erreur;
+	private String errorGoogle;
+	private String aire;
+	private String Distance;
+	private String Nombre;
         /**
          * Constructeur Itineraire
          * <p>
@@ -180,15 +189,26 @@ public class Itineraire extends Thread{
          *	La map sur laquelle l'itinéraire va s'afficher
          *
          */
-	//Itineraire(Map m){
 	Itineraire(){
+		Locale currentLocale = Locale.getDefault();
+		String locale = currentLocale.getLanguage();
+		String country = currentLocale.getCountry();
+        	ResourceBundle messages;
+        	currentLocale = new Locale(locale, country);
+        	String path = "resources/locales/" + locale + "/Itineraire"; 
+        	messages = ResourceBundle.getBundle(path, currentLocale);
+        			
+		erreur = messages.getString("erreur");
+		errorGoogle = messages.getString("errorGoogle");
+		aire = messages.getString("aire");
+		Distance = messages.getString("Distance");
+		Nombre = messages.getString("Nombre");
+
 		//4 points seront nécéssaires
 		sens = "positif";
 		vue = "satellite";
 		iswrited = false;
-		//carte = m;
-
-		//carte.cancelAll();
+				
 		latitude = new double[2];
 		longitude = new double[2];
 		lat = new double[4];
@@ -343,7 +363,7 @@ public class Itineraire extends Thread{
 		}
 		else
 		{
-			ShowError("Configurer l'itinéraire avant de le construire");	
+			ShowError(erreur);	
 		}
 	}
 
@@ -384,19 +404,12 @@ public class Itineraire extends Thread{
 	 			map = ImageIO.read(new URL(url));
 	 			//sauvegarde des données
 	 			recordData();
-	 			//écriture de l'image
-	 			/*if(map != null){
-	 				carte.loadImage(map);
-					String picture = folder + "/mapview.png";
-					carte.setNamePicture(picture);
-	 			}*/
 	 			getTotalDistance();
 	 		}
 	 		else
 	 		{
-	 			String error = "Google ne peut pas retourner d'image, réduisez le nombre de breakpoints ou diminuez la taille de la zone survolée\nLe fichier de breakpoints et le kml sont générés";
 	 			recordData();
-	 			ShowError(error);
+	 			ShowError(errorGoogle);
 	 		}
 		} catch(Exception e){
 			System.out.println("taille " + url.length());
@@ -942,7 +955,8 @@ public class Itineraire extends Thread{
 		}
 		int nbligne = finale.size() - chemin.size()+2;
 		float airePhoto = aireZone/nbligne;
-		String info = "Aire de la zone m²: " + aireZone +"\nDistance parcourue(m): "+ Dtotale + "\nNombre de breakpoints total: " + finale.size() + "\nbreakpoints sensibles (arc): " + (chemin.size() - 2) + "\n\nchamps minimum par photo m²: " + airePhoto ;		
+		
+		String info = aire +" " + aireZone +"\n" + Distance + " "+ Dtotale + "\n" + Nombre + " " + finale.size();		
 		ShowInfo(info);
 	}	
 	

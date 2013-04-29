@@ -1,13 +1,24 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+import java.util.*;
 
 
 public class ProgressWindows extends JFrame{
 
 	ProgressWindows(){
-		super("Traitement en cours...");
+		super();
+		Locale currentLocale = Locale.getDefault();
+		String locale = currentLocale.getLanguage();
+		String country = currentLocale.getCountry();
+        	ResourceBundle messages;
+        	currentLocale = new Locale(locale, country);
+        	String path = "resources/locales/" + locale + "/ProgressWindows"; 
+        	messages = ResourceBundle.getBundle(path, currentLocale);	
+		String titre = messages.getString("titre");
+		String creation = messages.getString("creation");
+	
+		setTitle(titre);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -19,7 +30,7 @@ public class ProgressWindows extends JFrame{
 		progressBar.setValue(0);
 		progressBar.setStringPainted(true);
 		progressBar.setIndeterminate(true);
-		progressBar.setString("Création du panorama en cours. Veuillez patienter");	
+		progressBar.setString(creation);	
 		progressBar.setVisible(true);
 		
 		Container contentPane = getContentPane();

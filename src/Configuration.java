@@ -61,6 +61,12 @@ public class Configuration extends JFrame implements ActionListener{
 	*	le dossier contenant les breakpoints lors de l'enregistrement
 	*/	
 	private String Dossier;
+	/**
+	*	String pour l'internationalisation
+	*
+	*/ 
+	private String sauvegarde;
+	private String choisir;
 	
         /**
          * 	Constructeur Configuration.
@@ -70,7 +76,32 @@ public class Configuration extends JFrame implements ActionListener{
          * 	@see Fenetre
          */
 	Configuration(){
-		super("Configuration de l'itinéraire");
+		super();
+		//tentative internationalisation
+		Locale currentLocale = Locale.getDefault();
+		String locale = currentLocale.getLanguage();
+		String country = currentLocale.getCountry();
+        	ResourceBundle messages;
+        	currentLocale = new Locale(locale, country);
+        	String path = "resources/locales/" + locale + "/Configuration"; 
+        	messages = ResourceBundle.getBundle(path, currentLocale);	
+	
+		//acquisition des messages
+		String titre = messages.getString("titre");
+		sauvegarde = messages.getString("sauvegarde");
+		choisir = messages.getString("choisir");
+		String zoom = messages.getString("zoom");
+		String point1 = messages.getString("point1");			
+		String point2 = messages.getString("point2");
+		String point3 = messages.getString("point3");
+		String point4 = messages.getString("point4");
+		String taille = messages.getString("taille");
+		String espace = messages.getString("espace");
+		String arc = messages.getString("arc");
+		String latitude = messages.getString("latitude");
+		String longitude = messages.getString("longitude");
+					
+		setTitle(titre);
 		setResizable(false);
 		setSize(400,500);
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
@@ -83,22 +114,22 @@ public class Configuration extends JFrame implements ActionListener{
 		/*
 			Bouton de sauvegarde
 		*/
-		JButton Sauvegarde = new JButton("Sauvegarder");
+		JButton Sauvegarde = new JButton(sauvegarde);
 		Sauvegarde.addActionListener(this);
 		
-		JButton Record = new JButton("Choisir");
+		JButton Record = new JButton(choisir);
 		Record.addActionListener(this);
 		/*
 			Les  différents Labels			
 		*/	
-		JLabel Zoom = new JLabel("Facteur de zoom");
-		JLabel Point1 = new JLabel("Point 1");
-		JLabel Point2 = new JLabel("Point 2");
-		JLabel Point3 = new JLabel("Point 3");
-		JLabel Point4 = new JLabel("Point 4");
-		JLabel Taille = new JLabel("Taille de l'image");
-		JLabel Espace = new JLabel("Espace inter-breakpoint");
-		JLabel Arc = new JLabel("Angle pour le demi tours");
+		JLabel Zoom = new JLabel(zoom);
+		JLabel Point1 = new JLabel(point1);
+		JLabel Point2 = new JLabel(point2);
+		JLabel Point3 = new JLabel(point3);
+		JLabel Point4 = new JLabel(point4);
+		JLabel Taille = new JLabel(taille);
+		JLabel Espace = new JLabel(espace);
+		JLabel Arc = new JLabel(arc);
 		/*
 			Les différents champs de texte
 		*/
@@ -184,17 +215,17 @@ public class Configuration extends JFrame implements ActionListener{
 			//Etiquette lat/lon
 			cpp.gridx = 0;
 			cpp.gridy = 1;
-			Ppoint.add(new JLabel("Latitude"),cpp);
+			Ppoint.add(new JLabel(latitude),cpp);
 			cpp.gridx = 0;
 			cpp.gridy = 2;
-			Ppoint.add(new JLabel("Longitude"),cpp);			
+			Ppoint.add(new JLabel(longitude),cpp);			
 
 			cpp.gridx = 0;
 			cpp.gridy = 4;
-			Ppoint.add(new JLabel("Latitude"),cpp);
+			Ppoint.add(new JLabel(latitude),cpp);
 			cpp.gridx = 0;
 			cpp.gridy = 5;
-			Ppoint.add(new JLabel("Longitude"),cpp);	
+			Ppoint.add(new JLabel(longitude),cpp);	
 
 			//points et champs
 			cpp.gridx = 1;
@@ -290,13 +321,13 @@ public class Configuration extends JFrame implements ActionListener{
         */
 	public void actionPerformed(ActionEvent e){
 	
-		if(e.getActionCommand().equals("Sauvegarder"))
+		if(e.getActionCommand().equals(sauvegarde))
 		{
 			System.out.println("Vous avez appuyé sur sauvegarder");
 			toString("resources/Conf/Itineraire.conf");
 			setVisible(false);			
 		}
-		else if(e.getActionCommand().equals("Choisir")){
+		else if(e.getActionCommand().equals(choisir)){
 			chooseDestinationFolder();
 		}
 	}

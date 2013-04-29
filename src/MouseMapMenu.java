@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.util.*;
 
 
 
@@ -24,7 +25,17 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
         */
 	Map carte;
 	//Attention à ne pas creer de nouvelle instance de Map
-	
+	/**
+	* Les strings pour l'internationalisation
+	*
+	*
+	*/
+	String add;
+	String center;
+        String size;
+        String plus;
+        String moins;
+        
         /**
         * Constructeur MouseMapMenu
         * <p>
@@ -36,33 +47,42 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
         * 
         */
 	MouseMapMenu(Map c){
-	
+			Locale currentLocale = Locale.getDefault();
+			String locale = currentLocale.getLanguage();
+			String country = currentLocale.getCountry();
+        		ResourceBundle messages;
+        		currentLocale = new Locale(locale, country);
+        		String path = "resources/locales/" + locale + "/MouseMapMenu"; 
+        		messages = ResourceBundle.getBundle(path, currentLocale);
+        		
+        		add = messages.getString("add");
+			center = messages.getString("center");
+        		size = messages.getString("size");
+        		plus = messages.getString("plus");
+        		moins = messages.getString("moins");
+        	
+        	
 			carte = c;
 			
-	               	JMenuItem jmenuitem1 = new JMenuItem("Ajouter/Supprimer Marqueur");
+	               	JMenuItem jmenuitem1 = new JMenuItem(add);
 			jmenuitem1.addActionListener(this);
            		add(jmenuitem1);
 				            		
-	               	JMenuItem jmenuitem2 = new JMenuItem("Centrer ici");
+	               	JMenuItem jmenuitem2 = new JMenuItem(center);
 			jmenuitem2.addActionListener(this);      		
 			add(jmenuitem2);
 			
-            		JMenuItem jmenuitem3 = new JMenuItem("Taille originale");
+            		JMenuItem jmenuitem3 = new JMenuItem(size);
 			jmenuitem3.addActionListener(this);          		
 			add(jmenuitem3);
 			
-			JMenuItem jmenuitem4 = new JMenuItem("Zoom In");
+			JMenuItem jmenuitem4 = new JMenuItem(plus);
 			jmenuitem4.addActionListener(this);          		
 			add(jmenuitem4);
 			
-			JMenuItem jmenuitem5 = new JMenuItem("Zoom Out");
+			JMenuItem jmenuitem5 = new JMenuItem(moins);
 			jmenuitem5.addActionListener(this);          		
 			add(jmenuitem5);
-/*
-	               	JMenuItem jmenuitem6 = new JMenuItem("Enregistrer la zone");
-			jmenuitem6.addActionListener(this);
-           		add(jmenuitem6);
-*/
 	}
 
         /**
@@ -77,7 +97,7 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
         */
 	public void actionPerformed(ActionEvent e){
 	
-		if(e.getActionCommand().equals("Ajouter/Supprimer Marqueur"))
+		if(e.getActionCommand().equals(add))
 		{	
 			//System.out.println(getX());	
 			System.out.println("Appui sur Ajouter/Supprimer Marqueur");
@@ -86,7 +106,7 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 			}
 		}
 		
-		if(e.getActionCommand().equals("Centrer ici"))
+		if(e.getActionCommand().equals(center))
 		{	
 			//faire en sorte de lancer un repaint() sur Map
 			carte.offsetX_old = carte.offsetX;
@@ -105,19 +125,19 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 			carte.repaint();
 		}
 		
-		if(e.getActionCommand().equals("Taille originale"))
+		if(e.getActionCommand().equals(size))
 		{	
 			carte.initLocation();
 			//modifie également la liste des pin
 		}
 		
-		if(e.getActionCommand().equals("Zoom In"))
+		if(e.getActionCommand().equals(plus))
 		{	
 			carte.scale += 1;
 			carte.setScale(carte.endX, carte.endY);
 		}
 		
-		if(e.getActionCommand().equals("Zoom Out"))
+		if(e.getActionCommand().equals(moins))
 		{	
 			if(carte.scale >= 2){
 				carte.scale -= 1;
