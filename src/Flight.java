@@ -39,7 +39,7 @@ public class Flight extends JFrame implements ActionListener {
 		String country = currentLocale.getCountry();
         	ResourceBundle messages;
         	currentLocale = new Locale(locale, country);
-        	String path = "resources/locales/" + locale + "/MouseMapMenu"; 
+        	String path = "resources/locales/" + locale + "/Flight"; 
         	messages = ResourceBundle.getBundle(path, currentLocale);
         			
 	

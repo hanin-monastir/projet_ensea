@@ -164,7 +164,7 @@ public class Itineraire extends Thread{
 	*	Tentative pour corriger un problème
 	*
 	*/
-	private boolean iswrited;
+	private String iswrited;
 	/**
 	*	String pour l'internationalisation
 	*
@@ -207,7 +207,7 @@ public class Itineraire extends Thread{
 		//4 points seront nécéssaires
 		sens = "positif";
 		vue = "satellite";
-		iswrited = false;
+		iswrited = "false";
 				
 		latitude = new double[2];
 		longitude = new double[2];
@@ -850,7 +850,11 @@ public class Itineraire extends Thread{
 					while( ! ancien_iti.exists()){
 						//attendre que le thread ait fini d'écrire le fihcier'
 					}
-					iswrited = true;
+					iswrited = "true";
+				}
+				else
+				{
+					iswrited = "impossible";
 				}
 			
 				//breakponts
@@ -971,7 +975,7 @@ public class Itineraire extends Thread{
 	*	retourne ok si l'image a été écris
 	*
 	*/
-	public boolean getWrited(){
+	public String getWrited(){
 		return iswrited;
 	}			
 }

@@ -261,12 +261,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		JLabel label = new JLabel();
 		label.setIcon( image );
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
-		
-		Icon logo = new ImageIcon("resources/Images/Ensea.gif");
-		JLabel ecole = new JLabel();
-		ecole.setIcon( logo );
-		ecole.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
-		
+				
 		JPanel accueil = new JPanel(new GridBagLayout());
 		GridBagConstraints contraintes = new GridBagConstraints();
 		contraintes.fill = GridBagConstraints.BOTH;
@@ -274,13 +269,11 @@ public class Fenetre extends JFrame implements ActionListener{
 		contraintes.weightx = 1;		
 		contraintes.gridx = 0;	
 		contraintes.gridy = 0;
-		accueil.add(ecole,contraintes);
-		contraintes.gridy = 1;
 		accueil.add(label,contraintes);
-		contraintes.gridy = 2;
+		contraintes.gridy = 1;
 		accueil.add(provisoire,contraintes);
 		contentPane.add(accueil,"Center");
-		
+				
 		progressebarre = new ProgressWindows();
 		progressebarre.setVisible(false);		
 		progressebarre.setLocationRelativeTo(null);	
@@ -322,11 +315,17 @@ public class Fenetre extends JFrame implements ActionListener{
 
 			Itineraire itn = new Itineraire();
 			itn.start();
-			while(itn.getWrited() == false){
+			while(itn.getWrited() == "false"){
 			}			
 			
-			String folder = itn.getFolder();
-			String im = folder + "/mapview.png";
+			
+			String folder,im = "resources/Images/fond-noir.jpg";
+			if(itn.getWrited() == "true"){
+				folder = itn.getFolder();
+				im = folder + "/mapview.png";
+			}
+			
+			
 			File Im = new File(im);
 
 			panorama = new Map(panel_search,im);
