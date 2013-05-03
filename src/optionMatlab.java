@@ -44,6 +44,11 @@ public class optionMatlab extends JFrame implements ActionListener{
 	private JCheckBox OptimalBuild;
 	
 	/**
+	*	Les combobox pour la zone UTM
+	*/
+	JComboBox utmNumber;
+	JComboBox utmAlpha;
+	/**
 	*	String pour l'internationalisation
 	*/
 	private String sauver;
@@ -54,6 +59,7 @@ public class optionMatlab extends JFrame implements ActionListener{
 	*/
 	optionMatlab(){
 		super();
+		//Internatinalisation
 		Locale currentLocale = Locale.getDefault();
 		String locale = currentLocale.getLanguage();
 		String country = currentLocale.getCountry();
@@ -69,12 +75,12 @@ public class optionMatlab extends JFrame implements ActionListener{
 		String build = messages.getString("build");
 		sauver = messages.getString("sauvegarde");
 		
+		//réglage du titre et des caracteristiques de la fenêtre
 		setTitle(titre);
 		setResizable(false);
 		setSize(440,250);
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation((tailleEcran.width - this.getWidth())/2, (tailleEcran.height - this.getHeight())/2);
-		
+		setLocation((tailleEcran.width - this.getWidth())/2, (tailleEcran.height - this.getHeight())/2);		
 		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
 		
 		/**
@@ -89,6 +95,33 @@ public class optionMatlab extends JFrame implements ActionListener{
 		*	Les champs de texte
 		*/			
 		ZoneUTM = new JTextField();
+		
+		/**
+		*	Création des combobox
+		*/	
+		String l = "CDEFGHIJKLMNOPQRSTUVWX"; 
+		String[] alpha = new String[22];
+		String[] num = new String[60];
+		
+		//cration de la liste alphabetique
+		for(int i = 0;i<22;i++){
+			alpha[i] = "" + l.charAt(i);
+		}
+		utmAlpha = new JComboBox<String>(alpha);
+		
+		//création de liste numérique
+		for(int i = 0;i<60;i++){
+			int a = i + 1;
+			num[i] = "" + a;
+			
+		}
+		utmNumber = new JComboBox<String>(num);	
+		
+		//creation d'un panel contenant les deux combobox
+		JPanel panCombo = new JPanel(new GridLayout(1,2));
+		panCombo.add(utmNumber);
+		panCombo.add(utmAlpha);
+				
 		
 		/**
 		*	Les checkBox et boutons 
@@ -132,7 +165,7 @@ public class optionMatlab extends JFrame implements ActionListener{
 		contraintes.gridy = 0;
 		add(CoordUTM,contraintes);
 		contraintes.gridy = 1;
-		add(ZoneUTM,contraintes);
+		add(panCombo,contraintes);
 		contraintes.gridy = 2;
 		add(Hauteur,contraintes);
 		contraintes.gridy = 3;
@@ -145,6 +178,7 @@ public class optionMatlab extends JFrame implements ActionListener{
 		add(OptimalBuild,contraintes);	
 		contraintes.gridy = 7;
 		add(sauvegarde,contraintes);	
+
 		/*
 			on affiche la fenêtre
 		*/		
@@ -186,14 +220,13 @@ public class optionMatlab extends JFrame implements ActionListener{
 			bw.flush();			
 			
 			//enregistement de la zone utm
-			String Zone = ZoneUTM.getText();
-			String[] resultat = null;
-			resultat = Zone.split(" ");
-			bw.write(resultat[0],0,resultat[0].length());
+			String Zone = (String)utmNumber.getSelectedItem();
+			bw.write(Zone,0,Zone.length());
 			bw.newLine();
 			bw.flush();
-			
-			int ascii = (int)(resultat[1].charAt(0));
+
+			String zoneAlpha = (String)utmAlpha.getSelectedItem();
+			int ascii = (int)(zoneAlpha.charAt(0));
 			System.out.println(ascii);
 			ligne = "" + ascii;
 			bw.write(ligne,0,ligne.length());
@@ -236,12 +269,11 @@ public class optionMatlab extends JFrame implements ActionListener{
 				LimitY.setValue(Integer.parseInt(ligne));
 				//3 et 4 ligne ZoneUTM
 				ligne = "" + bufferlu.readLine();
-				int num = Integer.parseInt(ligne);
+				int num = Integer.parseInt(ligne) - 1;
+				utmNumber.setSelectedIndex(num);
 				ligne = bufferlu.readLine();
-				char c = ((char) Integer.parseInt(ligne));
-				String Zone = "" + num + " " + c;
-				ZoneUTM.setText(Zone);
-				//5 ligne reconstruction optimale
+				int c = Integer.parseInt(ligne) - 67;
+				utmAlpha.setSelectedIndex(c);
 				ligne = "" + bufferlu.readLine();
 				if(Integer.parseInt(ligne) == 1){
 					OptimalBuild.setSelected(true);

@@ -70,31 +70,31 @@ public class Fenetre extends JFrame implements ActionListener{
 	 *
          */
 	JButton recherche;
-	      
-         /**
+	 
+        /**
          * ArrayList de menu
          *
          */
-         ArrayList<JMenuItem> activableMenu;
-         /**
+        ArrayList<JMenuItem> activableMenu;
+        /**
          *	String pour internationaliser
          */
-         String open;
-         String create;
-         String load;
-         String savepicture;
-         String imageinfo;
-         String savepin;
-         String configurerpano;
-         String quit;
-         String cancelall;
-         String cancel;
-         String drawiti;
-         String configiti;
-         String confflight;
-         String createerror;
-         String choosercreate;
-         String rech;
+        private String open;
+        private String create;
+        private String load;
+        private String savepicture;
+        private String imageinfo;
+        private String savepin;
+        private String configurerpano;
+        private String quit;
+        private String cancelall;
+        private String cancel;
+        private String drawiti;
+        private String configiti;
+        private String confflight;
+        private String createerror;
+        private String choosercreate;
+        private String rech;
          
         /**
          * Constructeur Fenetre.
@@ -146,12 +146,12 @@ public class Fenetre extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//choisit l'icone de la fenetre
 		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
-		setLocation(0, 0);
-		
+		setLocation(0, 0);	
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
 		int hauteur = (int)tailleEcran.getHeight();
 		int largeur = (int)tailleEcran.getWidth();
 		setSize(tailleEcran);
+		
 		activableMenu = new ArrayList<JMenuItem>();
 		JMenuBar m = new JMenuBar();
 		//////////////////// Menu Fichier //////////////////////////////////
@@ -160,7 +160,6 @@ public class Fenetre extends JFrame implements ActionListener{
 		ouvrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		ouvrir.addActionListener(this);
 		menu1.add(ouvrir);
-		
 		
 		JMenuItem creer = new JMenuItem(create);
 		creer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));	
@@ -185,11 +184,11 @@ public class Fenetre extends JFrame implements ActionListener{
 		menu1.add(sauverpin);
 
 		menu1.addSeparator();
+
 		JMenuItem confPanorama = new JMenuItem(configurerpano);
 		confPanorama.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));		
 		confPanorama.addActionListener(this);
 		menu1.add(confPanorama);
-
 
 		menu1.addSeparator();
 
@@ -197,7 +196,6 @@ public class Fenetre extends JFrame implements ActionListener{
 		quitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));	
 		quitter.addActionListener(this);
 		menu1.add(quitter);		
-
 		//////////////////// Menu Édition /////////////////////////////////
 		JMenu menu2 = new JMenu(edit);
 
@@ -234,16 +232,12 @@ public class Fenetre extends JFrame implements ActionListener{
 		menu3.add(sousmenu3);
 		//////////////////// Ajout /////////////////////////////////////////
 		enableMenu(false);
-		
 		m.add(menu1);
 		m.add(menu2);
 		m.add(menu3);
-//		m.add(menu4);
 		
-		setJMenuBar(m);
-			
+		setJMenuBar(m);	
 		contentPane = getContentPane();
-		
 		///Essai de disposition : Panneau Recherche
 		panel_search = new Recherche();
 		panel_search.setVisible(false);
@@ -257,7 +251,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		provisoire.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
 		provisoire.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM); 
 		
-		Icon image = new ImageIcon( "resources/Images/map_icone.png" );
+		Icon image = new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png"));
 		JLabel label = new JLabel();
 		label.setIcon( image );
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
@@ -278,7 +272,6 @@ public class Fenetre extends JFrame implements ActionListener{
 		progressebarre.setVisible(false);		
 		progressebarre.setLocationRelativeTo(null);	
 		contentPane.add(panel_search, "West");				
-				
 		setVisible(true);
 	}
 	
@@ -293,10 +286,7 @@ public class Fenetre extends JFrame implements ActionListener{
          * 
          */
 	public void actionPerformed(ActionEvent e){
-	
-		if(e.getActionCommand().equals(quit))
-		{
-			System.out.println("Vous avez appuyé sur Quitter");
+		if(e.getActionCommand().equals(quit)){
 			System.exit(0);
 		}
 		else if(e.getActionCommand().equals(configurerpano)){
@@ -309,25 +299,19 @@ public class Fenetre extends JFrame implements ActionListener{
 			Configuration conf = new Configuration();			
 		}
 		else if(e.getActionCommand().equals(drawiti)){
-			
-			panel_search = new Recherche();
-			panel_search.setVisible(false);			
-
 			Itineraire itn = new Itineraire();
 			itn.start();
 			while(itn.getWrited() == "false"){
-			}			
-			
-			
+			}						
 			String folder,im = "resources/Images/fond-noir.jpg";
 			if(itn.getWrited() == "true"){
 				folder = itn.getFolder();
 				im = folder + "/mapview.png";
 			}
 			
-			
 			File Im = new File(im);
-
+			panel_search = new Recherche();
+			panel_search.setVisible(false);			
 			panorama = new Map(panel_search,im);
 			panorama.setVisible(true);
 			panorama.setMode("Visualisation");
@@ -352,28 +336,20 @@ public class Fenetre extends JFrame implements ActionListener{
 			panorama.saveImage();
 			ShowInfo(imageinfo);
 		}
-		
 		else if(e.getActionCommand().equals(savepin)){
 			if(panorama.getMode() == "Panorama"){
 				panorama.savePin();
 			}
 		}
-		
-		else if(e.getActionCommand().equals(open))
-		{
-			System.out.println("Ouvrir");
-				
+		else if(e.getActionCommand().equals(open)){	
 			JFileChooser chooser = new JFileChooser();
     			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
     			chooser.setFileFilter(filter);
    			chooser.setApproveButtonText(open);
    			int returnVal = chooser.showOpenDialog(this.getParent());
     			
-    			if(returnVal == JFileChooser.APPROVE_OPTION)
-    			{
-       				System.out.println("Vous avez choisi d'ouvrir le fichier : " +chooser.getSelectedFile().getName());
-       				
-       				String path = chooser.getSelectedFile().getAbsolutePath();
+    			if(returnVal == JFileChooser.APPROVE_OPTION){
+    	 			String path = chooser.getSelectedFile().getAbsolutePath();
        				System.out.println(path);
        				
 				panel_search = new Recherche();
@@ -388,8 +364,7 @@ public class Fenetre extends JFrame implements ActionListener{
         			setVisible(true);
     			}				
 		}
-		else if(e.getActionCommand().equals(load))
-		{
+		else if(e.getActionCommand().equals(load)){
 			//sélection du dossier
 			JFileChooser chooser1 = new JFileChooser(); 
 			chooser1.setCurrentDirectory(new java.io.File("."));
@@ -441,10 +416,8 @@ public class Fenetre extends JFrame implements ActionListener{
 			}
 		}	
 		/////////// Matlab actions mcr requis ici ///////////////////
-		else if(e.getActionCommand().equals(create))
-		{
-			Panorama mypano = null;		
-			//contentPane.removeAll();			
+		else if(e.getActionCommand().equals(create)){
+			Panorama mypano = null;					
 			//Création d'un nouveau panorama avec les paramètres par défaut
 			JFileChooser chooser1 = new JFileChooser(); 
 			chooser1.setCurrentDirectory(new java.io.File("."));
@@ -513,15 +486,12 @@ public class Fenetre extends JFrame implements ActionListener{
 		{     			
      			String latitude = "";
      			String longitude = "";
-     			
      			latitude = panel_search.getLatitude();
      			longitude = panel_search.getLongitude();
      			
      			double lat = Double.parseDouble(latitude);
      			double lon = Double.parseDouble(longitude);
-     			
-     			System.out.println("latitude : "+lat+" longitude : "+lon);
-     			
+     			     			
      			panorama.searchResult(lat, lon);	
      		}		
 	}

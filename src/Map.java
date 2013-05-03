@@ -5,20 +5,15 @@ import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import static java.awt.event.MouseEvent.*;
 import static java.awt.event.KeyEvent.*;
-
 import javax.swing.*;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.image.*;
 import java.net.*;
-
 import java.util.*;
 import java.util.Collections;
-
-//matlab
 import com.mathworks.toolbox.javabuilder.* ;
 import Panorama.* ;
 import java.lang.*;
@@ -111,7 +106,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	boolean removeLine;
 	public ArrayList<Point> listPoint;
 
-	//copy des arraylist pour la fonction annuler
+	//copie des arraylist pour la fonction annuler
         /**
          * A chaque action, on enregistre l'état précédent de la Map dans une arraylist pour le restaurer
          */
@@ -144,17 +139,11 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	String mode;
                
         /**
-        *	L'image en cours d'affichage
+        *	Les fichiers de coordonnés
         */        
-        String nom;
         String nomLat;
         String nomLon;
-        /**
-        *	L'ancienne image affichée
-        */
-        String anciennom;
-        
-        
+
 	/**
         * constructeur Map
         * 
@@ -166,7 +155,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         * @see Map
         */
 	Map(Recherche r,String s){
-		nom = "";
 		mode = "Visualisation";
 		drawArea = false;
 		areaDrawn = false;
@@ -185,9 +173,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                 addMouseListener(this);
                 addMouseMotionListener(this);
 		addMouseWheelListener(this);
-		
-		
-		
+				
 		scale = 1.0;
 		offsetX = 0;
                 offsetY = 0;
@@ -196,24 +182,14 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		listPin = new ArrayList<Pin>();
 		listPoint = new ArrayList<Point>();
 		listLine = new ArrayList<StraightLine>();
-
-
 		History = new ArrayList<Action>();		
 		////////////////////////////
-		
                 loadImage(s);
-
-		//imageInit = new BufferedImage();		
-		
 		imageInit = image;
 		
-		
-		
-		System.out.println("Width = "+initWidth+" Height = "+initHeight);
                 Graphics2D g2 = image.createGraphics();
                 g2.drawImage(image, offsetX, offsetY, this);
                 g2.dispose();
-                
                 //ajout du menu propre au composant
                 popupmenu = new MouseMapMenu(this);
                 cropMenu = new CropMenu(this);
@@ -229,47 +205,36 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         *           Un graphics à peindre
         * 
         */
-        public void paintComponent(Graphics g){
-               
-               //dimensions de la zone graphique
+        public void paintComponent(Graphics g){               
+		//dimensions de la zone graphique
                 dimX = getWidth();
                 dimY = getHeight();
-
-                super.paintComponent(g);
-
-                Graphics2D g2D = (Graphics2D) g;
-                /** Désactivation de l'anti-aliasing */
-		/*g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-		*/
-		/** Demande de rendu rapide */
-		/*g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-		g2D.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
-		g2D.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-		g2D.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
- 		*/	
- 			
-                g2D.drawImage(image, offsetX, offsetY, this);
-         	//test
-         	
+		super.paintComponent(g);
+                Graphics2D g2D = (Graphics2D) g;	
+ 		
+		//dessin de l'image 			
+                g2D.drawImage(image, offsetX, offsetY, this);         	
+		//Choix de la couleur et de l'épaisseur des lignes         	
          	g2D.setColor(Color.red);
 		g2D.setStroke(new BasicStroke(2));
-		
+		//Dessin des lignes		
 		for(StraightLine s : listLine){
 			g2D.drawLine(s.p1.getX() + 16, s.p1.getY() + 32, s.p2.getX() + 16, s.p2.getY() + 32);
 			
 		}
 		g2D.setColor(Color.white);
 		String coord = "";	
-			
+		//Dessin des pins			
 		for(Pin p : listPin){
 			p.draw(g2D);
 			coord += p.getLatitude() + " N " + p.getLongitude() + " E";			
 			g2D.drawString(coord,p.poffset.getX()+35,p.poffset.getY());
 			coord = "";	
 		}
-		
+		//Choix de la couleur de fond		
 		g2D.setColor(Color.black);
+
+		//Dessin d'un rectangle pour la capture de zone		
 		//les deux tests sont nécessaires
 		if(drawArea == true && areaDrawn == true){
 			
@@ -420,12 +385,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         }
         /////////////////////////// FIN DE LA ZONE MATLAB ///////////////////////        
                 
-	public void mouseEntered(MouseEvent e){
-                
+	public void mouseEntered(MouseEvent e){        
         }
                 
-        public void mouseExited(MouseEvent e){
-                
+        public void mouseExited(MouseEvent e){        
         }
 
         /**
@@ -437,13 +400,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
          */                
         public void mousePressed(MouseEvent e){
         	//la fonction est appelée lors de l'appui sur un bouton (molette incluse)
-                	
         	startX = e.getX();
                 startY = e.getY(); 
-                        
-                System.out.println("appui en ("+startX+";"+startY+")");  
-               
-                	if(e.getButton() == BUTTON1){
+                
+                      	if(e.getButton() == BUTTON1){
                 		enableDrag = true;
                 		drawArea = false;
                 		//récupération de la position de l'image
@@ -534,9 +494,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                		//position de la souris lorsque appuyé et déplacé
                 	x = e.getX();
 			y = e.getY();
-                                        
-                	System.out.println("glisse en ("+x+";"+y+")"); 
-        
                 	repaint();
                        
                 	dx = e.getX() - startX;
@@ -663,14 +620,13 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		
 		//si on zoom sur l'image :
 		double factor = initWidth*scale/w;
-				
+		
+		//Mise à jours des offsets		
 		offsetX -= (int)((a-offsetX)*factor - a + offsetX);
 		offsetY -= (int)((b-offsetY)*factor - b + offsetY);
 		
 		//mise à jour des positions des pins :
-		
 		for(Pin p : listPin){
-              		
 			p.poffset.setX(p.poffset.getX() - (int)((a-p.poffset.getX())*factor - a + p.poffset.getX()));
 			p.poffset.setY(p.poffset.getY() - (int)((b-p.poffset.getY())*factor - b + p.poffset.getY()));
 		}
@@ -683,7 +639,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
          * 
          */
     	public void initLocation(){
-    		
     		image = imageInit;
     		//mettre à jour les pins
     		for(Pin p : listPin){
@@ -704,7 +659,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	 public void loadImage()  
     	 {  
         	String fileName = "resources/Images/ensea.jpg";
-        	setNamePicture(fileName);
   		//modifier le bloc try catch : on ne se sert pas d'URL
        		try  
         	{  
@@ -742,7 +696,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	public void loadImage(String s)  
     	{  
         	String fileName = s; 
-        	setNamePicture(s);
 		//modifier le bloc try catch : on ne se sert pas d'URL
        		try{  
 			File photo = new File(fileName);
@@ -780,11 +733,9 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		imageInit = image;
 		initWidth = image.getWidth();
 		initHeight = image.getHeight();
-		
 		scale = 1;
 		offsetX = 0;
 		offsetY = 0;
-		
 		repaint();
 	}
 	/**
@@ -794,10 +745,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
         *            La matrice de latitude convertie en double.
 	* @param lon
 	*	     La matrice de longitude convertie en double
-	* @param lt
-	*	     La matrice de latitude non convertie
-	* @param ln
-	*	     La matrice de longitude non convertie
+	* @param LAT
+	*	     Le nom du fichier de latitude
+	* @param LON
+	*	     Le nom du fichier de longitude 
         * 
         */
 	public void RecordCoord(double[][] lat, double[][] lon,String LAT, String LON){
@@ -824,7 +775,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			//System.out.println(Latitude.length+"\n"+Latitude[0].length);
 			int l = Latitude.length;
 			int c = Latitude[0].length;
-			
 			int px = 0;
 			int py = 0;
 			
@@ -882,8 +832,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 				//si la liste contient quelque chose, on peut enlever un élément :
 				removePin = false;
 						
-				for(Pin p : listPin){
-							
+				for(Pin p : listPin){	
 					if(x >= p.poffset.getX() && x <= p.pin.getWidth() + p.poffset.getX()
 					&& y >= p.poffset.getY() && y <= p.pin.getHeight() + p.poffset.getY()){
 						
@@ -920,7 +869,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			}
 					
 			else{	//ici la liste de Pin est vide
-				//cette fonction créer la Pin et lui attribut les bonnes vleurs de coordonnées
+				//cette fonction créer la Pin et lui attribut les bonnes valeurs de coordonnées
 				Pin pin = pinSetCoord(x,y);		
 				listPin.add(pin);
 			}
@@ -1295,15 +1244,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		return mode;
 	}
 	/**
-	*	Retourne le chemin de l'image en cours d'affichage
-	*	@see Resolution
-	*	@return Le chemin de l'image actuellement affichée
-	*/
-	public String getNamePicture(){
-		return nom;
-	}
-	
-	/**
 	*	accéder à la liste de pin
 	*	@return la liste de pin
 	*/
@@ -1331,16 +1271,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 	*/
 	public double getScale(){
 		return scale;
-	}
-	/**
-	*	Fonction pour régler le nom de l'image en cours
-	*	@param s
-	*		Régler le nom de l'imge en cours
-	*	@see Resolution
-	*/
-	public void setNamePicture(String s){
-		anciennom = nom;
-		nom = s;
 	}
 }
 
