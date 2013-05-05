@@ -81,6 +81,15 @@ public class Configuration extends JFrame implements ActionListener{
 		Locale currentLocale = Locale.getDefault();
 		String locale = currentLocale.getLanguage();
 		String country = currentLocale.getCountry();
+		
+		//test opur régler la locale si la traduction est absente
+		String findlocale = "resources/locales/" + locale;
+		File flocale = new File(findlocale);
+		if(!flocale.exists()){
+			locale = "en";
+			country = "US";
+		}
+		
         	ResourceBundle messages;
         	currentLocale = new Locale(locale, country);
         	String path = "resources/locales/" + locale + "/Configuration"; 

@@ -158,7 +158,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		mode = "Visualisation";
 		drawArea = false;
 		areaDrawn = false;
-		//matlab
+		
 		Latitude = null;
 		Longitude = null;
                 
@@ -168,7 +168,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
                 lon = r.getlon;
 
                 setBackground(Color.black);
-                //setSize(100, 100); // utile ?
                 
                 addMouseListener(this);
                 addMouseMotionListener(this);
