@@ -86,8 +86,8 @@ public class optionMatlab extends JFrame implements ActionListener{
 		
 		//réglage du titre et des caracteristiques de la fenêtre
 		setTitle(titre);
-		setResizable(false);
-		setSize(440,250);
+		setResizable(true);
+		setSize(500,250);
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((tailleEcran.width - this.getWidth())/2, (tailleEcran.height - this.getHeight())/2);		
 		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());

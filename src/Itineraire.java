@@ -364,7 +364,7 @@ public class Itineraire extends Thread{
 					breakpoint.clear();
 				}
 				//Aire de la zone
-				aireZone *=  distance*sizeB;
+				aireZone *= distance*sizeB;
 				
 				//on construit l'adresse à envoyer à google mais google peut ne pas traiter l'adresse résultante
 				computeUrl();

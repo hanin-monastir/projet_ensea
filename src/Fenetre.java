@@ -394,7 +394,7 @@ public class Fenetre extends JFrame implements ActionListener{
 					File flat = new File(Lat);
 					File flon = new File(Lon);
 					
-					if (fphoto.exists() && fpin.exists()){
+					if (fphoto.exists()){
 						//les deux dossiers nécéssaires existent tout est ok
 						if ( panorama == null ){
 							panel_search = new Recherche();
@@ -415,10 +415,15 @@ public class Fenetre extends JFrame implements ActionListener{
 						{
 							panorama.loadImage(Photo);
 						}
-						panorama.readWork(pin);
+						//Chargement des positions sauvegarder
+						if (fpin.exists()){
+							panorama.readWork(pin);
+						}
+						
+						//chargement des fichiers coords
+						readData(flat,flon,Lat,Lon);
 					}
-					
-					readData(flat,flon,Lat,Lon);		
+		
 				} catch(Exception ek){
 					ek.printStackTrace();
 				}								
