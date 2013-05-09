@@ -387,7 +387,6 @@ public class Fenetre extends JFrame implements ActionListener{
 				String Lat = chooser1.getSelectedFile().getAbsolutePath() + "/latitude.txt";
 				String Lon = chooser1.getSelectedFile().getAbsolutePath() + "/longitude.txt";
 
-				Panorama pano = null;
 				try{
 					File fphoto = new File (Photo);
 					File fpin = new File(pin);
@@ -395,26 +394,15 @@ public class Fenetre extends JFrame implements ActionListener{
 					File flon = new File(Lon);
 					
 					if (fphoto.exists()){
-						//les deux dossiers nécéssaires existent tout est ok
-						if ( panorama == null ){
-							panel_search = new Recherche();
-							panel_search.setVisible(true);		
-							recherche = null;
-							recherche = panel_search.getButton();
-							recherche.addActionListener(this);
-							panorama =  new Map(panel_search,Photo);
-							panorama.setVisible(true);
-							panorama.repaint();
-							contentPane.removeAll(); 
-							contentPane.add(panorama,"Center");
-							contentPane.add(panel_search,"West");
-							enableMenu(true);
-							setVisible(true);	
-						}
-						else
-						{
-							panorama.loadImage(Photo);
-						}
+						panel_search = new Recherche();
+						panel_search.setVisible(true);		
+						recherche = null;
+						recherche = panel_search.getButton();
+						recherche.addActionListener(this);
+						panorama =  new Map(panel_search,Photo);
+						panorama.setVisible(true);
+						panorama.repaint();
+
 						//Chargement des positions sauvegarder
 						if (fpin.exists()){
 							panorama.readWork(pin);
@@ -422,8 +410,13 @@ public class Fenetre extends JFrame implements ActionListener{
 						
 						//chargement des fichiers coords
 						readData(flat,flon,Lat,Lon);
+
+						contentPane.removeAll(); 
+						contentPane.add(panorama,"Center");
+						contentPane.add(panel_search,"West");
+						enableMenu(true);
+						setVisible(true);	
 					}
-		
 				} catch(Exception ek){
 					ek.printStackTrace();
 				}								
