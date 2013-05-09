@@ -1,16 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-
 import javax.swing.*;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.io.Serializable;
 import java.io.*;
-
 import java.awt.Desktop.*;
-//Matlab import
 import com.mathworks.toolbox.javabuilder.* ;
 import Panorama.* ;
 import java.util.* ;
