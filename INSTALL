@@ -1,0 +1,13 @@
+#/bin/bash
+echo "Installation de Java 7";
+sudo apt-get install openjdk-7-jdk openjdk-7-jre
+
+echo "Téléchargement du MCR R2012a 32 bits"
+mkdir $HOME/Téléchargements/MCR
+cd $HOME/Téléchargements/MCR;
+wget http://www.mathworks.fr/supportfiles/MCR_Runtime/R2012a/MCR_R2012a_glnx86_installer.zip
+unzip MCR_R2012a_glnx86_installer.zip
+sudo ./install
+
+echo "fin de l'installation";
+exit 0
