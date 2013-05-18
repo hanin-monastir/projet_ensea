@@ -240,6 +240,7 @@ public class Itineraire extends Thread{
 			Le fichier de configuration de l'itinéraire ie Itineraire.conf
 			et le fichier de config de vol Flight.conf
 		*/
+
 		if(chargement){ 
 			double[] bkp = new double[2];
 			double[] p1 = new double[2];

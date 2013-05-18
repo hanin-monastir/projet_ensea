@@ -185,6 +185,7 @@ public class Flight extends JFrame implements ActionListener {
 		generale.gridy = 1;
 		add(Diametre,generale);	
 		generale.gridy = 2;
+		generale.fill = GridBagConstraints.VERTICAL;
 		add(Sauvegarde,generale);			
 		setVisible(true);
 	}

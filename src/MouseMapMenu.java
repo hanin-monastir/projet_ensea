@@ -36,6 +36,10 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
         String size;
         String plus;
         String moins;
+        /**
+        * Un element de menu qui doit pouvoir être grisé
+        */
+        JMenuItem jmenuitem1;
         
         /**
         * Constructeur MouseMapMenu
@@ -74,7 +78,7 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
         	
 			carte = c;
 			
-	               	JMenuItem jmenuitem1 = new JMenuItem(add);
+	               	jmenuitem1 = new JMenuItem(add);
 			jmenuitem1.addActionListener(this);
            		add(jmenuitem1);
 				            		
@@ -153,6 +157,16 @@ public class MouseMapMenu extends JPopupMenu implements ActionListener{
 				carte.scale -= 1;
 				carte.setScale(carte.endX, carte.endY);	
 			}
+		}
+	}
+	public void enabledMenu()
+	{
+		if(carte.getMode() == "Panorama"){
+			jmenuitem1.setEnabled(true);
+		}
+		else
+		{
+			jmenuitem1.setEnabled(false);
 		}
 	}		
 }

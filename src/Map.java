@@ -1233,6 +1233,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			Longitude = null;
 		}
 		mode = m;
+		popupmenu.enabledMenu();
 	}
 	/**
 	*	On obtient le mode actuel de l'application

@@ -31,8 +31,7 @@ public class optionMatlab extends JFrame implements ActionListener{
 	/**
 	*	Les sliders pour définir les tailles limites des images pour le redimensionnement	
 	*/
-	private JSlider LimitX;
-	private JSlider LimitY; 
+	private JSlider Coeff;
 	/**
 	*	La zone UTM a renseignée
 	*
@@ -79,15 +78,14 @@ public class optionMatlab extends JFrame implements ActionListener{
         		
 		String titre = messages.getString("titre");
 		String coordUTM = messages.getString("coordUTM");
-		String hauteur = messages.getString("hauteur");
-		String largeur = messages.getString("largeur");
+		String coefficient = messages.getString("coefficient");
 		String build = messages.getString("build");
 		sauver = messages.getString("sauvegarde");
 		
 		//réglage du titre et des caracteristiques de la fenêtre
 		setTitle(titre);
 		setResizable(true);
-		setSize(500,250);
+		setSize(370,200);
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((tailleEcran.width - this.getWidth())/2, (tailleEcran.height - this.getHeight())/2);		
 		setIconImage(new ImageIcon(this.getClass().getResource("resources/Images/map_icone.png")).getImage());
@@ -96,8 +94,7 @@ public class optionMatlab extends JFrame implements ActionListener{
 		*	Les différents labels
 		*/
 		JLabel CoordUTM = new JLabel(coordUTM);
-		JLabel Hauteur = new JLabel(hauteur);
-		JLabel Largeur = new JLabel(largeur);
+		JLabel Coefficient = new JLabel(coefficient);
 		String Build = build;
 		
 		/**
@@ -144,18 +141,13 @@ public class optionMatlab extends JFrame implements ActionListener{
 		/**
 		*	Les sliders
 		*/
-		LimitX = new JSlider(JSlider.HORIZONTAL,100,2500,1350);
-		LimitY = new JSlider(JSlider.HORIZONTAL,100,2000,1100);		 		
+		Coeff = new JSlider(JSlider.HORIZONTAL,10,100,100);
+		Coeff = new JSlider(JSlider.HORIZONTAL,10,100,100);		 		
 		
-		LimitX.setMajorTickSpacing(500);
-		LimitX.setMinorTickSpacing(250);
-		LimitX.setPaintTicks(true);
-		LimitX.setPaintLabels(true);
-		
-		LimitY.setMajorTickSpacing(500);
-		LimitY.setMinorTickSpacing(250);
-		LimitY.setPaintTicks(true);
-		LimitY.setPaintLabels(true);	
+		Coeff.setMajorTickSpacing(10);
+		Coeff.setMinorTickSpacing(5);
+		Coeff.setPaintTicks(true);
+		Coeff.setPaintLabels(true);
 		/*
 			Lecture des paramètres précédement enregistrés
 		*/
@@ -176,16 +168,13 @@ public class optionMatlab extends JFrame implements ActionListener{
 		contraintes.gridy = 1;
 		add(panCombo,contraintes);
 		contraintes.gridy = 2;
-		add(Hauteur,contraintes);
+		add(Coefficient,contraintes);
 		contraintes.gridy = 3;
-		add(LimitY,contraintes);
-		contraintes.gridy = 4;
-		add(Largeur,contraintes);
-		contraintes.gridy = 5;	
-		add(LimitX,contraintes);
-		contraintes.gridy = 6;			
+		add(Coeff,contraintes);
+		contraintes.gridy = 4;			
 		add(OptimalBuild,contraintes);	
-		contraintes.gridy = 7;
+		contraintes.gridy = 5;
+		contraintes.fill = GridBagConstraints.VERTICAL;
 		add(sauvegarde,contraintes);	
 
 		/*
@@ -218,16 +207,15 @@ public class optionMatlab extends JFrame implements ActionListener{
 			BufferedWriter bw = new BufferedWriter(new FileWriter(monFichier)) ;
 			String ligne = "";
 		
-			ligne = "" + LimitX.getValue();
+			double factor = 0 ;
+			factor = (double)(Coeff.getValue());
+			factor /= 100;
+			System.out.println(factor);
+			ligne = "" + factor;
 			bw.write(ligne,0,ligne.length());
 			bw.newLine();
 			bw.flush();	
-	
-			ligne = "" + LimitY.getValue();
-			bw.write(ligne,0,ligne.length());
-			bw.newLine();
-			bw.flush();			
-			
+					
 			//enregistement de la zone utm
 			String Zone = (String)utmNumber.getSelectedItem();
 			bw.write(Zone,0,Zone.length());
@@ -269,14 +257,13 @@ public class optionMatlab extends JFrame implements ActionListener{
 				BufferedReader bufferlu = new BufferedReader(fichierlu);
 				String ligne = "";
 				String[] resultat = null;
-				//1 ligne LimitX
+				
 				ligne = "" + bufferlu.readLine();
-				LimitX.setValue(Integer.parseInt(ligne));
-				System.out.println(Integer.parseInt(ligne));
-				//2 ligne LimitY
-				ligne = "" + bufferlu.readLine();
-				LimitY.setValue(Integer.parseInt(ligne));
-				//3 et 4 ligne ZoneUTM
+				int factor = 1;
+				factor = (int)(100*Double.parseDouble(ligne));
+				Coeff.setValue(factor);
+				
+				//2 et 3 ligne ZoneUTM
 				ligne = "" + bufferlu.readLine();
 				int num = Integer.parseInt(ligne) - 1;
 				utmNumber.setSelectedIndex(num);

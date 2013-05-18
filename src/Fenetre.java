@@ -91,6 +91,7 @@ public class Fenetre extends JFrame implements ActionListener{
         private String createerror;
         private String choosercreate;
         private String rech;
+        private String resError;
          
         /**
          * Constructeur Fenetre.
@@ -145,7 +146,9 @@ public class Fenetre extends JFrame implements ActionListener{
 		createerror = messages.getString("createerror");
 		String welcome = messages.getString("welcome");
 		choosercreate = messages.getString("choosercreate");
+		resError = messages.getString("resolutionerreur");
 		rech = messagerecherche.getString("recherche");
+
 		
 		setTitle(titre);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -324,7 +327,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			contentPane.removeAll(); 
 			contentPane.add(panorama,"Center");
 			contentPane.add(panel_search,"West");
-			enableMenu(true);
+			enableMenu(false);
 			setVisible(true);	
 		}		
 		else if(e.getActionCommand().equals(cancelall)){
@@ -361,7 +364,7 @@ public class Fenetre extends JFrame implements ActionListener{
 				panel_search.setVisible(false);		
 				panorama =  new Map(panel_search,path);
 				panorama.setMode("Visualisation");
-				enableMenu(true);
+				enableMenu(false);
 				contentPane.removeAll(); 
 				contentPane.add(panorama,"Center");
 				contentPane.add(panel_search,"West");				
@@ -460,15 +463,29 @@ public class Fenetre extends JFrame implements ActionListener{
 						}
 				
 						panel_search = new Recherche();
-						panel_search.setVisible(true);
 						recherche = null;
 						recherche = panel_search.getButton();
-						recherche.addActionListener(this);			
-						panorama =  new Map(panel_search,mosaique);
-						readData(flat,flon,Lat,Lon);
-						panorama.setMode("Panorama");
-						enableMenu(true);
+						recherche.addActionListener(this);
 						
+						//recherche de fichier de log
+						File LOG = new File("panorama.log");
+						if(!LOG.exists()){
+							LOG.delete();
+										
+							panel_search.setVisible(true);
+							panorama = new Map(panel_search,mosaique);
+							readData(flat,flon,Lat,Lon);
+							panorama.setMode("Panorama");
+						}
+						else
+						{
+							panel_search.setVisible(false);
+							panorama = new Map(panel_search,"resources/Images/fond-noir.jpg");
+							panorama.setMode("Visualisation");
+							ShowError(resError);
+						}
+
+						enableMenu(true);				
 						contentPane.removeAll();
 						contentPane.add(panorama,"Center");
 						contentPane.add(panel_search,"West");				
