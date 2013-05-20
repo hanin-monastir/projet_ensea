@@ -9,4 +9,4 @@ Organisation des fonctions Matlab :
 
 [DiagramMatlab]
 
-![DiagramMatlab](https://github.com/benoitfragit/projet_ensea/blob/master/resources/Documentation/docMatlab/schemaMATLAB.jpg)
+[DiagramMatlab](benoitfragit/projet_ensea/blob/master/resources/Documentation/docMatlab/schemaMATLAB.jpg)
