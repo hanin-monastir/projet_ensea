@@ -3,6 +3,6 @@ projet_ensea
 
 Page de documentation :
 
-[1]
+[Documentation]
 
-[1]:http://benoitfragit.github.io/projet_ensea/ "Documentation"
+[Documentation]:http://benoitfragit.github.io/projet_ensea/ "Documentation"
