@@ -17,4 +17,7 @@ Diagramme UML des classes JAVA :
 ![DiagramUML](resources/Documentation/docJava/Diagrammeclasses.png)
 
 
-![ecole](resources/Images/Ensea.gif) [http://www.ensea.fr/]:http://www.ensea.fr/ "http://www.ensea.fr/"
+![ecole](resources/Images/Ensea.gif) [1]
+
+
+[1]:http://www.ensea.fr/ "http://www.ensea.fr/"
