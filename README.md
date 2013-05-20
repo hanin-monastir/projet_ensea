@@ -7,6 +7,6 @@ Page de documentation : [Documentation]
 
 Organisation des fonctions Matlab :
 
-[DiagramMatlab]
 
-[DiagramMatlab](benoitfragit/projet_ensea/blob/master/resources/Documentation/docMatlab/schemaMATLAB.jpg)
+
+![DiagramMatlab](https://github.com/benoitfragit/projet_ensea/master/resources/Documentation/docMatlab/schemaMATLAB.jpg)
