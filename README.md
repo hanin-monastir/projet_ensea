@@ -10,5 +10,7 @@ Organisation des fonctions Matlab :
 ![DiagramMatlab](resources/Documentation/docMatlab/schemaMATLAB.jpg)
 
 Diagramme UML des classes JAVA :
-![DiagramUML](resources/Documentation/docJava/Diagramme_UML.png)
+![DiagramUML](resources/Documentation/docJava/Diagrammeclasses.png)
+
+
 
