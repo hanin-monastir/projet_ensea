@@ -13,7 +13,7 @@ resources:
 Camera	Conf  Documentation  Images  Jar  locales  Matlab  Test  Tree
 
 resources/Camera:
-resolution.jpg	resolution.m
+OmniVision_OV5647.pdf  resolution.jpg  resolution.m
 
 resources/Conf:
 Flight.conf  Itineraire.conf  Itineraire.conf.old12  Panorama.conf
@@ -22,7 +22,7 @@ resources/Documentation:
 docJava  docMatlab  README.pdf	SURF.pdf
 
 resources/Documentation/docJava:
-Diagramme_UML.png  html
+Diagrammeclasses.png  Diagramme_UML.png  html
 
 resources/Documentation/docJava/html:
 Action.html	      allclasses-frame.html  allclasses-noframe.html
@@ -32,16 +32,21 @@ help-doc.html	      index-all.html	     index.html
 Itineraire.html       KmlWriter.html	     Map.html
 MouseMapMenu.html     optionMatlab.html      overview-tree.html
 package-frame.html    package-list	     package-summary.html
-package-tree.html     Pin.html		     Point.html
-ProgressWindows.html  Recherche.html	     Resolution.html
-resources	      serialized-form.html   SliderListener.html
-StraightLine.html     stylesheet.css	     Test.html
+package-tree.html     Panorama		     Panorama.html
+Pin.html	      Point.html	     ProgressWindows.html
+Recherche.html	      Resolution.html	     resources
+serialized-form.html  SliderListener.html    StraightLine.html
+stylesheet.css	      Test.html
+
+resources/Documentation/docJava/html/Panorama:
+package-frame.html	 package-summary.html  package-tree.html  Panorama.html
+PanoramaMCRFactory.html  PanoramaRemote.html
 
 resources/Documentation/docJava/html/resources:
 background.gif	tab.gif  titlebar_end.gif  titlebar.gif
 
 resources/Documentation/docMatlab:
-html
+html  schémaboloc.jpg  schemaMATLAB.jpg
 
 resources/Documentation/docMatlab/html:
 allclasses-frame.html  allclasses-noframe.html	constant-values.html
@@ -102,7 +107,7 @@ resources/Test/itineraire/1:
 Copie  Gps  Photo
 
 resources/Test/itineraire/1/Copie:
-1.png  2.png  mosaique.png
+1.png  2.png
 
 resources/Test/itineraire/1/Gps:
 1.txt  2.txt
