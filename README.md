@@ -1,7 +1,7 @@
 projet_ensea
 ============
 
-Page de documentation : [Documentation]
+Page de [Documentation]
 
 [Documentation]:http://benoitfragit.github.io/projet_ensea/ "Documentation"
 
@@ -17,7 +17,7 @@ Diagramme UML des classes JAVA :
 ![DiagramUML](resources/Documentation/docJava/Diagrammeclasses.png)
 
 
-![ecole](resources/Images/Ensea.gif)   [Ecole Nationale supérieure de l'Electronique et de ses Applications]
+![ecole](resources/Images/Ensea.gif)   [Ecole Nationale Supérieure de l'Electronique et de ses Applications]
 
 
-[Ecole Nationale supérieure de l'Electronique et de ses Applications]:http://www.ensea.fr/ "Ecole Nationale supérieure de l'Electronique et de ses Applications"
+[Ecole Nationale Supérieure de l'Electronique et de ses Applications]:http://www.ensea.fr/ "Ecole Nationale Supérieure de l'Electronique et de ses Applications"
