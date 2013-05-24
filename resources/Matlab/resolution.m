@@ -9,9 +9,8 @@
 %
 % Returns:
 %	etat = 1 si on abaisse la resolution
-function etat = resolution(dossier,liste,limit)
-larglimit = limit(1);
-hautlimit = limit(2);
+%   ext      extension des photos
+function [etat, ext] = resolution(dossier,liste,coeff)
 etat = false;
 
 %..............TEST POUR SAVOIR SI IL FAUT REDIMENSIONNER
@@ -19,44 +18,48 @@ for i = 1:numel(liste)
 	type = liste(i).isdir;
 	nom = liste(i).name;
 		
-	%parcours des dossiers
+%.......parcours des dossiers
 	if type == 1 
-		if nom ~= '.' 
-			if nom ~= '..'
+		if ~strcmp(nom, '.') 
+			if ~strcmp(nom, '..')
 				nom = fullfile(dossier,nom);
 				Photo = fullfile(nom,'/Photo');
-				Copie = fullfile(nom,'/Copie');
-				%on liste les images dans les dossiers
-				
+				%Copie = fullfile(nom,'/Copie');
+%...............................on liste les images dans les dossiers				
 				photo = fullfile(Photo,'*.png');
 				liste_photo = dir(photo);
 				
-				%on regarde la première images
+%...............................on regarde la première images, pour connaittre la taille des images
 				imi = fullfile(Photo,liste_photo(1).name);
 				IMI = imread(imi);
-				if size(IMI,1) < hautlimit || size(IMI,2) < larglimit
+				if size(IMI,1) <= coeff*size(IMI,1) || size(IMI,2) <= coeff*size(IMI,2)
 					etat = false;
+                    %on récupère l'extension des images
+                    [~,~,ext] = fileparts(imi);
 					break;
 				else
 					etat = true;
 					for t = 1:numel(liste_photo)
-						imi = fullfile(Photo,liste_photo(t).name);
-						IMI = imread(imi);
+						if ~strcmp(liste_photo(t).name,'mosaique.png')
+							imi = fullfile(Photo,liste_photo(t).name);
+							IMI = imread(imi);
+							
+							%coeff = hautlimit/size(IMI,1);
+							IM2 = imresize(IMI,coeff);
 						
-						coeff = hautlimit/size(IMI,1);
-						IM2 = imresize(IMI,coeff);
+%.......................................................on récupère le dossier et le nom de l'image
+							[~,nm,ext] = fileparts(imi);
+							destination = fullfile(nom,'/Copie');
+							if ~exist(destination)
+								disp(['creation du dossier ',destination]);
+								mkdir(destination);
+							end
 						
-						%on récupère le dossier et le nom de l'image'
-						[Dossier,nm,ext] = fileparts(imi);
-						destination = fullfile(nom,'/Copie');
-						if ~exist(destination)
-							disp(['creation du dossier ',destination]);
-							mkdir(destination);
+							ima = [nm,ext];
+							destination = fullfile(destination,ima);
+%.......................................................ecriture de la copie
+							imwrite(IM2,destination);
 						end
-						
-						ima = [nm,ext];
-						destination = fullfile(destination,ima);
-						imwrite(IM2,destination);
 					end
 				end
 			end

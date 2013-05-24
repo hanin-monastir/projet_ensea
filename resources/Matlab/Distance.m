@@ -54,8 +54,8 @@ U2(:,end) = 1;
 
 %on obtient les matrices de distance euclidienne par rapport au bord le
 %plus proche des pixels le bord étant le premier 1 trouvé
-[D1,IDX1] = bwdist(U1);
-[D2,IDX2] = bwdist(U2);
+[D1,~] = bwdist(U1);
+[D2,~] = bwdist(U2);
 
 %on obtient les matrices de distances en ne gardant des 1 que dans la bonne
 %zone
@@ -79,12 +79,15 @@ Sd = d1+d2;
 %par l'emplacement des 1 dans la matrice MIII
 %cette méthdoe permet de ne pas utiliser de boucle for balayant chaque
 %pixel des matrices
+
+imc=zeros(size(im1));
 for i = 1:3
     imc(:,:,i) = MIII .* (d1 .* im1(:,:,i) + d2 .* im2(:,:,i)) ./ Sd;
 end
 %on rajoute un test pour mettre à 0 les nan et inf
 imc(isnan(imc)) = 0;
 imc(isinf(imc)) = 0;
+
 
 %on reconstitue l'image finale en supprimant l'ancienne zone de
 %recouvrement et en y ajoutant la nouvelle

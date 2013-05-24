@@ -12,16 +12,13 @@
 function bb = Box(im1,im2,H)
 %BOX Cette fonction permet de calculer la taille optimale de l'image finale pour
 %cela on calcul où se trouveront les coins des images après transformation
-interp_mode = 'linear';
-
 %on obtient la taille des images
-[m1,n1,l1] = size(im1);
-[m2,n2,l2] = size(im2);
+[m1,n1,~] = size(im1);
+[m2,n2,~] = size(im2);
 
 %on detecte les coins de la boite qui contiendra l'image 1
 H1 = eye(3);
 H2 = H;
-
 
 %on calcul la tansformée que va subir im1   
 y1 = H1*[[1;1;1], [1;m1;1], [n1;m1;1] [n1;1;1]];
@@ -38,8 +35,6 @@ xmax = ceil(max(max(y1(1,:)),max(y2(1,:))));
 ymin = ceil(min(min(y1(2,:)),min(y2(2,:))));
 ymax = ceil(max(max(y1(2,:)),max(y2(2,:))));
 
-
 %on calcul la taille optimale de l'image
 bb = [xmin xmax ymin ymax];
-
 return

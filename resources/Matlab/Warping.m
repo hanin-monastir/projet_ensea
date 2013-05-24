@@ -11,11 +11,11 @@
 % 
 % Returns:
 %     nim nouvelle image
-function nim = Warping(im, H, interp_mode, bbox_mode, verbose)
+function nim = Warping(im, H, interp_mode, bbox_mode)
 %fonction qui permet de redimensionner et placer l'image correctement avant
 %le recollement
 im=im2double(im);
-[m,n,l] = size(im);
+[~,~,l] = size(im);
 
 %on crée une image du même type qu'en entrée
 switch class(im)
@@ -25,7 +25,7 @@ end
 
 %on assigne les coins de l'image
 bb = bbox_mode;
-if (bb(2) <= bb(1)) | (bb(4) <= bb(3))
+if (bb(2) <= bb(1)) || (bb(4) <= bb(3))
     error('bbox should be [xmin xmax ymin ymax]')
 end
 

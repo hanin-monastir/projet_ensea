@@ -11,11 +11,12 @@
 %     Mosaique    - La mosaique apres recollement
 %     position    - Le tableau de position mis à jours
 function [Mosaique,position] = stitchBand(dossier,bande,position)
-	mosaique_finale = fullfile(dossier,'/mosaique.png')
-	%On applique la méthode de recollement sur la mosaique finale
-	[Mosaique,H,bbox,MII,MIII] = Surf(mosaique_finale,bande);
+	mosaique_finale = fullfile(dossier,'/mosaique.png');
+%.......On applique la méthode de recollement sur la mosaique finale
+	[Mosaique,H,bbox,~,~,~] = Surf(mosaique_finale,bande);
 	imwrite(Mosaique,mosaique_finale);
 	
+%.......On mets à jours les centres d'image de l'ancienne bande	
 	for t = 1:size(position,2)-1
 		pos = position{t};
 		%on déplace les centres des bandes précédente pour les faire coller à la nouvelle
@@ -33,7 +34,7 @@ function [Mosaique,position] = stitchBand(dossier,bande,position)
 		position{t} = pos;
 	end
 	
-	%on met à jours les centres de la dernières bande qui ont été déplacé
+%.......on met à jours les centres de la dernières bande qui ont été déplacé
 	pos = position{size(position,2)};	
 	for i = 1:size(pos,1);
 		u = pos(i,1);%ligne

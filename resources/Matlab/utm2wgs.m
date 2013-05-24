@@ -21,12 +21,7 @@ n2=length(yy);
 if (n1~=n2 )%|| n1~=n3)
    error('x,y and utmzone vectors should have the same number or rows');
 end
-%c=size(utmzone,2);
-%if (c~=4)
- %  error('utmzone should be a vector of strings like "30 T"');
-%end
-% Memory pre-allocation
-%
+
 Lat=zeros(n1,1);
 Lon=zeros(n1,1);
 

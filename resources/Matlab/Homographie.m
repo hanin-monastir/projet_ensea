@@ -29,7 +29,7 @@ function [H, ppositif ] = Homographie(match1, match2)
 V2=match2.Location;
 V1=match1.Location;
 
-[H, ppositif] = ransacfithomography(V2', V1', 0.2);
+[H, ppositif] = ransacfithomography(V2', V1', 0.8);
 
 %on retourne le nombre de correspondances restant
 points_apparies = size(ppositif);

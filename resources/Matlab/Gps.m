@@ -22,11 +22,11 @@ for i=1:4
     if i ~= 2 && i ~= 3
         champ = sscanf(ligne, '%*s %f');%on capte ici l'heure et les satellites
     elseif i == 2
-        champ = sscanf(ligne, '%*s %f°%f%*s');
-        Latitude=champ(1)+champ(2)/60;
+        champ = double(sscanf(ligne, '%*s %f°%f%*s'));
+        Latitude=double(champ(1)+champ(2)/60);
     elseif i == 3
-        champ = sscanf(ligne, '%*s %f°%f%*s');
-        Longitude=champ(1)+champ(2)/60;
+        champ = double(sscanf(ligne, '%*s %f°%f%*s'));
+        Longitude=double(champ(1)+champ(2)/60);
     end
 end
 

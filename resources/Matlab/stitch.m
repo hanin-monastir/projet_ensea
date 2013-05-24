@@ -7,9 +7,8 @@
 %	configuration	- Le fichier de configuration
 %
 % Notes: le fichier de configuration est ainsi 
-% 	ligne 1 	- resolution maximale en largeur
-%	ligne 2		- resolution maximale en hauteur
-%	ligne 3		- numero de la zone UTIM
+% 	ligne 1 	- coefficient de redimensionnement
+%	ligne 3		- numero de la zone UTM
 %	ligne 4		- code ASCII de la lettre de la zone UTM
 %	ligne 5		- 1 si on utilise le recollement optimale
 % 
@@ -17,15 +16,14 @@ function stitch(dossier,configuration)
 %...............Configuration
 	if exist(configuration)
 		conf = load(configuration);
-		res = [conf(1),conf(2)];
-		num = num2str(conf(3));
+		coeff = conf(1);
+		num = num2str(conf(2));
 		zone = [num ,' '];
-		zone = [zone,char(conf(4))];
-		build = conf(5);
+		zone = [zone,char(conf(3))];
+		build = conf(4);
 	
 %...............Fichier final
 		Mosaique_finale = fullfile(dossier,'/mosaique.png');
-		Gps_finale = fullfile(dossier,'/gps.mat');
 		latitude = fullfile(dossier,'latitude.txt');
 		longitude = fullfile(dossier,'longitude.txt');
 
@@ -35,44 +33,52 @@ function stitch(dossier,configuration)
 %...............Nettoyage	
 		if exist(Mosaique_finale)
 			delete(Mosaique_finale);			
-		end
-		if exist(Gps_finale)
-			delete(Gps_finale);
-		end
+      		end
 		if exist(latitude)
-		delete(latitude);
+            		delete(latitude);
 		end
 		if exist(longitude)
 			delete(longitude);
-		end
-	
+        	end
+        	if exist('panorama.log')
+        		delete('panorama.log'); 
+        	end
 %...............On liste les bandes contenues dans le dossier
 		liste_bande = dir(dossier);
 		%nombre de bande
 		taille = numel(liste_bande);
 		
 %...............Redimenssionement des images si nécéssaire
-		lowerR = resolution(dossier,liste_bande,res);
+		[lowerR,ext] = resolution(dossier,liste_bande,coeff);
 		
+		nombre_bande = 0;
 %...............Construction des bandes
 		for i = 1:taille
 			type = liste_bande(i).isdir;
 			nom = liste_bande(i).name;
 		
 			if type == 1 
-				if nom ~= '.' 
-					if nom ~= '..'
+				if ~strcmp(nom, '.') 
+					if ~strcmp(nom, '..')
+						nombre_bande = nombre_bande + 1;
 						nom = fullfile(dossier,nom);
 						if lowerR == false
 							Photo = fullfile(nom,'/Photo');
 						else
 							Photo = fullfile(nom,'/Copie');
 						end
+
 						Gps = fullfile(nom,'/Gps');
-						ext = '*.png';
+                                            
+						ext = ['*',ext];
 						disp(Photo)
 						disp(Gps)
-						[position, nombre] = Panorama(Photo,ext,Gps,position,build);
+						[position, nombre,logstate] = buildBand(Photo,ext,Gps,position,build);
+						
+						if(logstate == true)
+							break;
+						end
+							
 						bande = fullfile(Photo,'/mosaique.png');
 						
 						%on recolle la nouvelle bande à la mosaique
@@ -81,7 +87,7 @@ function stitch(dossier,configuration)
 						else
 							%l'image finale existe déjà on recolla la nouvelle bande avec la mosaique_finale
 							%attention à modifier les positions des centres de la bandes pour les faire coller 
-							%avec la mosaique finale			
+							%avec la mosaique finale	
 							[Mosaique,position] = stitchBand(dossier,bande,position);							
 						end
 					end
@@ -89,19 +95,25 @@ function stitch(dossier,configuration)
 			end
 		end
 		
-%...............Vérification
-		tab = [];
-		for t = 1:size(position,2)
-			tab = [tab;position{t}];
+		if(logstate == false) 
+%.......................conversion
+			tab = [];
+       			for t = 1:size(position,2)
+				tab = [tab;double(position{t})];
+			end
+			
+%.......................Géoréférencement
+			[~,lat,lon]=georeferencement(tab,Mosaique,nombre_bande,nombre,zone);
+			dlmwrite(latitude,lat,'precision',9);
+			dlmwrite(longitude,lon,'precision',9);
+        
+        		[i0,j0] = find(Mosaique(:,:,1) == 0 & Mosaique(:,:,2) == 0 & Mosaique(:,:,3) == 0);
+       			noir=size(i0,1)/(size(Mosaique,1)*size(Mosaique,2))*100;
+        		disp(['pourcentage de déformation ',num2str(noir),'%']);
+        
+			disp('Fin de la construction du panorama');
 		end
-		
-%...............Géoréférencement
-		[H,lat,lon]=georeferencement(tab,size(Mosaique),taille,nombre,zone);
-		dlmwrite(latitude,lat,'precision',9);
-		dlmwrite(longitude,lon,'precision',9);
-		lon
-		disp('Fin de la construction du panorama');
 	else
-		disp('Le fichier de configuration n"existe pas, operation annulee');
+		Log('Le fichier de configuration n"existe pas, operation annulee');
 	end
 end	

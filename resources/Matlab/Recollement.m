@@ -45,6 +45,18 @@ MIII=floor((2*Aa-Ms)/2);%contient des 1 dans la zone III de recouvrement
 idx = MIII > 0;
 im2 = Teinte(im1,im2,idx);
 
+%correction de la matrice MIII afin de supprimer les bandes noires de l'image finale
+%I3 = find(MIII);
+%M4 = ones(size(MIII));
+%M4(I3) = 0;
+%D4 = bwdist(M4);
+%on supprime 5 pixels de la bande noires
+%I4 = find(D4 <= sqrt(2)*5);
+%I5 = find(D4 ~= 0 );
+%MIII(I5) = 0;
+
+
+
 
 %zone II image 1; 
 ima(:,:,1) = MII .* im1(:,:,1);
@@ -55,6 +67,7 @@ ima(:,:,3) = MII .* im1(:,:,3);
 imb(:,:,1) = MII .* im2(:,:,1);
 imb(:,:,2) = MII .* im2(:,:,2);
 imb(:,:,3) = MII .* im2(:,:,3);
+
 
 %zone III
 imc(:,:,1) = MIII .* imc(:,:,1);
@@ -74,7 +87,7 @@ imd = Distance(MI1,MI2,MIII,im1,im2,imd);
 
 %on attenue les bandes noires
 %moyennage des bords gauche et droite sur 10 colonnes de pixel
-%le résulta est bien meilleurs sans cete fonction
+%le résultat est bien meilleurs sans cete fonction
 imd = Attenuation(imd,3,MIII);
 
 %on applique un premier lissage

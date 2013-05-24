@@ -540,8 +540,14 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			if ( px >=0 && py >= 0 && px < initWidth && py < initHeight){
 				try {
 					float Lt = (float)Latitude[py][px];
-					float Ln = (float)Longitude[py][px];	
-					coord = "Lat: " + Lt + " Lon: " + Ln ;
+					float Ln = (float)Longitude[py][px];
+					if(Lt != 0 && Ln != 0){	
+						coord = "Lat: " + Lt + " Lon: " + Ln ;
+					}
+					else
+					{
+						coord = "Lat: " + px + " Lon: " + py ;
+					}
 				} catch (IndexOutOfBoundsException ei){
 					ei.printStackTrace();
 	 			}	
