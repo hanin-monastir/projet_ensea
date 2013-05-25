@@ -1,4 +1,4 @@
-EnseaMap.desktop  INSTALL  projet  README.md
+AUTHORS  EnseaMap.desktop  INSTALL  projet  README.md  VERSION
 
 classes:
 Action.class	    Configuration.class  convertTab.class
