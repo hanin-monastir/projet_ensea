@@ -345,10 +345,17 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 					//Si on est dans l'image :
 					if(e.getX() >= offsetX && e.getX() <= image.getWidth() + offsetX && e.getY() >= offsetY && e.getY() <= image.getHeight() + offsetY)
 					{
-			
-						History.add(new Action(listPin,listLine));
-						pinMap(e.getX(), e.getY());
-						//on marque ou non la carte avec des épingles
+						//Pour obtenir la position réelle du curseur en enlevant l'effet du zoom et de l'offset
+						int px =(int)((e.getX()-offsetX)/scale);
+						int py =(int)((e.getY()-offsetY)/scale);
+						double Lt = Latitude[py][px];
+						double Ln = Longitude[py][px];			
+				
+						if(Lt != 0 && Ln != 0){
+							History.add(new Action(listPin,listLine));
+							pinMap(e.getX(), e.getY());
+							//on marque ou non la carte avec des épingles
+						}
 					}
 				}
 									
@@ -543,10 +550,8 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 					float Ln = (float)Longitude[py][px];
 					if(Lt != 0 && Ln != 0){	
 						coord = "Lat: " + Lt + " Lon: " + Ln ;
-					}
-					else
-					{
-						coord = "Lat: " + px + " Lon: " + py ;
+						//on affiche une bulle d'information
+						setToolTipText(coord);	
 					}
 				} catch (IndexOutOfBoundsException ei){
 					ei.printStackTrace();
@@ -558,9 +563,9 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			//cette partie permet de faire fonctionner la fonction
 			//si le panorama n'est pas créer
 			coord = "Lat: " + px + " Lon: " + py ;
-		}
-		//on affiche une bulle d'information
-		setToolTipText(coord);		
+			//on affiche une bulle d'information
+			setToolTipText(coord);	
+		}	
         }
 	
 			//////////////////////////////////////////////////////
