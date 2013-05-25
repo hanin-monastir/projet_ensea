@@ -964,7 +964,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 		chooser.setAcceptAllFileFilterUsed(false);
  		int returnVal = chooser.showOpenDialog(this.getParent());    			
     		if(returnVal == JFileChooser.APPROVE_OPTION){
-			String map = chooser.getSelectedFile().getAbsolutePath()+"/map.jpg";
+			String map = chooser.getSelectedFile().getAbsolutePath()+"/mosaique.png";
 			String pin = chooser.getSelectedFile().getAbsolutePath()+"/positions.txt";
 			String latf = chooser.getSelectedFile().getAbsolutePath()+"/latitude.txt";
 			String lonf = chooser.getSelectedFile().getAbsolutePath()+"/longitude.txt";

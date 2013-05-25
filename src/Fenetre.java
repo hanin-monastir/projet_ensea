@@ -381,7 +381,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			chooser1.setAcceptAllFileFilterUsed(false);
 			chooser1.setApproveButtonText(load);
 			if(chooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){ 
-				String Photo = chooser1.getSelectedFile().getAbsolutePath() + "/map.jpg";
+				String Photo = chooser1.getSelectedFile().getAbsolutePath() + "/mosaique.png";
 				String pin = chooser1.getSelectedFile().getAbsolutePath() + "/positions.txt";
 				String Lat = chooser1.getSelectedFile().getAbsolutePath() + "/latitude.txt";
 				String Lon = chooser1.getSelectedFile().getAbsolutePath() + "/longitude.txt";
