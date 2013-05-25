@@ -102,7 +102,7 @@ resources/Test/Data:
 breakpoints.txt  map.kml  mapview.png
 
 resources/Test/itineraire:
-1  2  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
+1  2  Panorama.txt
 
 resources/Test/itineraire/1:
 Copie  Gps  Photo
