@@ -4,4 +4,4 @@ Dependancies are for the moment:
 	- MCR R2012a linux 32 bits
 	- openjdk-7-jdk openjdk-7-jre
 	
-once, they are installed you can launch the program by executing ./projet
+once, they are installed you can launch the program by executing ./LAUNCH
