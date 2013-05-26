@@ -23,3 +23,5 @@ Diagramme UML des classes JAVA :
 
 Exemple
 ============
+
+![Exemple](resources/Test/itineraire2/mosaique.png)
