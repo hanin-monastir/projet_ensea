@@ -1,0 +1,4 @@
+Heure: 16.4032
+Latitude: 49°2.359193696255460'N
+Longitude: 2°4.323014451222240'E
+Satellits: 4
