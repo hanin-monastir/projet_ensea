@@ -1,4 +1,4 @@
-Authors  EnseaMap.desktop  INSTALL  projet  README.md  Version
+Authors  EnseaMap.desktop  Info  INSTALL  LAUNCH  projet  README.md  Version
 
 classes:
 Action.class	    Configuration.class  convertTab.class
@@ -102,7 +102,7 @@ resources/Test/Data:
 breakpoints.txt  map.kml  mapview.png
 
 resources/Test/itineraire:
-1  2  Panorama.txt
+1  2  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
 
 resources/Test/itineraire/1:
 Copie  Gps  Photo

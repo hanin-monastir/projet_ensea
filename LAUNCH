@@ -8,7 +8,7 @@ export XAPPLRESDIR="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/X11/app-defau
 DIR=${0%/*}
 cd $DIR
 
-case $1
+case $1 in
 	"-compile" )
 		if [ ! -d $PWD/classes ]; then
 		{
