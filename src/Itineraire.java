@@ -411,6 +411,7 @@ public class Itineraire extends Thread{
 			int tailleUrl = url.length();
 			if(tailleUrl < 2048 ){
 				//on récupère l'image envoyé par google
+				//attention si il n'y a pas internet'
 	 			map = ImageIO.read(new URL(url));
 	 			//sauvegarde des données
 	 			recordData();

@@ -1,0 +1,25 @@
+#!/bin/bash
+#script minimal de lancement
+#compile pour recompiler
+#aucun argument pour executer
+export LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/runtime/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/bin/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/os/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386/native_threads:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386/server:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386"
+export XAPPLRESDIR="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/X11/app-defaults"
+
+DIR=${0%/*}
+cd $DIR
+
+case $1
+	"-compile" )
+		if [ ! -d $PWD/classes ]; then
+		{
+			mkdir $PWD/classes
+		}
+		fi
+		
+		javac -d $PWD/classes -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar:$PWD $PWD/src/*.java;; 
+
+	""         )
+		java -classpath /usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/toolbox/javabuilder/jar/javabuilder.jar:$PWD/resources/Jar/Panorama.jar:$PWD/resources:$PWD:$PWD/classes Test;;
+esac;		
+
+exit 0;

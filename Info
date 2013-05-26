@@ -1,0 +1,7 @@
+Before trying to launch the program, you should install all dependancies or launch the INSTALL script.
+Dependancies are for the moment:
+
+	- MCR R2012a linux 32 bits
+	- openjdk-7-jdk openjdk-7-jre
+	
+once, they are installed you can launch le program by executing ./projet
