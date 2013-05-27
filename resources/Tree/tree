@@ -16,7 +16,7 @@ resources/Camera:
 OmniVision_OV5647.pdf  resolution.jpg  resolution.m
 
 resources/Conf:
-Flight.conf  Itineraire.conf  Itineraire.conf1	Panorama.conf
+Flight.conf  Itineraire.conf  Itineraire.conf2	Panorama.conf
 
 resources/Documentation:
 docJava  docMatlab  README.pdf	SURF.pdf
