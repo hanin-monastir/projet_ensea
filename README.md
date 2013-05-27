@@ -21,7 +21,8 @@ Diagramme UML des classes JAVA :
 
 ![DiagramUML](resources/Documentation/docJava/Diagrammeclasses.png)
 
-Exemple
+Exemples
 ============
 
-![Exemple](resources/Test/itineraire2/mosaique.png)
+![Exemple1](resources/Test/itineraire2/mosaique.png)
+![Exemple2](resources/Test/itineraire3/mosaique.png)
