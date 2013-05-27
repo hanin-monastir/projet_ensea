@@ -298,6 +298,18 @@ public class Fenetre extends JFrame implements ActionListener{
 			System.exit(0);
 		}
 		else if(e.getActionCommand().equals(configurerpano)){
+			panel_search = new Recherche();
+			panel_search.setVisible(false);		
+			panorama =  new Map(panel_search,"resources/Images/utmworld.gif");
+			panorama.setMode("Visualisation");
+			enableMenu(false);
+			contentPane.removeAll(); 
+			contentPane.add(panorama,"Center");
+			contentPane.add(panel_search,"West");				
+        			
+        		setVisible(true);
+			
+			
 			optionMatlab option = new optionMatlab();
 		}
 		else if(e.getActionCommand().equals(confflight)){
