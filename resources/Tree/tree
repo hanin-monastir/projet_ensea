@@ -102,52 +102,40 @@ resources/Test/Data:
 breakpoints.txt  map.kml  mapview.png
 
 resources/Test/itineraire1:
-1  2  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
+1  2  latitude.txt  longitude.txt  Panorama.txt
 
 resources/Test/itineraire1/1:
-Copie  Gps  Photo
-
-resources/Test/itineraire1/1/Copie:
-1.png  2.png
+Gps  Photo
 
 resources/Test/itineraire1/1/Gps:
 1.txt  2.txt
 
 resources/Test/itineraire1/1/Photo:
-1.png  2.png  mosaique.png
+1.png  2.png
 
 resources/Test/itineraire1/2:
-Copie  Gps  Photo
-
-resources/Test/itineraire1/2/Copie:
-1.png  2.png  mosaique.png
+Gps  Photo
 
 resources/Test/itineraire1/2/Gps:
 1.txt  2.txt
 
 resources/Test/itineraire1/2/Photo:
-1.png  2.png  mosaique.png
+1.png  2.png
 
 resources/Test/itineraire2:
-1  2  3  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
+1  2  3  latitude.txt  longitude.txt  Panorama.txt
 
 resources/Test/itineraire2/1:
-Copie  Gps  Photo
-
-resources/Test/itineraire2/1/Copie:
-1.png  2.png  3.png  mosaique.png
+Gps  Photo
 
 resources/Test/itineraire2/1/Gps:
 1.txt  2.txt  3.txt
 
 resources/Test/itineraire2/1/Photo:
-1.png  2.png  3.png  mosaique.png
+1.png  2.png  3.png
 
 resources/Test/itineraire2/2:
-Copie  Gps  Photo
-
-resources/Test/itineraire2/2/Copie:
-1.png  2.png  3.png  mosaique.png
+Gps  Photo
 
 resources/Test/itineraire2/2/Gps:
 1.txt  2.txt  3.txt
@@ -156,10 +144,7 @@ resources/Test/itineraire2/2/Photo:
 1.png  2.png  3.png
 
 resources/Test/itineraire2/3:
-Copie  Gps  Photo
-
-resources/Test/itineraire2/3/Copie:
-1.png  2.png  3.png  mosaique.png
+Gps  Photo
 
 resources/Test/itineraire2/3/Gps:
 1.txt  2.txt  3.txt
@@ -168,7 +153,7 @@ resources/Test/itineraire2/3/Photo:
 1.png  2.png  3.png
 
 resources/Test/itineraire3:
-1  2  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
+1  2  mosaique.png  Panorama.txt
 
 resources/Test/itineraire3/1:
 Copie  Gps  Photo
