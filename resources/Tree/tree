@@ -96,7 +96,7 @@ stitch.m	Surf.m		       Teinte.m       utm2wgs.m
 Warping.m	wgs2utm.m
 
 resources/Test:
-Data  itineraire1  itineraire2
+Data  itineraire1  itineraire2	itineraire3
 
 resources/Test/Data:
 breakpoints.txt  map.kml  mapview.png
@@ -166,6 +166,33 @@ resources/Test/itineraire2/3/Gps:
 
 resources/Test/itineraire2/3/Photo:
 1.png  2.png  3.png
+
+resources/Test/itineraire3:
+1  2  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
+
+resources/Test/itineraire3/1:
+Copie  Gps  Photo
+
+resources/Test/itineraire3/1/Copie:
+1.png  2.png  mosaique.png
+
+resources/Test/itineraire3/1/Gps:
+1.txt  2.txt
+
+resources/Test/itineraire3/1/Photo:
+1.png  2.png
+
+resources/Test/itineraire3/2:
+Copie  Gps  Photo
+
+resources/Test/itineraire3/2/Copie:
+1.png  2.png  mosaique.png
+
+resources/Test/itineraire3/2/Gps:
+1.txt  2.txt
+
+resources/Test/itineraire3/2/Photo:
+1.png  2.png
 
 resources/Tree:
 tree

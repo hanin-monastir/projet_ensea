@@ -32,7 +32,7 @@ public class ProgressWindows extends JFrame{
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setSize(400,30);
+		setSize(400,80);
 		
 		JProgressBar progressBar;
 		progressBar = new JProgressBar(0,100);
@@ -44,8 +44,7 @@ public class ProgressWindows extends JFrame{
 		progressBar.setVisible(true);
 		
 		Container contentPane = getContentPane();
-		contentPane.add(progressBar,"Center");
-		
+		contentPane.add(progressBar,"Center");		
 	}
 
 }
