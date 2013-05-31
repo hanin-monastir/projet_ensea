@@ -92,6 +92,8 @@ public class Fenetre extends JFrame implements ActionListener{
         private String choosercreate;
         private String rech;
         private String resError;
+        
+        Panorama mypano;
          
         /**
          * Constructeur Fenetre.
@@ -159,6 +161,8 @@ public class Fenetre extends JFrame implements ActionListener{
 		int hauteur = (int)tailleEcran.getHeight();
 		int largeur = (int)tailleEcran.getWidth();
 		setSize(tailleEcran);
+		
+		Panorama mypano = null;
 		
 		activableMenu = new ArrayList<JMenuItem>();
 		JMenuBar m = new JMenuBar();
@@ -435,8 +439,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			}
 		}	
 		/////////// Matlab actions mcr requis ici ///////////////////
-		else if(e.getActionCommand().equals(create)){
-			Panorama mypano = null;					
+		else if(e.getActionCommand().equals(create)){					
 			//Création d'un nouveau panorama avec les paramètres par défaut
 			JFileChooser chooser1 = new JFileChooser(); 
 			chooser1.setCurrentDirectory(new java.io.File("."));
@@ -465,15 +468,17 @@ public class Fenetre extends JFrame implements ActionListener{
 						String mosaique = Photo + "/mosaique.png";		
 						try{
 							System.out.println("Accès au Matlab Computer Runtime");
-							mypano = new Panorama();	
+							if(mypano == null){
+								mypano = new Panorama();	
+							}
 							System.out.println("Accès réussi");									
 							mypano.stitch(folderphoto[0],configpano[0]);
 							progressebarre.setVisible(false);
 						} catch(MWException ei){
 							ei.printStackTrace();
-						} finally{
+						} /*finally{
 							mypano.dispose();
-						}
+						}*/
 				
 						panel_search = new Recherche();
 						recherche = null;
