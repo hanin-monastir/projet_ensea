@@ -216,8 +216,7 @@ public class Itineraire extends Thread{
 		//4 points seront nécéssaires
 		sens = "positif";
 		vue = "satellite";
-		iswrited = "false";
-				
+		iswrited = "false";					
 		latitude = new double[2];
 		longitude = new double[2];
 		lat = new double[4];
@@ -415,7 +414,7 @@ public class Itineraire extends Thread{
 	 			map = ImageIO.read(new URL(url));
 	 			//sauvegarde des données
 	 			recordData();
-	 			getTotalDistance();
+	 			//getTotalDistance();
 	 		}
 	 		else
 	 		{
@@ -845,7 +844,7 @@ public class Itineraire extends Thread{
 		if(folder != "" && folder != null){
 			//enregistrement des breakpoints et de l'image
 			String listeBkp = folder + "/breakpoints.txt";
-			String Carte =  folder + "/mapview.png";
+			String Carte =  folder + "/mapview.gif";
 
 			try{
 				File ancien_iti = new File(Carte);
@@ -857,7 +856,7 @@ public class Itineraire extends Thread{
 				FileOutputStream fos = new FileOutputStream(Carte);
 				if(map != null){
 
-					ImageIO.write(map,"png",fos);
+					ImageIO.write(map,"gif",fos);
 					while( ! ancien_iti.exists()){
 						//attendre que le thread ait fini d'écrire le fihcier'
 					}

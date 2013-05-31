@@ -322,11 +322,12 @@ public class Fenetre extends JFrame implements ActionListener{
 			Itineraire itn = new Itineraire();
 			itn.start();
 			while(itn.getWrited() == "false"){
-			}						
+			}
 			String folder,im = "resources/Images/fond-noir.jpg";
+			
 			if(itn.getWrited() == "true"){
 				folder = itn.getFolder();
-				im = folder + "/mapview.png";
+				im = folder + "/mapview.gif";
 			}
 			
 			File Im = new File(im);
