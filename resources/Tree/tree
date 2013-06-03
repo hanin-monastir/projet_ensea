@@ -10,7 +10,8 @@ Recherche.class     Resolution.class	 SliderListener.class
 StraightLine.class  Test.class
 
 resources:
-Camera	Conf  Documentation  Images  Jar  locales  Matlab  Test  Tree
+Camera	Conf  Documentation  Géoréférencement  Images  Jar  locales  Matlab
+Test	Tree
 
 resources/Camera:
 OmniVision_OV5647.pdf  resolution.jpg  resolution.m
@@ -61,9 +62,12 @@ PanoramaMCRFactory.html  PanoramaRemote.html
 resources/Documentation/docMatlab/html/resources:
 background.gif	tab.gif  titlebar_end.gif  titlebar.gif
 
+resources/Géoréférencement:
+apresCalcul.png  originale.png
+
 resources/Images:
-blu-circle32.png  Ensea1.gif	ensea.jpg  Ensea.jpg  fond-noir.jpg
-map_icone.png	  utmworld.gif
+blu-circle32.png  Ensea1.gif	 ensea.jpg     Ensea.jpg  fond-noir.jpg
+interface.png	  map_icone.png  utmworld.gif
 
 resources/Jar:
 Panorama.jar
@@ -99,7 +103,7 @@ resources/Test:
 Data  itineraire1  itineraire2	itineraire3
 
 resources/Test/Data:
-breakpoints.txt  map.kml  mapview.png
+breakpoints.txt  map.kml  mapview.bmp  mapview.gif
 
 resources/Test/itineraire1:
 1  2  latitude.txt  longitude.txt  Panorama.txt
@@ -123,10 +127,13 @@ resources/Test/itineraire1/2/Photo:
 1.png  2.png
 
 resources/Test/itineraire2:
-1  2  3  latitude.txt  longitude.txt  Panorama.txt
+1  2  3  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
 
 resources/Test/itineraire2/1:
-Gps  Photo
+Copie  Gps  Photo
+
+resources/Test/itineraire2/1/Copie:
+1.png  2.png  3.png  mosaique.png
 
 resources/Test/itineraire2/1/Gps:
 1.txt  2.txt  3.txt
@@ -135,7 +142,10 @@ resources/Test/itineraire2/1/Photo:
 1.png  2.png  3.png
 
 resources/Test/itineraire2/2:
-Gps  Photo
+Copie  Gps  Photo
+
+resources/Test/itineraire2/2/Copie:
+1.png  2.png  3.png  mosaique.png
 
 resources/Test/itineraire2/2/Gps:
 1.txt  2.txt  3.txt
@@ -144,7 +154,10 @@ resources/Test/itineraire2/2/Photo:
 1.png  2.png  3.png
 
 resources/Test/itineraire2/3:
-Gps  Photo
+Copie  Gps  Photo
+
+resources/Test/itineraire2/3/Copie:
+1.png  2.png  3.png  mosaique.png
 
 resources/Test/itineraire2/3/Gps:
 1.txt  2.txt  3.txt
@@ -153,7 +166,7 @@ resources/Test/itineraire2/3/Photo:
 1.png  2.png  3.png
 
 resources/Test/itineraire3:
-1  2  mosaique.png  Panorama.txt
+1  2  latitude.txt  longitude.txt  mosaique.png  Panorama.txt
 
 resources/Test/itineraire3/1:
 Copie  Gps  Photo

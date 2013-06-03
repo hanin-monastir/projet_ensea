@@ -787,35 +787,39 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener, M
 			int c = Latitude[0].length;
 			int px = 0;
 			int py = 0;
+			boolean isInPicture = false;
 			
 			for(int i = 0;i<l;i++){
 				for(int j=0;j<c;j++){
 					if(Latitude[i][j] == lat && Longitude[i][j] == lon){
 						px = j;
 						py = i;
+						isInPicture = true;
 						//on sort
 						i = l;
 						j = c;
 					}
 				}
 			}
-			//retour au vrai coord
-			for(Pin p: listPin){
-				p.poffset.setX((int)((p.poffset.getX()-offsetX)/scale));
-				p.poffset.setY((int)((p.poffset.getY()-offsetY)/scale));
-			}
-			
-			int Px = (int) Math.floor(px*scale+offsetX);
-			int Py = (int) Math.floor(offsetY+py*scale);	
-			//décalle ie on centre la zone
-			offsetX = dimX/2 - (Px - offsetX);
-			offsetY = dimY/2 - (Py - offsetY);
-			//mise à jours de pins
-			for(Pin p: listPin){
-				p.poffset.setX(p.poffset.getX()+offsetX);
-				p.poffset.setY(p.poffset.getY()+offsetY);
-			}
-			repaint();				
+			//on centre la carte sur le pixel si les coords renseignés sont dans les tableaux
+			if(isInPicture == true){
+				for(Pin p: listPin){
+					p.poffset.setX((int)((p.poffset.getX()-offsetX)/scale));
+					p.poffset.setY((int)((p.poffset.getY()-offsetY)/scale));
+				}
+				
+				int Px = (int) Math.floor(px*scale+offsetX);
+				int Py = (int) Math.floor(offsetY+py*scale);	
+				//décalle ie on centre la zone
+				offsetX = dimX/2 - (Px - offsetX);
+				offsetY = dimY/2 - (Py - offsetY);
+				//mise à jours de pins
+				for(Pin p: listPin){
+					p.poffset.setX(p.poffset.getX()+offsetX);
+					p.poffset.setY(p.poffset.getY()+offsetY);
+				}
+				repaint();	
+			}			
 		} catch (Exception ei){
 			ei.printStackTrace();		
 		}	
