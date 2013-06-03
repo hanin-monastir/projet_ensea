@@ -111,8 +111,8 @@ public class Configuration extends JFrame implements ActionListener{
 		String longitude = messages.getString("longitude");
 					
 		setTitle(titre);
-		setResizable(false);
-		setSize(400,500);
+		setResizable(true);
+		setSize(400,530);
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((tailleEcran.width - this.getWidth())/2, (tailleEcran.height - this.getHeight())/2);
 		

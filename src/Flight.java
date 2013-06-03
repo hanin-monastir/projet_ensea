@@ -55,7 +55,7 @@ public class Flight extends JFrame implements ActionListener {
 		String titre = messages.getString("titre");
 					
 		setTitle(titre);
-		setResizable(false);
+		setResizable(true);
 		setSize(430,280);
 		Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((tailleEcran.width - this.getWidth())/2, (tailleEcran.height - this.getHeight())/2);
