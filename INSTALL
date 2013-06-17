@@ -1,4 +1,29 @@
-#/bin/bash
+#!/bin/bash
+DIR=${0%/*}
+cd $DIR
+
+#on crée un lanceur si celui-ci n'existe pas
+if [ ! -e $HOME/.local/share/applications/EnseaMap.desktop ]; then
+{
+echo "Création du lanceur";
+echo -e "#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[fr]=$PWD/resources/Images/map_icone.png
+Name[fr]=EnseaMap
+Exec=sh -c $PWD/LAUNCH
+Name=EnseaMap
+Icon=$PWD/resources/Images/map_icone.png
+" > $HOME/.local/share/applications/EnseaMap.desktop
+
+chmod +x $HOME/.local/share/applications/EnseaMap.desktop	
+}
+fi
+
+
+cd 
 echo "Installation de Java 7";
 sudo apt-get install openjdk-7-jdk openjdk-7-jre
 
