@@ -9,7 +9,7 @@ Page de [documentation]
 Organisation des fonctions Matlab :
 ============
 
-![DiagramMatlab](resources/Documentation/docMatlab/schemaMATLAB.jpg)
+![DiagramMatlab](resources/Documentation/docMatlab/schemaMATLAB.png)
 
 Étapes rencontrées lors de la construction du panorama
 ============
