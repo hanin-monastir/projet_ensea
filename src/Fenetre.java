@@ -250,14 +250,18 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		setJMenuBar(m);	
 		contentPane = getContentPane();
+		
 		///Essai de disposition : Panneau Recherche
 		panel_search = new Recherche();
 		panel_search.setVisible(false);
 		recherche = panel_search.Bouton;
 		recherche.addActionListener(this);
+		
+		//Création d'une classe permettant l'affichage d'image
+		//pas instanciée, instanciée si on quitte l'écrant d'accuei
 		panorama = null;
 		
-		///Fenêtre d'accueil
+		//Fenêtre d'accueil
 		String textLabel = "<html><b><big><big>" + welcome + "</big></big></b></html>";
 		JLabel provisoire = new JLabel(textLabel);
 		provisoire.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); 
@@ -279,10 +283,13 @@ public class Fenetre extends JFrame implements ActionListener{
 		contraintes.gridy = 1;
 		accueil.add(provisoire,contraintes);
 		contentPane.add(accueil,"Center");
-				
+		
+		//barre de progression (apparait que si on construit un panorama)	
 		progressebarre = new ProgressWindows();
 		progressebarre.setVisible(false);		
 		progressebarre.setLocationRelativeTo(null);	
+		
+		//Ajout et affichage de la fenêtre
 		contentPane.add(panel_search, "West");				
 		setVisible(true);
 	}
@@ -312,8 +319,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			contentPane.add(panel_search,"West");				
         			
         		setVisible(true);
-			
-			
+					
 			optionMatlab option = new optionMatlab();
 		}
 		else if(e.getActionCommand().equals(confflight)){
@@ -570,7 +576,9 @@ public class Fenetre extends JFrame implements ActionListener{
 		}
 	}
 	/**
-	*	Lire les fichiers de coordonnée
+	*	Lire les fichiers de coordonnée, pour ce faire on utilise un thread
+	*	la lecture des deux fichiers se fait en même temps
+	*
 	*	@param flat
 	*		le fichier de latitude
 	*	@param flon

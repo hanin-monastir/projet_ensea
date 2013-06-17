@@ -1,12 +1,33 @@
 #!/bin/bash
 #script minimal de lancement
-#compile pour recompiler
+#-compile pour recompiler
 #aucun argument pour executer
 export LD_LIBRARY_PATH="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/runtime/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/bin/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/os/glnx86:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386/native_threads:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386/server:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnx86/jre/lib/i386"
 export XAPPLRESDIR="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/X11/app-defaults"
 
 DIR=${0%/*}
 cd $DIR
+
+#on crée un lanceur si celui-ci n'existe pas
+if [ ! -e $HOME/.local/share/applications/EnseaMap.desktop ]; then
+{
+echo "Création du lanceur";
+echo -e "#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[fr]=$PWD/resources/Images/map_icone.png
+Name[fr]=EnseaMap
+Exec=sh -c $PWD/LAUNCH
+Name=EnseaMap
+Icon=$PWD/resources/Images/map_icone.png
+" > $HOME/.local/share/applications/EnseaMap.desktop
+
+chmod +x $HOME/.local/share/applications/EnseaMap.desktop	
+}
+fi
+
 
 case $1 in
 	"-compile" )
@@ -23,3 +44,4 @@ case $1 in
 esac;		
 
 exit 0;
+

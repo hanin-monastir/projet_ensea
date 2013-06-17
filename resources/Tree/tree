@@ -47,7 +47,7 @@ resources/Documentation/docJava/html/resources:
 background.gif	tab.gif  titlebar_end.gif  titlebar.gif
 
 resources/Documentation/docMatlab:
-html  schémaboloc.jpg  schemaMATLAB.jpg
+html  schémaboloc.jpg  schemaMATLAB.png
 
 resources/Documentation/docMatlab/html:
 allclasses-frame.html  allclasses-noframe.html	constant-values.html

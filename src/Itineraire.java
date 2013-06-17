@@ -857,6 +857,10 @@ public class Itineraire extends Thread{
 				if(map != null){
 
 					ImageIO.write(map,"gif",fos);
+					/*
+						Nous sommes obligé de mettre une boucle pour attendre
+						que l'image ait fini d'être écrite.
+					*/
 					while( ! ancien_iti.exists()){
 						//attendre que le thread ait fini d'écrire le fihcier'
 					}
