@@ -14,7 +14,7 @@ Organisation des fonctions Matlab :
 Étapes rencontrées lors de la construction du panorama
 ============
 
-![DiagramEtape](resources/Documentation/docMatlab/schémaboloc.jpg)
+![DiagramEtape](resources/Documentation/docMatlab/bloc.png)
 
 Diagramme UML des classes JAVA :
 ============
