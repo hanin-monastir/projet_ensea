@@ -8,25 +8,6 @@ export XAPPLRESDIR="/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/X11/app-defau
 DIR=${0%/*}
 cd $DIR
 
-#on crée un lanceur si celui-ci n'existe pas
-if [ ! -e $HOME/.local/share/applications/EnseaMap.desktop ]; then
-{
-echo "Création du lanceur";
-echo -e "#!/usr/bin/env xdg-open
-[Desktop Entry]
-Version=1.0
-Type=Application
-Terminal=false
-Icon[fr]=$PWD/resources/Images/map_icone.png
-Name[fr]=EnseaMap
-Exec=sh -c $PWD/LAUNCH
-Name=EnseaMap
-Icon=$PWD/resources/Images/map_icone.png
-" > $HOME/.local/share/applications/EnseaMap.desktop
-
-chmod +x $HOME/.local/share/applications/EnseaMap.desktop	
-}
-fi
 
 
 case $1 in
